@@ -1,0 +1,43 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <img src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64" />
+        <h1><input name="name" type="text" value="{{item.name}}" placeholder="{{ localize 'OVA.Name' }}" /></h1>
+    </header>
+    {{!-- Ability Fields --}}
+    <div>
+        <table>
+            <tr>
+                <th>{{ localize 'OVA.Type' }}</th>
+                <th>{{ localize 'OVA.Level' }}</th>
+                <th>{{ localize 'OVA.Active' }}</th>
+            </tr>
+            <tr>
+                <td>
+                    <select name="data.type">
+                        {{#select data.type}}
+                        {{#each config.abilityTypes as |name type|}}
+                        <option value="{{type}}">{{localize name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </td>
+                <td>
+                    <input name="data.level" type="text" value="{{data.level}}" data-dtype="Number" />
+                </td>
+                <td>
+                    <input name="data.active" type="checkbox" value="{{data.active}}" data-dtype="Boolean" {{checked
+                        data.active}} />
+                </td>
+            </tr>
+        </table>
+        <h1>{{localize "OVA.Perk.NamePlural"}}</h1>
+        <div class="perks content flexcol" style=" min-height: 20px;">
+            {{#each data.perks as |perk|}}
+            <div class="item flexrow" data-item-id="perk.id">
+                <div class="item-view">{{perk.name}}</div>
+                <a class="item-control item-delete flex0" title="Delete Item"><i class="fas fa-trash"></i></a>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</form>

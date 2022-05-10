@@ -1,0 +1,46 @@
+{
+    "Actor": {
+        "types": [
+            "character"
+        ],
+        "character": {
+            "hp": {
+                "value": 40,
+                "max": 40
+            },
+            "endurance": {
+                "value": 40,
+                "max": 40,
+                "bonus": 0
+            },
+            "defense": {
+                "value": 2
+            },
+            "dx": {
+                "value": 1
+            },
+            "attack": {
+                "value": 2
+            },
+            "abilities": [],
+            "weaknesses": [],
+            "attacks": []
+        }
+    },
+    "Item": {
+        "types": [
+            "ability",
+            "perk"
+        ],
+        "ability": {
+            "type": "ability",
+            "level": 0,
+            "active": true,
+            "perks": []
+        },
+        "perk": {
+            "type": "perk",
+            "enduranceCost": 0
+        }
+    }
+}

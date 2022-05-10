@@ -1,0 +1,25 @@
+{
+    "OVA": {
+        "Ability": {
+            "Name": "Ability",
+            "NamePlural": "Abilities"
+        },
+        "Weakness": {
+            "Name": "Weakness",
+            "NamePlural": "Weaknesses"
+        },
+        "Perk": {
+            "Name": "Perk",
+            "NamePlural": "Perks"
+        },
+        "Flaw": {
+            "Name": "Flaw",
+            "NamePlural": "Flaws"
+        },
+        "Name": "Name",
+        "Type": "Type",
+        "Level": "Level",
+        "Active": "Active",
+        "EnduranceCost": "Endurance Cost"
+    }
+}

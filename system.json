@@ -1,0 +1,19 @@
+{
+    "name": "ova",
+    "title": "OVA - Open Versitale Anime",
+    "description": "System for playing Anime styled games.",
+    "author": "Mark Belotskiy",
+    "version": "0.0.1",
+    "minimumCoreVersion": "9",
+    "compatibleCoreVersion": "9.269",
+    "esmodules": ["ova.js"],
+    "styles": ["ova.css"],
+    "packs": [],
+    "languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "lang/en.json"
+        }
+    ]
+}
