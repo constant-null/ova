@@ -42,10 +42,11 @@ Hooks.once("init", function () {
 
     Actors.unregisterSheet("core", ActorSheet);
     Actors.registerSheet("ova", OVACharacterSheet, { makeDefault: true, label: "OVA.Sheets.Character" });
-    Actors.registerSheet("ova", OVANPCSheet, {label: "OVA.Sheets.NPC"});
-    
+    Actors.registerSheet("ova", OVANPCSheet, { label: "OVA.Sheets.NPC" });
+
     preloadTemplates();
     registerHandlebarsHelpers();
+    registerSystemSettings();
 });
 
 async function preloadTemplates() {
@@ -56,6 +57,16 @@ async function preloadTemplates() {
         "systems/ova/templates/parts/perk-list.html",
         "systems/ova/templates/parts/combat-stats.html",
     ]);
+}
+
+function registerSystemSettings() {
+    game.settings.register("ova", "rulebookName", {
+        name: "PDFoundry Rulebook Name",
+        scope: "world",
+        config: true,
+        type: String,
+        default: "Rulebook"
+    });
 }
 
 Hooks.on("renderChatMessage", (message, html, data) => {

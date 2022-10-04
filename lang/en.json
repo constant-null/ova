@@ -222,6 +222,9 @@
             "Description": "Do you want to reset all ability uses?"
         },
         "Create": "Create",
-        "AddActiveEffect": "Add Active Effect"
+        "AddActiveEffect": "Add Active Effect",
+        "PDFoundry":{
+            "NotInstalled": "PDFoundry must be installed to use this feature. (Rulebook name can be configured in the system settings.)"
+        }
     }
 }

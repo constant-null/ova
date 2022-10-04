@@ -17,6 +17,8 @@ export default class BaseItemSheet extends ItemSheet {
     activateListeners(html) {
         super.activateListeners(html);
 
+        html.find(".rulebook-link").click(this._openRulebook.bind(this));
+
         html.find(".perk-delete").click(this._onDelete.bind(this));
         html.find(".item-delete").click(this._onDeleteSelf.bind(this));
 
@@ -24,6 +26,17 @@ export default class BaseItemSheet extends ItemSheet {
         html.find(".effect-remove").click(this._onDeleteEffect.bind(this));
         if (this.actor) {
             html.find('.perk').on("contextmenu", this.actor.sheet._editItem.bind(this));
+        }
+    }
+
+    _openRulebook(event) {
+        event.preventDefault();
+        if (ui.PDFoundry) {
+            const rulebookName = game.settings.get("ova", "rulebookName");
+            const page = Number.parseInt(this.item.data.data.page);
+            ui.PDFoundry.openPDFByName(rulebookName, { page });
+        } else {
+            ui.notifications.warn(game.i18n.localize("OVA.PDFoundry.NotInstalled"));
         }
     }
 

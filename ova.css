@@ -358,7 +358,8 @@ input[type="text"].combat-cell-value {
     width: 100%
 }
 
-.combat-cell-value.hp-value, .combat-cell-value.end-value {
+.combat-cell-value.hp-value,
+.combat-cell-value.end-value {
     min-width: 1.6em;
 }
 
@@ -405,7 +406,8 @@ input[type="text"].combat-cell-value {
     font-family: 'PT Serif';
 }
 
-.dice-total, .roll-result-math {
+.dice-total,
+.roll-result-math {
     font-family: 'Oswald';
 }
 
@@ -838,4 +840,12 @@ input.experience {
 .sheet-perks {
     max-width: 30%;
     margin-left: .5em;
+}
+
+.rulebook-link {
+    cursor: pointer;
+}
+
+.rulebook-link:hover {
+    text-shadow: 0 0 8px var(--color-shadow-primary);
 }
