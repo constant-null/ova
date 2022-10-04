@@ -32,7 +32,8 @@
         "Endurance": {
             "Name": "Endurance",
             "Short": "END",
-            "Pool": "Endurance Pool"
+            "Pool": "Endurance Pool",
+            "Reserve": "E. Reserve"
         },
         "Duration": {
             "Rounds": "Duration (Rounds)"

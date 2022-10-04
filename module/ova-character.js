@@ -158,7 +158,7 @@ export default class OVACharacter extends Actor {
         if (amount === 0) return;
 
         if (reserve) {
-            let newEndurance =this.data.data.endurance.value + amount;
+            let newEndurance =this.data.data.enduranceReserve.value + amount;
             this.update({ "data.enduranceReserve.value": newEndurance });
         } else {
             let newEndurance = this.data.data.endurance.value + amount;

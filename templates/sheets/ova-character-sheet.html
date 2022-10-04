@@ -22,6 +22,22 @@
             type="weakness"}}
         </div>
     </div>
+    {{#if data.enduranceReserve.max}}
+    <div class="reserve-block">
+        <div class="reserve-data center flexrow">
+            <div class="combat-cell">
+                <div class="combat-cell-name">{{ localize 'OVA.Endurance.Reserve' }}</div>
+                <input type="text" class="combat-cell-value" name="data.enduranceReserve.value"
+                    value="{{data.data.enduranceReserve.value}}" data-dtype="Number" />
+            </div>
+            <div class="combat-side-cell">
+                <div class="combat-side-value combat-cell-name">Max</div>
+                <input class="combat-side-value combat-cell-value" data-sname="data.enduranceReserve.max"
+                    value="{{ data.enduranceReserve.max }}" data-dtype="Number" />
+            </div>
+        </div>
+    </div>
+    {{/if}}
     <div class="combat flexrow">
         <div class="combat-effects">
             <h3 class="ability-title">{{localize 'OVA.CombatEffects'}}</h3>
@@ -30,7 +46,8 @@
                     {{#each actor.data.effects as |effect|}}
                     <div class="ability flexrow item" data-item-id="{{effect.data._id}}">
                         <div class="ability-description">
-                            {{effect.data.label}} ({{effect.data.changes.0.key}} {{effect.data.changes.0.value}}) {{effect.duration.label}}
+                            {{effect.data.label}} ({{effect.data.changes.0.key}} {{effect.data.changes.0.value}})
+                            {{effect.duration.label}}
                         </div>
                         <a class="item-control effect-delete flex0" title="Delete Item"><i class="fas fa-minus"></i></a>
                     </div>
@@ -42,7 +59,8 @@
             <div class="title flexrow">
                 <nav class="combat-tabs" data-group="combat-tabs">
                     <a data-tab="combat-stats" data-group="combat-tabs">{{localize 'OVA.CombatStats'}}</a>
-                  {{#if data.haveMagic}}| <a data-tab="magic" data-group="combat-tabs">{{localize 'OVA.Magic'}}</a>{{/if}}
+                    {{#if data.haveMagic}}| <a data-tab="magic" data-group="combat-tabs">{{localize
+                        'OVA.Magic'}}</a>{{/if}}
                 </nav>
                 <span class="add-attack">+</span>
             </div>
@@ -75,7 +93,8 @@
                     <div class="attack-block clickable flexrow item" data-item-id="{{spell._id}}">
                         <div class="attack-info">
                             <div class="attack-name">{{spell.name}}</div>
-                            <div class="attack-perks">{{spell.data.spellEffects.0.name}} {{abilitySign spell.data.spellEffects.[0]}}{{spell.data.spellEffects.0.data.level.value}}</div>
+                            <div class="attack-perks">{{spell.data.spellEffects.0.name}} {{abilitySign
+                                spell.data.spellEffects.[0]}}{{spell.data.spellEffects.0.data.level.value}}</div>
                             <div class="attack-description">{{spell.data.description}}</div>
                         </div>
                         <div class="combat-cell attack-roll small">
@@ -102,7 +121,7 @@
                             data-deftype="{{type}}">{{defense}}</span>{{#if (not @last)}}/{{/if}}{{/each}}
                     </div>
                 </div>
-                <div class="combat-side-cell flex0">
+                <div class="combat-side-cell">
                     {{#if actor.data.armor}}
                     <div class="combat-side-value combat-cell-name">{{ localize 'OVA.Armor.Name'}}</div>
                     <div class="combat-side-value combat-cell-value">{{ actor.data.armor }}</div>
@@ -116,23 +135,25 @@
                     {{/if}}
                 </div>
 
-                <div class="combat-cell flex0">
+                <div class="combat-cell">
                     <div class="combat-cell-name">{{ localize 'OVA.Health.Name' }}</div>
                     <input type="text" class="combat-cell-value" name="data.hp.value" value="{{data.data.hp.value}}"
                         data-dtype="Number" />
                 </div>
-                <div class="combat-side-cell flex0">
+                <div class="combat-side-cell">
                     <div class="combat-side-value combat-cell-name">Max</div>
-                    <input class="hp-max-value combat-side-value combat-cell-value" data-sname="data.hp.max" value="{{ data.hp.max }}" data-dtype="Number"/>
+                    <input class="hp-max-value combat-side-value combat-cell-value" data-sname="data.hp.max"
+                        value="{{ data.hp.max }}" data-dtype="Number" />
                 </div>
-                <div class="combat-cell flex0">
+                <div class="combat-cell">
                     <div class="combat-cell-name">{{ localize 'OVA.Endurance.Name' }}</div>
                     <input type="text" class="combat-cell-value" name="data.endurance.value"
                         value="{{data.data.endurance.value}}" data-dtype="Number" />
                 </div>
-                <div class="combat-side-cell flex0">
+                <div class="combat-side-cell">
                     <div class="combat-side-value combat-cell-name">Max</div>
-                    <input class="endurance-max-value combat-side-value combat-cell-value"  data-sname="data.endurance.max" value="{{ data.endurance.max }}" data-dtype="Number"/>
+                    <input class="endurance-max-value combat-side-value combat-cell-value"
+                        data-sname="data.endurance.max" value="{{ data.endurance.max }}" data-dtype="Number" />
                 </div>
                 <div class="flex1"></div>
             </div>

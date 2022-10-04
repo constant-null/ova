@@ -269,6 +269,7 @@ table.ova thead {
     text-transform: uppercase;
     font-size: 1.2em;
     text-align: center;
+    white-space: nowrap;
 }
 
 .combat-cell-value,
@@ -277,11 +278,12 @@ input[type="text"].combat-cell-value {
     font-size: 3em;
     text-align: center;
     line-height: 1em;
-    top: -2x;
+    top: -2px;
     position: relative;
     background: none;
-    height: 1em;
     border: none;
+    height: 1em;
+    width: 100%
 }
 
 .attack-perks {
@@ -335,7 +337,7 @@ input[type="text"].combat-cell-value {
 }
 
 .combat-side-cell {
-    margin-top: .8em;
+    margin-top: .6em;
 }
 
 .combat-side-cell>* {
@@ -346,7 +348,10 @@ input[type="text"].combat-cell-value {
 .combat-cell-value.combat-side-value {
     font-size: x-small;
     padding: 0;
-    max-width: 2em;
+    display: inline-block;
+}
+input.combat-side-value {
+    width: 2em;
 }
 
 .combat-effects {
@@ -361,6 +366,28 @@ input[type="text"].combat-cell-value {
     padding-left: .5em;
     padding-bottom: 2em;
     padding-top: .5em;
+}
+
+.reserve-block {
+    position: absolute;
+    right: -8px;
+    top: 28em;
+    background-color: #1d3573;
+    width: auto;
+    max-width: 120px;
+    border-radius: 1.5em 0 0 1.5em;
+    overflow: hidden;
+    padding-left: .3em;
+    padding-bottom: .3em;
+    padding-top: .3em;
+}
+
+.reserve-data {
+    background-color: white;
+    border-radius: 1.2em 0 0 1.2em;
+}
+.reserve-data .combat-cell-name {
+    color: #1d3573;
 }
 
 .actor-sheet {
