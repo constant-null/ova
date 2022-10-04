@@ -35,9 +35,12 @@ export default class OVAEffect {
 
     apply(data) {
         // do not remove all of them are used in ActiveEffecs!
-        const { type, target, key, mode, keyValue, duration, value, priority } = this.data;
+        const { type, target, key, mode, duration, value, priority } = this.data;
         data.item = this.item.data || {};
         data.level = this.item.data.level?.value || 0;
+        data.flavor = this.item.data.flavor || "";
+        const keyValue =  data.flavor;
+
         if (!data.changes) data.changes = [];
         if (type === 'apply-changes') {
             if (!value) return;

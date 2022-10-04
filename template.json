@@ -51,6 +51,8 @@
             "level": {
                 "value": 1
             },
+            "description": "",
+            "flavor": "",
             "passive": false,
             "active": true,
             "isRoot": false,
@@ -63,6 +65,7 @@
         },
         "perk": {
             "type": "perk",
+            "flavor": "",
             "effects": [],
             "level": {
                 "value": 1
