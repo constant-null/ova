@@ -32,35 +32,33 @@ function registerHelper() {
         return ability.data.type === "ability" ? "+" : "-";
     })
 
+    Handlebars.registerHelper("gt", (v1, v2) => {
+        return v1 > v2;
+    });
+
+    Handlebars.registerHelper("lt", (v1, v2) => {
+        return v1 < v2;
+    });
+
+    Handlebars.registerHelper("eq", (v1, v2) => {
+        return v1 === v2;
+    });
+
+    Handlebars.registerHelper("mul", (v1, v2) => {
+        return v1 * v2;
+    });
+
     // concatinate perk names with ; separator, combine duplicates (add amount of duplicates)
     Handlebars.registerHelper("printPerks", (ability) => {
         let perks = ability.data.perks;
         if (!perks) return "";
 
-        let enduranceCost = 0;
-        let perkNames = [];
-        let perkAmounts = [];
-        for (let perk of perks) {
-            let perkName = perk.name;
-            enduranceCost += perk.data.enduranceCost;
-            if (perkNames.includes(perkName)) {
-                let index = perkNames.indexOf(perkName);
-                perkAmounts[index]++;
-            } else {
-                perkNames.push(perkName);
-                perkAmounts.push(1);
-            }
-        }
-
         let perkString = "";
-        for (let i = 0; i < perkNames.length; i++) {
-            perkString += perkNames[i].toUpperCase();
-            if (perkAmounts[i] > 1) {
-                perkString += " X" + perkAmounts[i];
-            }
-            if (i < perkNames.length - 1) {
-                perkString += "; ";
-            }
+        let enduranceCost = 0;
+        for (let i = 0; i < perks.length; i++) {
+            enduranceCost += perks[i].data.enduranceCost * perks[i].data.level.value;
+            perkString += perks[i].name.toUpperCase();
+            perkString  += " X" + perks[i].data.level.value;
         }
 
         if (enduranceCost > 0) {

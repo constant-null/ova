@@ -11,9 +11,6 @@
                     <input class="ability-level item-value hidden" name="item-{{item._id}}" data-item-id="{{item._id}}"
                         value="{{item.data.level.value}}" data-dtype="Number" />
                     <div class="ability-description">{{item.name}} {{printPerks item}}</div>
-                    {{!-- <div class="item-controls">
-                        <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
-                    </div> --}}
                 </div>
                 <div class="flexcol">
                     {{#each item.data.abilities as |subability|}}

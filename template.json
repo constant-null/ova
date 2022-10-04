@@ -45,6 +45,9 @@
         },
         "perk": {
             "type": "perk",
+            "level": {
+                "value": 1
+            },
             "enduranceCost": 0
         }
     }

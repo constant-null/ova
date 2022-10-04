@@ -2,7 +2,15 @@ export default class OVAItem extends Item {
     /** @Param []Item */
     addPerks(perks) {
         const currentPerks = this.data.data.perks || [];
-        currentPerks.push(...perks);
+        // increase level by one or add there is no perk with the same name
+        perks.forEach(p => {
+            const index = currentPerks.findIndex(pk => pk.name === p.name);
+            if (index === -1) {
+                currentPerks.push(p);
+            } else {
+                currentPerks[index].data.level.value += 1;
+            }
+        });
         currentPerks.sort((a, b) => a.name.localeCompare(b.name));
         this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, "data.perks": currentPerks }]);
     }
@@ -10,9 +18,16 @@ export default class OVAItem extends Item {
     // removing single perk with specified id
     removePerk(perkId) {
         const currentPerks = this.data.data.perks || [];
-        const newPerks = currentPerks;
-        newPerks.splice(newPerks.findIndex(p => p._id === perkId), 1);
-        this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, "data.perks": newPerks }]);
+
+        // reduce level by one or remove if level is 1
+        const index = currentPerks.findIndex(p => p._id === perkId);
+        if (currentPerks[index].data.level.value > 1) {
+            currentPerks[index].data.level.value--;
+        } else {
+            currentPerks.splice(currentPerks[index], 1);
+        }
+        currentPerks.sort((a, b) => a.name.localeCompare(b.name));
+        this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, "data.perks": currentPerks }]);
     }
 
     /** @override */
