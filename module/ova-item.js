@@ -105,6 +105,7 @@ export default class OVAItem extends Item {
         // get selected abilities from actor
         const selectedAbilities = this._getRollAbilities();
         const magicAbility = selectedAbilities.find(i => i.data.data.magic)
+        spellData._linkedAbilities = selectedAbilities;
 
         let spellDN = 0;
         spellData.enduranceCost = 0;
@@ -142,6 +143,7 @@ export default class OVAItem extends Item {
 
         // add cost of selected abilities
         itemData.enduranceCost += selectedAbilities.reduce((sum, a) => sum + a.data.enduranceCost, 0);
+        itemData._linkedAbilities = selectedAbilities;
 
         // base roll values
         const attackData = {
@@ -162,15 +164,32 @@ export default class OVAItem extends Item {
         this.update({ "data.limitedUse.value": this.data.data.limitedUse.max });
     }
 
+    get hasUses() {
+        return this.data.data.limitedUse.max <= 0 || this.data.data.limitedUse.value > 0;
+    }
+
+    async use() {
+        if (this.data.limitedUse) {
+            if (this.data.limitedUse.value <= 0) {
+                return;
+            }
+            this.update({ "data.limitedUse.value": this.data.limitedUse.value - 1 });
+
+        }
+        this.data._linkedAbilities?.forEach(a => a.use());
+    }
+
     _prepareAbilittyData() {
-        const data = this.data.data;
+        const itemData = this.data;
+        const data = itemData.data;
         data.level.mod = 0;
         data.isEmbedded = this.isEmbedded;
 
         if (data.isRoot) {
             // add child abilities
-            const abilities = this.actor.items.map(i => i.data).filter(i => i.data.rootId === this.id);
-            data.abilities = abilities;
+            const abilities = this.actor.items.filter(i => i.data.data.rootId === this.id);
+            itemData._linkedAbilities = abilities;
+            data.abilities = abilities.map(i => i.data);
             data.abilities.sort((a, b) => {
                 // sort by type and name
                 if (a.type === b.type) {
@@ -178,6 +197,7 @@ export default class OVAItem extends Item {
                 }
                 return a.type.localeCompare(b.type);
             });
+
         }
         //  else if (itemData.rootId == '') {
         //     // add abilities with the same name

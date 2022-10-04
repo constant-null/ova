@@ -152,7 +152,7 @@ export default class OVACharacterSheet extends ActorSheet {
         abilities.forEach(ability => {
             const uses = ability.data.data.limitedUse.value;
             if (uses <= 0) return;
-            ability.update({ "data.limitedUse.value": uses-1 });
+            ability.update({ "data.limitedUse.value": uses - 1 });
         })
     }
 
@@ -214,11 +214,19 @@ export default class OVACharacterSheet extends ActorSheet {
     _makeDefenseRoll(event) {
         event.preventDefault();
         const defense = event.currentTarget.dataset.deftype;
-        
-        const enduranceCost = Object.values(this.actor.data.defenseAbilities[defense]).reduce((acc, cur) => acc + cur.enduranceCost, 0);
+
+        const abilityIds = Object.values(this.actor.data.defenseAbilities[defense]).map(a => a._id);
+        const abilities = this.actor.items.filter(i => abilityIds.includes(i.id));
+        const enduranceCost = abilities.reduce((acc, cur) => acc + cur.data.enduranceCost, 0);
 
         const dice = this.actor.data.defenses[defense];
-        this._makeRoll({ roll: dice, type: "defense", enduranceCost: enduranceCost, flavor: `Defense (${defense})` });
+        this._makeRoll({
+            roll: dice,
+            type: "defense",
+            enduranceCost: enduranceCost,
+            flavor: `Defense (${defense})`,
+            callback: () => { this._useAbilities(abilities); },
+        });
     }
 
     _makeAttackRoll(event) {
@@ -255,7 +263,14 @@ export default class OVACharacterSheet extends ActorSheet {
             effects = attack.data.activeEffects;
         }
 
-        this._makeRoll({ ...attack.data.attack, effects: effects, type: type, attack: attack, enduranceCost: attack.data.enduranceCost });
+        this._makeRoll({
+            ...attack.data.attack,
+            effects: effects,
+            type: type,
+            attack: attack,
+            enduranceCost: attack.data.enduranceCost,
+            callback: attack.use.bind(attack)
+        });
     }
 
     _makeManualRoll(event) {
@@ -285,7 +300,17 @@ export default class OVACharacterSheet extends ActorSheet {
         let diceTotal = Object.values(rollData).reduce((a, b) => a + b, 0);
 
         this.selectedAbilities = [];
-        this._makeRoll({ roll: diceTotal, effects: [], changes: [], enduranceCost: enduranceCost });
+        this._makeRoll({
+            roll: diceTotal,
+            effects: [],
+            changes: [],
+            enduranceCost: enduranceCost,
+            callback: () => { this._useAbilities(abilities) },
+        });
+    }
+
+    _useAbilities(abilities) {
+        abilities.forEach(a => a.use());
     }
 
     async _makeDramaRoll(event) {
