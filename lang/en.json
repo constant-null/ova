@@ -45,7 +45,17 @@
             "DefaultName": "New Attack"
         },
         "CombatStats": "Combat Stats",
-        "Effects": "Effects",
+        "Effects": {
+            "Name": "Effects",
+            "Types": {
+                "ApplyChanges": "Apply Changes",
+                "ApplyActiveEffect": "Apply Active Effect"
+            },
+            "Targets": {
+                "Self": "Self",
+                "Target": "Target"
+            }
+        },
         "Properties": "Properties"
     }
 }

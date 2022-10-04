@@ -1,5 +1,3 @@
-import Effect from "../effects/effect.js";
-
 export default class OVACharacterSheet extends ActorSheet {
     /** @override */
     constructor(...args) {

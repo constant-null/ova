@@ -14,6 +14,16 @@ export default class Effect {
         this.data = data;
     }
 
+    static TYPES = {
+        "apply-changes": "OVA.Effects.Types.ApplyChanges",
+        "apply-active-effect": "OVA.Effects.Types.ApplyActiveEffect",
+    }
+
+    static TARGETS = {
+        "self": "OVA.Effects.Targets.Self",
+        "target": "OVA.Effects.Targets.Target",
+    }
+
     apply(data) {
         const { type, target, key, mode, priority, value } = this.data;
         if (type === 'apply-changes') {
@@ -54,4 +64,15 @@ export default class Effect {
         }
         return result;
     };
+
+    static degaultObject() {
+        return {
+            type: "apply-changes",
+            target: "self",
+            key: "",
+            mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+            priority: 0,
+            value: "1",
+        }
+    }
 }

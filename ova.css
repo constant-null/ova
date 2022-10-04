@@ -216,3 +216,18 @@ input.character-name {
     text-align: center;
     line-height: .8em;
 }
+
+.effects {
+    position: relative;   
+}
+.effects>.title {
+    font-size: 2em;
+    font-weight: bold;
+    margin: .2em;
+    border-bottom: 1px solid #731d20;
+}
+.effects>.title>.add-effect {
+    position: absolute;
+    right: .5em;
+    cursor: pointer;
+}

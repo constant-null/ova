@@ -1,3 +1,4 @@
+import OVAEffect from './effects/effect.js';
 export default class OVAItem extends Item {
     /** @Param []Item */
     addPerks(perks) {
@@ -24,7 +25,8 @@ export default class OVAItem extends Item {
         if (currentPerks[index].data.level.value > 1) {
             currentPerks[index].data.level.value--;
         } else {
-            currentPerks.splice(currentPerks[index], 1);
+            // remove perk at index
+            currentPerks.splice(index, 1);
         }
         currentPerks.sort((a, b) => a.name.localeCompare(b.name));
         this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, "data.perks": currentPerks }]);

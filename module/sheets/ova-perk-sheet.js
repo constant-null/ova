@@ -1,7 +1,8 @@
-export  default class OVAPerkSheet extends ItemSheet {
+import BaseItemSheet from "./base-item-sheet.js";
+
+export default class OVAPerkSheet extends BaseItemSheet {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
-            tabs: [{navSelector: ".tabs", contentSelector: ".content"}],
             template: "systems/ova/templates/sheets/ova-perk-sheet.html"
         });
     }

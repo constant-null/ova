@@ -1,3 +1,5 @@
+import Effect from "./effects/effect.js";
+
 export const OVA = {};
 
 OVA.abilityTypes = {
@@ -14,3 +16,6 @@ OVA.rootAbilityTypes = {
     "modifier": "OVA.Ability.Type.Modifier",
     "entity": "OVA.Ability.Type.Entity"
 };
+
+OVA.effectTargets = Effect.TARGETS;
+OVA.effectTypes = Effect.TYPES;

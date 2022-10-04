@@ -87,6 +87,7 @@ function registerHelper() {
 
 async function preloadTemplates() {
     return loadTemplates([
-        "systems/ova/templates/parts/ability-list.html"
+        "systems/ova/templates/parts/ability-list.html",
+        "systems/ova/templates/parts/effects.html"
     ]);
 }

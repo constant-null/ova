@@ -1,17 +1,15 @@
-export default class OVAAbilitySheet extends ItemSheet {
+import BaseItemSheet from "./base-item-sheet.js";
+
+export default class OVAAbilitySheet extends BaseItemSheet {
     /** @inheritdoc */
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
-            dragDrop: [{ dropSelector: ".perks" }, { dropSelector: ".items" }],
             template: "systems/ova/templates/sheets/ova-ability-sheet.html"
         });
     }
 
     activateListeners(html) {
         super.activateListeners(html);
-
-        html.find(".perk-delete").click(this._onDelete.bind(this));
-        html.find(".item-delete").click(this._onDeleteSelf.bind(this));
 
         if (this.item.isEmbedded) {
             html.find('.item-view').click(this.actor.sheet._startEditingItem.bind(this));
@@ -30,23 +28,6 @@ export default class OVAAbilitySheet extends ItemSheet {
             await this.actor.sheet._onSubmit(event);
         }
         await super._onSubmit(event);
-    }
-
-    _onDelete(event) {
-        event.preventDefault();
-        const itemId = this._getItemId(event);
-
-        this.item.removePerk(itemId);
-    }
-    
-    _onDeleteSelf(event) {
-        event.preventDefault();
-
-        this.actor.deleteEmbeddedDocuments("Item", [this.item.id]);
-    }
-
-    _getItemId(event) {
-        return event.currentTarget.closest(".item").dataset.itemId;
     }
 
     /** @override */
@@ -70,6 +51,8 @@ export default class OVAAbilitySheet extends ItemSheet {
 
     /** @override */
     async _onDrop(event) {
+        await super._onDrop(event);
+
         const data = TextEditor.getDragEventData(event);
         const item = this.item;
         if (item.type !== 'ability') return;
@@ -77,13 +60,9 @@ export default class OVAAbilitySheet extends ItemSheet {
         const newItem = await Item.implementation.fromDropData(data);
         const newItemData = newItem.toObject();
 
-        if (newItemData.type !== 'perk' && !item.data.data.isRoot) return;
+        if (!item.data.data.isRoot) return;
 
         switch (newItemData.type) {
-            case 'perk':
-                const newPerks = newItemData instanceof Array ? newItemData : [newItemData];
-                this.item.addPerks(newPerks);
-                break;
             case 'ability':
                 if (!item.data.data.isRoot) break;
                 const rootId = item.data._id;

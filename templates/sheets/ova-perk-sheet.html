@@ -5,7 +5,7 @@
     </header>
     <nav class="tabs" data-group="primary-tabs">
         <a class="item" data-tab="properties" data-group="primary-tabs">{{localize 'OVA.Properties'}}</a>
-        <a class="item" data-tab="effects" data-group="primary-tabs">{{ localize 'OVA.Effects' }}</a>
+        <a class="item" data-tab="effects" data-group="primary-tabs">{{ localize 'OVA.Effects.Name' }}</a>
     </nav>
     {{!-- Perk Fields --}}
     <section class="content">
@@ -33,7 +33,7 @@
             </table>
         </div>
         <div class="tab" data-tab="effects" data-group="primary-tabs">
-            {{> 'systems/ova/templates/parts/effects.html' }}
+            {{> "systems/ova/templates/parts/effects.html" effects=data.effects }}
         </div>
     </section>
 </form>

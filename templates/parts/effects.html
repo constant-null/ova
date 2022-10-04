@@ -1,3 +1,27 @@
-<div class="effect-list">
- 
+<div class="effects">
+    <div class="title">
+        <span>{{localize 'OVA.Effects.Name'}}</span>
+        <span class="add-effect">+</span>
+    </div>
+    <div class="effect-list">
+        {{#each effects as |effect|}}
+        <div class="effect flexrow" data-item-id="{{@index}}">
+            <div class="effect-type">
+                <select name="data.effects[{{@index}}].type">
+                    {{#select effect.type}}
+                    {{#each ../config.effectTypes as |name type|}}
+                    <option value="{{type}}">{{localize name}}</option>
+                    {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+            <div class="effect-value">
+                <input name="data.effects[{{@index}}].value" type="text" value="{{effect.value}}" data-dtype="Number" />
+            </div>
+            <div class="effect-remove">
+                <span class="remove-effect">-</span>
+            </div>
+        </div>
+        {{/each}}
+    </div>
 </div>
