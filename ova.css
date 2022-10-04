@@ -678,8 +678,13 @@ input.combat-side-value {
     top: 1em;
 }
 
-.compact-char-info .abilities {
+.compact-char-info > .abilities {
     height: 100%;
+}
+
+.compact-char-info .ability-block {
+    padding: 0;
+    flex: 1;
 }
 
 .compact-combat {

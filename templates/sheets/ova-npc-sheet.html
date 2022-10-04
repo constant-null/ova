@@ -11,23 +11,26 @@
     </header>
 
     <div class="compact-char-info">
-        {{> "systems/ova/templates/parts/ability-list.html" items=abilities selected=selectedAbilities}}
+        <div class="ability-block">
+            <h3 class="ability-title">{{ localize 'OVA.Abilities&Weaknesses' }} ({{totalLevels}})</h3>
+            {{> "systems/ova/templates/parts/ability-list.html" items=abilities selected=selectedAbilities}}
+        </div>
         <div class="compact-combat">
             {{#if data.enduranceReserve.max}}
-    <div class="reserve-block">
-        <div class="reserve-data center flexrow">
-            <div class="combat-cell">
-                <div class="combat-cell-name">{{ localize 'OVA.Endurance.Reserve' }}</div>
-                <input type="text" class="combat-cell-value" name="data.enduranceReserve.value"
-                    value="{{data.data.enduranceReserve.value}}" data-dtype="Number" />
+            <div class="reserve-block">
+                <div class="reserve-data center flexrow">
+                    <div class="combat-cell">
+                        <div class="combat-cell-name">{{ localize 'OVA.Endurance.Reserve' }}</div>
+                        <input type="text" class="combat-cell-value" name="data.enduranceReserve.value"
+                            value="{{data.data.enduranceReserve.value}}" data-dtype="Number" />
+                    </div>
+                    <div class="combat-side-cell">
+                        <div class="combat-side-value combat-cell-name">Max</div>
+                        <div class="combat-side-value combat-cell-value">{{ data.enduranceReserve.max }}</div>
+                    </div>
+                </div>
             </div>
-            <div class="combat-side-cell">
-                <div class="combat-side-value combat-cell-name">Max</div>
-                <div class="combat-side-value combat-cell-value">{{ data.enduranceReserve.max }}</div>
-            </div>
-        </div>
-    </div>
-    {{/if}}
+            {{/if}}
             <div class="compact-fixed-panel">
                 <div class='roll-dice small dice'></div>
             </div>

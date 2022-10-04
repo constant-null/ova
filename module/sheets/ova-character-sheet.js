@@ -217,9 +217,8 @@ export default class OVACharacterSheet extends ActorSheet {
         const formData = this._getSubmitData({});
 
         // removing tv if it the same as the default
-        if (formData["data.tv"] === this.actor.data.tv) {
-            const fd = new FormDataExtended(this.form, {editors: this.editors});
-            fd.delete("data.tv");
+        if (formData["data.tv"] === this.actor._calculateThreatValue()) {
+            formData["data.tv"] = null;
         }
 
         this._submitItems(formData);
@@ -559,6 +558,8 @@ export default class OVACharacterSheet extends ActorSheet {
                 context.weaknesses.push(itemData);
             }
         }
+
+        context.totalLevels = context.abilityLevels - context.weaknessLevels;
 
         context.abilities.sort((a, b) => a.name.localeCompare(b.name));
         context.weaknesses.sort((a, b) => a.name.localeCompare(b.name));

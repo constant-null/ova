@@ -26,7 +26,7 @@
             "experience": {
                 "value": 0
             },
-            "tv": 0,
+            "tv": null,
             "abilities": [],
             "weaknesses": [],
             "attacks": [],
