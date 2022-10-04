@@ -132,19 +132,21 @@ Hooks.on("renderChatMessage", (message, html, data) => {
 Hooks.on("renderChatLog", chat.chatListeners);
 
 Hooks.on('preUpdateCombat', function preUpdateCombat(combat, updateData, context) {
-	const roundDelta = updateData.round !== undefined ? updateData.round - combat.round : 0,
-		turnCount = combat.turns.length,
-		roundAdjust = roundDelta * turnCount,
-		forward = roundDelta >= 0,
-		turnDelta = updateData.turn !== undefined ? updateData.turn - combat.turn : 0;
-		// Messy calculation for round changesk
+    // removing expired effects
+    for (let turn of combat.turns) {
+        const turnActor = turn.actor ? turn.actor : turn.token.actor;
+        if (!turnActor) continue;
+        
+        for (let effect of turnActor.data.effects) {
+            if (effect.data.duration.startTurn == updateData.turn && (updateData.turn > combat.turn || updateData.round > combat.round)) {
+                console.log("Activate");
+            }
+        }
 
-	// TODO: This does not behave nicely if larger time changes happen
-
-	context._turnAnnouncer = {
-		roundShift: roundDelta,
-		combat: combat.id,
-	};
+        // == 0 to end effect on turn end, < 1 to end effect on turn start
+        const expiredEffects = turnActor.effects.filter(e => e.duration.remaining === 0);
+        turnActor.deleteEmbeddedDocuments("ActiveEffect", expiredEffects.map(e => e.id));
+    }
 });
 
 Hooks.on('updateCombat', function updateCombat(combat, updateData, context, userId) {

@@ -11,6 +11,7 @@ export default class OVAEffect {
          * priority: 0, // only for active effects
          * value: "1",
          * apply: "once|per-target",
+         * duration: "1", // duration in rounds,only for active effects
          * }
          */
         this.data = data;
@@ -33,7 +34,7 @@ export default class OVAEffect {
     }
 
     apply(data) {
-        const { type, target, key, mode, apply, priority, value } = this.data;
+        const { type, target, key, mode, apply, priority, duration, value } = this.data;
         data.item = this.item.data;
         data.level = this.item.data.level.value;
         if (!data.changes) data.changes = [];
@@ -91,7 +92,10 @@ export default class OVAEffect {
                 mode: effect.mode,
                 value: evaluatedValue,
                 priority: effect.priority
-            }]
+            }],
+            duration: {
+                rounds: +effect.duration,
+            }
         }
     }
 

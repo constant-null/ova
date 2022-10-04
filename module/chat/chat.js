@@ -48,7 +48,7 @@ export const chatListeners = function (message, html, data) {
     html.on("click", ".attack-buttons button", _onAttackButtonClick);
 }
 
-function _onAttackButtonClick(e) {
+async function _onAttackButtonClick(e) {
     e.preventDefault();
 
     // find message id
@@ -79,13 +79,14 @@ function _onAttackButtonClick(e) {
     }
 
     const attacker = _getMessageAuthor(lastAttack);
-    attackRoll.effects.forEach(effect => {
+
+    for (const effect of attackRoll.effects) {
         // dont apply effects on self twice
         if (effect.target === "self" && effect.apply === 'once' && effect.applied == true) return;
         const actor = effect.target === "self" ? attacker : target;
-        actor.addAttackEffects(effect, rollData);
+        await actor.addAttackEffects(effect, rollData);
         effect.applied = true;
-    });
+    };
 
 
     // const targets = canvas.tokens.controlled;

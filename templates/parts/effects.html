@@ -56,6 +56,11 @@
             </div>
             {{#if (eq effect.type "apply-active-effect")}}
             <div class="effect-value flex2">
+                <input name="data.effects[{{@index}}].duration" type="text" value="{{effect.duration}}" />
+            </div>
+            {{/if}}
+            {{#if (eq effect.type "apply-active-effect")}}
+            <div class="effect-value flex2">
                 <input name="data.effects[{{@index}}].priority" type="text" value="{{effect.priority}}" />
             </div>
             {{/if}}

@@ -107,6 +107,6 @@ export default class OVACharacter extends Actor {
     }
 
     async addAttackEffects(effect, data) {
-        this.createEmbeddedDocuments("ActiveEffect", [OVAEffect.createActiveEffect(effect, data)]);
+        await this.createEmbeddedDocuments("ActiveEffect", [OVAEffect.createActiveEffect(effect, data)]);
     }
 }
