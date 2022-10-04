@@ -126,7 +126,7 @@ export default class OVACharacterSheet extends ActorSheet {
             }
         }
         let enduranceCost = perks.reduce((cost, perk) => cost + perk.data.level.value * perk.data.enduranceCost, 0);
-
+        if (enduranceCost < 0) enduranceCost = 0;
         // TODO: apply perk modifiers here
 
         // sum roll modifiers

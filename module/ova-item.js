@@ -46,6 +46,7 @@ export default class OVAItem extends Item {
                 });
             });
         }
+        if (enduranceCost < 0) enduranceCost = 0;
         itemData.enduranceCost = enduranceCost;
 
         if (this.type !== 'attack') {
