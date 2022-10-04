@@ -3,9 +3,6 @@ import OVACombatMessage from "./combat-message.js";
 
 let lastAttack = null;
 let lastRoll = null;
-let combatInfo = {
-
-}
 
 export const chatListeners = function (message, html, data) {
     html.on("click", "button[data-action='apply-damage']", _onApplyDamageClick);
@@ -13,11 +10,13 @@ export const chatListeners = function (message, html, data) {
     html.on("click", "button[data-action='apply-heal']", _onApplyHealClick);
 }
 
-export const listenToCombatRolls = function (message, html, data) {
+export const listenToCombatRolls = async function (message, html, data) {
+    _checkClear();
+
     if (!message.isRoll) return;
     const rollData = data.message.flags["roll-data"];
     if (!rollData) return;
-    _updateCombatData();
+    await _updateCombatData(message, html, data);
 
     if (rollData.type === "drama") _onDramaRoll(message, html, data);
     if (rollData.type !== "drama") lastRoll = message;
@@ -25,6 +24,29 @@ export const listenToCombatRolls = function (message, html, data) {
     if (rollData.type === "manual" && lastAttack) rollData.type = "defense";
     if (rollData.type === "defense") _onDefenseRoll(message, html, data);
     if (rollData.type === "spell") _onSpellRoll(message, html, data);
+}
+
+function _checkClear() {
+    if (game.messages.length === 0) {
+        lastAttack = null;
+        lastRoll = null;
+    }
+}
+
+async function _updateCombatData(message, html, data) {
+    if (!message.getFlag("ova", "combat-data")) {
+        await message.setFlag("ova", "combat-data", {
+            turn: game.combat.turn,
+            round: game.combat.round,
+        });
+    }
+
+    if (!lastRoll) return;
+    const c1 = lastRoll.getFlag("ova", "combat-data");
+    const c2 = message.getFlag("ova", "combat-data");
+    if (c1.round !== c2.round || c1.turn !== c2.turn) {
+        lastAttack = null;
+    }
 }
 
 async function _onDramaRoll(message, html, data) {
@@ -35,20 +57,47 @@ async function _onDramaRoll(message, html, data) {
 }
 
 function _onAttackRoll(message, html, data) {
+    if (lastAttack && _getMessageAuthor(lastAttack.message).id !== _getMessageAuthor(message).id) {
+        return _onCounterRoll(message, html, data);
+    }
     html.find(".flavor-text").html(game.i18n.localize("OVA.Roll.Attack"));
     if (message.data.flags["roll-data"].dx >= 0) {
-        lastAttack = message;
+        lastAttack = {
+            message: message,
+            html: html,
+        }
     } else {
         html.find("button[data-action='apply-heal']").removeClass("hidden");
     }
 }
 
+function _onCounterRoll(message, html, data) {
+    html.find(".flavor-text").html(game.i18n.localize("OVA.Roll.Counter"));
+
+    const attackRollData = lastAttack.message.data.flags["roll-data"];
+    const counterRollData = message.data.flags["roll-data"];
+
+    let result = lastAttack.message.roll.result - message.roll.result;
+    if (attackRollData.miracle) result = Math.max(1, result);
+    if (counterRollData.miracle) result = Math.min(-1, result);
+    if (attackRollData.miracle && counterRollData.miracle) result = 0;
+
+    if (result > 0) {
+        html.find("button[data-action='apply-damage']").removeClass("hidden");
+        message.data.flags["attack-roll-data"] = attackRollData;
+    } else if (result < 0) {
+        lastAttack.html.find("button[data-action='apply-damage']").removeClass("hidden");
+        lastAttack.message.data.flags["attack-roll-data"] = counterRollData;
+    }
+}
+
 function _onDefenseRoll(message, html, data) {
     html.find(".flavor-text").html(game.i18n.localize("OVA.Roll.Defense"));
-    const attackRollData = lastAttack.data.flags["roll-data"];
+    if (!lastAttack) return;
+    const attackRollData = lastAttack.message.data.flags["roll-data"];
     const defenseRollData = message.data.flags["roll-data"];
 
-    let result = lastAttack.roll.result - message.roll.result;
+    let result = lastAttack.message.roll.result - message.roll.result;
     message.data.flags["attack-roll-data"] = attackRollData;
     // miracle calculation first for attacker the defender 
     if (attackRollData.miracle) result = Math.max(1, result);
@@ -67,7 +116,7 @@ function _onDefenseRoll(message, html, data) {
     const attackName = game.i18n.localize("OVA.Roll.Attack");
     html.
         find(".dice-total").
-        append(`<br/> ${lastAttack.roll.result} (${attackName}) - ${message.roll.result} = ${result} <span style="color: ${result > 0 ? "green" : "red"}">(${resultText})</span>`);
+        append(`<br/> ${lastAttack.message.roll.result} (${attackName}) - ${message.roll.result} = ${result} <span style="color: ${result > 0 ? "green" : "red"}">(${resultText})</span>`);
 
     // enable apply damage button
     if (result > 0) {
@@ -103,9 +152,6 @@ function _onManualRoll(message, html, data) {
     html.find("button[data-action='apply-effect']").removeClass("hidden");
 }
 
-function _updateCombatData() {
-
-}
 
 async function _onApplyEffectClick(e) {
     const messageId = e.currentTarget.closest(".chat-message").dataset.messageId;
@@ -128,7 +174,7 @@ async function _onApplyHealClick(e) {
     const spellRoll = message.data.flags["roll-data"];
 
     const targets = canvas.tokens.controlled.map(t => t.actor);
-    const attacker = _getMessageAuthor(lastAttack);
+    const attacker = _getMessageAuthor(lastAttack.message);
 
     const promptData = {
         effects: {
@@ -171,7 +217,7 @@ async function _onApplyDamageClick(e) {
         }
     }
 
-    const attacker = _getMessageAuthor(lastAttack);
+    const attacker = _getMessageAuthor(lastAttack.message);
 
     const promptData = {
         effects: {

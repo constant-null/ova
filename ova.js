@@ -11,12 +11,15 @@ import OVASpellSheet from "./module/sheets/ova-spell-sheet.js";
 import OVACombatant from "./module/combat/ova-combatant.js";
 import OVAEffect from "./module/effects/ova-effect.js";
 import OVAActiveEffect from "./module/effects/ova-active-effect.js";
+import CombatTracker from "./module/combat/tracker.js";
 
 import * as chat from "./module/chat/chat.js";
 import registerHandlebarsHelpers from "./ova-handlebars-helpers.js";
 
 Hooks.once("init", function () {
     console.log("OVA | Initializing OVA System");
+
+    game.CombatTracker = CombatTracker;
 
     CONFIG.OVA = OVA;
     CONFIG.Item.documentClass = OVAItem;
