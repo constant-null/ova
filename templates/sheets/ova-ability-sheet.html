@@ -68,13 +68,11 @@
             </div>
         </div>
         <div class="tab" data-tab="properties" data-group="primary-tabs">
-            <table>
+            <table class="center">
                 <tr>
-                    <th>{{ localize 'OVA.Type' }}</th>
                     <th>{{ localize 'OVA.Active' }}</th>
                     <th>{{ localize 'OVA.Passive' }}</th>
                     <th>{{ localize 'OVA.Ability.Root' }}</th>
-                    {{#if data.isRoot}}<th>{{ localize 'OVA.Ability.RootTypeName' }}</th>{{/if}}
                     <th>{{ localize 'OVA.Ability.Magic' }}</th>
                 </tr>
                 <tr>
@@ -90,17 +88,6 @@
                         <input name="data.isRoot" type="checkbox" value="{{data.isRoot}}" data-dtype="Boolean" {{checked
                             data.isRoot}} />
                     </td>
-                    {{#if data.isRoot}}
-                    <td>
-                        <select name="data.rootType">
-                            {{#select data.type}}
-                            {{#each config.rootAbilityTypes as |name type|}}
-                            <option value="{{type}}">{{localize name}}</option>
-                            {{/each}}
-                            {{/select}}
-                        </select>
-                    </td>
-                    {{/if}}
                     <td>
                         <input name="data.magic" type="checkbox" value="{{data.magic}}" data-dtype="Boolean" {{checked
                             data.magic}} />

@@ -17,7 +17,8 @@ export default class OVACharacterSheet extends ActorSheet {
             tabs: [{ navSelector: ".combat-tabs", contentSelector: ".combat-content" }],
             scrollY: [
                 ".ability-card"
-            ]
+            ],
+            classes: super.defaultOptions.classes.concat(['ova']),
         });
     }
 

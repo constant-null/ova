@@ -14,7 +14,7 @@
                 <div class="attack-info">
                     <div class="attack-name">{{attack.name}}</div>
                     <div class="attack-perks">{{printPerks attack}}</div>
-                    <div class="attack-description">{{attack.data.description}}</div>
+                    <div class="attack-description">{{{attack.data.description}}}</div>
                 </div>
                 {{#if attack.limitedUse}}
                 <div class="combat-cell attack-roll small">
@@ -47,7 +47,7 @@
                     <div class="attack-name">{{spell.name}}</div>
                     <div class="attack-perks">{{spell.data.spellEffects.0.name}} {{abilitySign
                         spell.data.spellEffects.[0]}}{{spell.data.spellEffects.0.data.level.value}}</div>
-                    <div class="attack-description">{{spell.data.description}}</div>
+                    <div class="attack-description">{{{spell.data.description}}}</div>
                 </div>
                 <div class="combat-cell attack-roll small">
                     <div class="combat-cell-name">{{ localize 'OVA.Roll.Short' }}</div>

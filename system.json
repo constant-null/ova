@@ -3,7 +3,7 @@
     "title": "OVA",
     "description": "System for playing Open Versitale Anime Role-Playing Game (OVA)",
     "author": "Lucius The Mage",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "minimumCoreVersion": "9",
     "compatibleCoreVersion": "9.269",
     "esmodules": [
@@ -64,6 +64,11 @@
             "lang": "en",
             "name": "English",
             "path": "lang/en.json"
+        },
+        {
+            "lang": "ru",
+            "name": "Русский",
+            "path": "lang/ru.json"
         }
     ],
     "url": "https://gitlab.com/lucius-the-mage/ova",

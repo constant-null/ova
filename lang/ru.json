@@ -1,0 +1,215 @@
+{
+    "OVA": {
+        "Ability": {
+            "Name": "Способность",
+            "NamePlural": "Способности",
+            "Root": "Корневая способность",
+            "Magic": "Магия"
+        },
+        "Weakness": {
+            "Name": "Слабость",
+            "NamePlural": "Слабости"
+        },
+        "Perk": {
+            "Name": "Черта",
+            "NamePlural": "Черты"
+        },
+        "Flaw": {
+            "Name": "Изъян",
+            "NamePlural": "Изъяны"
+        },
+        "Flavor": "Описание",
+        "Name": "Название",
+        "Type": "Тип",
+        "Level": "Уровень",
+        "Active": "Активная",
+        "Passive": "Пассивная?",
+        "EnduranceCost": "Затраты выносливости",
+        "Endurance": {
+            "Name": "Выносливость",
+            "Short": "END",
+            "Pool": "Пул Выносливости",
+            "Reserve": "Резерв В."
+        },
+        "DramaDice": "Кубик Драмы",
+        "Duration": {
+            "Rounds": "Длительность (Раунды)"
+        },
+        "Health": {
+            "Name": "Здоровье",
+            "Short": "HP"
+        },
+        "CharacterName": "Имя Персонажа",
+        "Portrait": "Портрет",
+        "Roll": {
+            "Name": "Бросок Атаки",
+            "Short": "Roll",
+            "Attack": "Атака",
+            "Defense": "Защита",
+            "Manual": "Ручной Бросок",
+            "Spell": "Заклинание",
+            "Drama": "Драма",
+            "Counter": "Контратака",
+            "Miracle": "Мифический Бросок",
+            "Result": "Результат",
+            "RawDamage": "Чистый Урон"
+        },
+        "Page": {
+            "Name": "Страница",
+            "Short": "Стр."
+        },
+        "Sheets": {
+            "Character": "Лист Персонажа",
+            "NPC": "Лист НПС"
+        },
+        "Experience": {
+            "Name": "Опыт",
+            "Short": "XP"
+        },
+        "ThreatValue": {
+            "Name":"Уровень Угрозы",
+            "Short":"TV"
+        },
+        "LimitedUse": {
+            "Name":"Лимит Использования",
+            "Short":"Лимит"
+        },
+        "MakeRoll": "Сделать Бросок",
+        "DX": {
+            "Name": "Множитель Урона",
+            "Short": "DX"
+        },
+        "DV": {
+            "Name": "Значение Сложности",
+            "Short": "DV"
+        },
+        "DN": {
+            "Name": "Значение Сложности",
+            "Short": "DN"
+        },
+        "Status": {
+            "NoHP": "Нет Здоровья",
+            "NoEndurance": "Нет Выносливости"
+        },
+        "Attack": {
+            "DefaultName": "Новая Атака",
+            "Hit": "Попадание",
+            "Tie": "Ничья",
+            "Miss": "Промах",
+            "Success": "Успех",
+            "Failure": "Провал"
+        },
+        "CombatStats": "Атака и Защита",
+        "Effects": {
+            "Name": "Эффекты",
+            "Types": {
+                "ApplyChanges": "Изменить Значение",
+                "ApplyActiveEffect": "Наложить Активный Эффект"
+            },
+            "Targets": {
+                "Self": "На себя",
+                "Target": "На цель"
+            },
+            "OverTimeModes": {
+                "Once": "Один раз",
+                "EachRound": "Каждый Раунд"
+            },
+            "List": {
+                "GlobalMod": "Все Действия",
+                "GlobalRollMod": "Все Броски Атаки",
+                "GlobalDefMod": "Все Броски Защиты",
+                "Armor": "Броня",
+                "Speed": "Скорость",
+                "HPReserve": "Резерв Здоровья",
+                "HP": {
+                    "Max": "Макс. Здоровье",
+                    "Value": "Здоровье"
+                },
+                "Endurance": {
+                    "Max": "Макс. Выносливость",
+                    "Value": "Выносливость"
+                },
+                "EnduranceReserve": {
+                    "Max": "Макс. Резерв Выносливости",
+                    "Value": "Резерв Выносливости"
+                },
+                "Attack": {
+                    "DX": "Множитель Урона",
+                    "Roll": "Бросок Атаки"
+                },
+                "IgnoreArmor": "Игнорировать Броню",
+                "Defenses": "Защита",
+                "Affinity": "Природа",
+                "Flags": "Флаги",
+                "DramaDice": {
+                    "Free": "Бесплатные Кубики Драмы"
+                }
+            }
+        },
+        "Properties": "Параметры",
+        "Description": "Описание",
+        "Defense": {
+            "Name": "Защита",
+            "Short": "DEF"
+        },
+        "Size": {
+            "Name": "Размер",
+            "Advantage": {
+                "Name": "Преимущество"
+            },
+            "Disadvantage": {
+                "Name": "Уступает"
+            },
+            "Normal": {
+                "Name": "Нормальный"
+            }
+        },
+        "Modifier": {
+            "Name": "Модификатор Броска"
+        },
+        "ApplyDamage": "Нанести Урон",
+        "DamageSelf": "Получить Урон",
+        "ApplyDamageDialog": {
+            "ApplySelf": "Наложить Эффекты на Себя",
+            "ApplyTarget": "Наложить Эффекты на Цель",
+            "TargetRestances": "Сопротивления Цели"
+        },
+        "ApplyEffect": "Наложить Эффект",
+        "ApplyHeal": "Исцелить",
+        "Armor": {
+            "Name": "Броня"
+        },
+        "Resistance": {
+            "Affected": "Влияет",
+            "CanHeal": "Может Исцелять",
+            "Name": "Сопротивление",
+            "NamePlural": "Сопротивления"
+        },
+        "Effect": "Эффект",
+        "CombatEffects": "Боевые Эффекты",
+        "Magic": "Магия",
+        "Spell": {
+            "Name": "Заклинание",
+            "SpellEffect": "Эффект Заклинания",
+            "DefaultName": "Новое Заклинание"
+        },
+        "Prompt": {
+            "Yes": "Да",
+            "No": "Нет"
+        },
+        "ResetDramaDice": {
+            "Title": "Восстановить Кубики Драмы",
+            "Description": "Восстановить все полученные Кубики Драмы?"
+        },
+        "GiveDramaDice": {
+            "Title": "Дать Кубики Драмы",
+            "Description": "Дать бесплатный Кубик Драмы этому персонажу?"
+        },
+        "ResetAbilityUses": {
+            "Title": "Восстанить заряды Способности",
+            "Description": "Восстановить все заряды Способности?"
+        },
+        "Create": "Создать",
+        "AddActiveEffect": "Добавить Активный Эффект"
+    }
+}

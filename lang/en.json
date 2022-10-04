@@ -4,12 +4,7 @@
             "Name": "Ability",
             "NamePlural": "Abilities",
             "Root": "Is root ability",
-            "RootTypeName": "Root Type",
-            "Magic": "Magical Ability",
-            "Type": {
-                "Modifier": "Modifier",
-                "Entity": "Entity"
-            }
+            "Magic": "Magical Ability"
         },
         "Weakness": {
             "Name": "Weakness",

@@ -3,8 +3,25 @@
     src: url('public/fonts/oswald.ttf') format('truetype');
 }
 
+@font-face {
+    font-family: 'PT Serif';
+    src: url('public/fonts/PTSerif-Regular.ttf') format('truetype');
+}
+
+.ova {
+    font-family: 'Oswald';
+}
+
+.ova .dialog-button {
+    font-family: 'Oswald';
+}
+
+.ova button {
+    font-family: 'Oswald';
+}
+
 .ability {
-    line-height: 1.999em;
+    line-height: 27.2px;
     padding-left: .7em;
 }
 
@@ -67,6 +84,7 @@
     border-radius: 1em;
     overflow-x: hidden;
     height: 100%;
+    font-family: 'PT Serif';
 }
 
 .ability-list {
@@ -108,7 +126,7 @@
 .combat-block {
     margin-left: 0;
     position: relative;
-    min-width: 410px;
+    min-width: 420px;
     background-color: #731d20;
     border-radius: 1.5em;
     overflow: hidden;
@@ -341,6 +359,7 @@ input[type="text"].combat-cell-value {
 
 .attack-info {
     padding: .2em;
+    font-family: 'PT Serif';
 }
 
 .effects {
@@ -374,6 +393,11 @@ input[type="text"].combat-cell-value {
     justify-content: flex-start;
     align-items: flex-start;
     align-content: flex-start;
+    font-family: 'PT Serif';
+}
+
+.dice-total, .roll-result-math {
+    font-family: 'Oswald';
 }
 
 .attack-buttons {
@@ -472,6 +496,7 @@ input.combat-side-value {
 .drama-dice {
     background-image: url('public/images/drama-dice.svg');
     height: 4em;
+    width: 4em;
     background-position: center;
 }
 
@@ -713,11 +738,11 @@ input.experience {
     background-color: #ebe1e1;
 }
 
-.ova nav [data-tab] {
+.ova nav [data-tab][data-group="primary-tabs"] {
     padding: .5em;
 }
 
-.ova nav [data-tab].active {
+.ova nav [data-tab][data-group="primary-tabs"].active {
     background-color: #731d20;
     color: white;
 }

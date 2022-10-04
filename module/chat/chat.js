@@ -133,7 +133,7 @@ function _onDefenseRoll(message, html, data) {
     const rawDamageText = game.i18n.localize("OVA.Roll.RawDamage");
     const rawDamage = Math.max(result * attackRollData.dx, 0);
     html.
-        find(".dice-result").
+        find(".roll-result-math").
         append(`<div class="roll-math"> ${lastAttack.message.roll.result} (${attackName}) - ${message.roll.result} = ${result}`).
         append(`<h3 class="center">${rawDamageText}: ${rawDamage} <span style="color: ${result > 0 ? "green" : "red"}">(${resultText})</span></h3>`);
     // enable apply damage button
