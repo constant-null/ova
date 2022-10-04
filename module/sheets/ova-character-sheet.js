@@ -1,3 +1,6 @@
+import RollPrompt from "../dialogs/roll-prompt.js";
+import RollDialog from "../dialogs/roll-prompt.js";
+
 export default class OVACharacterSheet extends ActorSheet {
     /** @override */
     constructor(...args) {
@@ -139,7 +142,12 @@ export default class OVACharacterSheet extends ActorSheet {
         this._makeRoll(diceTotal, []);
     }
 
-    _makeRoll(dice, changes = []) {
+    async _makeRoll(dice, changes = []) {
+        const result = await RollPrompt.RenderPrompt("");
+        if (result === false) return;
+
+        // TODO: add changes to list of changes
+        dice += result;
         let negativeDice = false;
         if (dice <= 0) {
             negativeDice = true;

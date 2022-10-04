@@ -65,6 +65,18 @@
         "Defense": {
             "Name": "Defense",
             "Short": "DEF"
+        },
+        "Advantage": {
+            "Name": "Advantage"
+        },
+        "Disadvantage": {
+            "Name": "Disadvantage"
+        },
+        "Normal": {
+            "Name": "Normal"
+        },
+        "Modifier": {
+            "Name": "Modifier"
         }
     }
 }
