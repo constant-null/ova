@@ -170,12 +170,11 @@ export default class OVACharacter extends Actor {
         this.update({ "data.dramaDice.used": 0, "data.dramaDice.free": 0 });
     }
 
-    async useDramaDice() {
-        if (this.data.dramaDice.free > 0) {
-            await this.update({ "data.dramaDice.free": this.data.data.dramaDice.free - 1 });
-        } else {
-            await this.update({ "data.dramaDice.used": this.data.data.dramaDice.used + 1 })
-        }
+    async useDramaDice(amount) {
+        // first use all free dice than add used
+        const useFree = Math.min(this.data.dramaDice.free, amount);
+        const addUsed = amount - useFree;
+        this.update({ "data.dramaDice.free": this.data.data.dramaDice.free- useFree, "data.dramaDice.used": this.data.data.dramaDice.used + addUsed });
     }
 
     _prepareItemData() {
