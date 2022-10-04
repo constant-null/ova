@@ -1,6 +1,7 @@
 export default class Effect {
     data = {};
-    constructor(data) {
+    item = null;
+    constructor(item, data) {
         /**
          * {
          * type: "apply-changes|apply-active-effect",
@@ -12,6 +13,7 @@ export default class Effect {
          * }
          */
         this.data = data;
+        this.item = item;
     }
 
     static TYPES = {
@@ -27,9 +29,10 @@ export default class Effect {
     apply(data) {
         const { type, target, key, mode, priority, value } = this.data;
         if (type === 'apply-changes') {
+            data.item = this.item.data;
             const current = foundry.utils.getProperty(data, key);
-            let updade = Number.fromString(_safeEval(data, value));
-            switch (mode) {
+            let updade = Number.fromString(this._safeEval(data, value));
+            switch (parseInt(mode)) {
                 case CONST.ACTIVE_EFFECT_MODES.ADD:
                     updade = current + updade;
                     break;

@@ -30,7 +30,7 @@
                 <input name="data.effects[{{@index}}].key" type="text" value="{{effect.key}}" />
             </div>
             <div class="effect-mode">
-                <select name="data.effects[{{@index}}].mode">
+                <select name="data.effects[{{@index}}].mode" data-dtype="Number">
                     {{#select effect.mode}}
                     {{#each ../config.activeEffectModes as |name mode|}}
                     <option value="{{mode}}">{{localize name}}</option>
@@ -39,7 +39,7 @@
                 </select>
             </div>
             <div class="effect-value flex2">
-                <input name="data.effects[{{@index}}].value" type="text" value="{{effect.value}}" data-dtype="Number" />
+                <input name="data.effects[{{@index}}].value" type="text" value="{{effect.value}}" />
             </div>
 
             <div class="effect-remove flex0">

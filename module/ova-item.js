@@ -34,12 +34,24 @@ export default class OVAItem extends Item {
 
     prepareDerivedData() {
         super.prepareDerivedData();
-        if (this.type === 'attack') return;
+        const itemData = this.data;
 
-        this.data.effects = [];
-        this.data.data.effects.forEach(e => {
-            this.data.effects.push(new OVAEffect(e));
-        });
+        itemData.effects = [];
+        if (itemData.type !== 'perk') {
+            console.log(`preparing effects ${itemData.type}, ${itemData.name}`);
+            itemData.data.perks.forEach(p => {
+                p.data.effects.forEach(e => {
+                    itemData.effects.push(new OVAEffect(p, e));
+                });
+            });
+        }
+
+        if (this.type !== 'attack') {
+            itemData.effects = [];
+            itemData.data.effects.forEach(e => {
+                itemData.effects.push(new OVAEffect(this, e));
+            });
+        }
     }
 
     /** @override */
@@ -94,8 +106,9 @@ export default class OVAItem extends Item {
             endurance: 0,
         };
 
-        selectedAbilities.forEach(a => a.effects.forEach(e => e.apply(attackData)));
-
+        selectedAbilities.forEach(a => a.effects.forEach(e => itemData.effects.push(e)));
+        itemData.effects.forEach(e => e.apply(attackData));
+        
         Object.assign(itemData.data, attackData);
     }
 }
