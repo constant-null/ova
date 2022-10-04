@@ -69,12 +69,12 @@ export default class OVAItem extends Item {
     }
 
     static SPELL_COST = [
-        // Spell  1   2   3   4   5   // Magic
+// Spell  1   2   3   4   5   // Magic
         [20, 30, 40, 50, 60], // 1
         [10, 20, 30, 40, 50], // 2
-        [5, 10, 20, 30, 40], // 3
-        [2, 5, 10, 20, 30], // 4
-        [0, 2, 5, 10, 20], // 5
+        [ 5, 10, 20, 30, 40], // 3
+        [ 2,  5, 10, 20, 30], // 4
+        [ 0,  2,  5, 10, 20], // 5
     ]
 
     _getRollAbilities() {
@@ -112,9 +112,9 @@ export default class OVAItem extends Item {
             data.magicName = magicAbility.name;
             data.magicLevel = magicAbility.data.data.level.value;
             // sum effect levels
-            data.effectName = spellEffects[0].name;
+            data.effectName = spellEffects[0]?.name;
             data.effectLevel = spellEffects.reduce((sum, e) => sum + e.data.level.value, 0);
-            spellData.enduranceCost = OVAItem.SPELL_COST[data.magicLevel - 1][data.effectLevel - 1];
+            spellData.enduranceCost = data.effectLevel ? OVAItem.SPELL_COST[data.magicLevel - 1][data.effectLevel - 1] : 0;
 
             if (data.effectLevel > data.magicLevel) {
                 spellDV = 2 + 2 * data.effectLevel;
