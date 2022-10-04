@@ -15,14 +15,13 @@ export default class OVAItem extends Item {
     }
 
     /** @override */
-    prepareDerivedData() {
-        super.prepareDerivedData();
+    prepareItemData() {
 
         if (!this.isEmbedded) return;
         if (this.type !== 'ability') return;
 
         const itemData = this.data.data;
-        itemData.level.mod = 0
+        itemData.level.mod = 0;
         if (itemData.isRoot) {
             // add chilren abilities
             const abilities = this.actor.items.map(i => i.data).filter(i => i.data.rootId === this.id);
@@ -35,6 +34,6 @@ export default class OVAItem extends Item {
             itemData.level.mod = abilities.reduce((sum, a) => sum + a.data.data.level.value, 0);
         }
         itemData.level.total = itemData.level.value + itemData.level.mod;
-        this.sheet.render(false);
+        this.sheet == null || this.sheet.render(false);
     }
 }
