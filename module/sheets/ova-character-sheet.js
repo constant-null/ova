@@ -215,8 +215,11 @@ export default class OVACharacterSheet extends ActorSheet {
         event.preventDefault();
         const defense = event.currentTarget.dataset.deftype;
 
+        
+        const enduranceCost = Object.values(this.actor.data.defenseAbilities[defense]).reduce((acc, cur) => acc + cur.enduranceCost, 0);
+
         const dice = this.actor.data.defenses[defense];
-        this._makeRoll({ roll: dice, type: "defense", flavor: `Defense (${defense})` });
+        this._makeRoll({ roll: dice, type: "defense", enduranceCost: enduranceCost, flavor: `Defense (${defense})` });
     }
 
     _makeAttackRoll(event) {

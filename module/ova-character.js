@@ -150,6 +150,16 @@ export default class OVACharacter extends Actor {
         const magicAbilities = this.items.filter(item => item.data.type === 'ability' && item.data.data.magic);
         charData.magic = magicAbilities;
         charData.haveMagic = magicAbilities.length > 0;
+
+        // save abilities that have affected defenses for future use
+        const defenseChanges = charData.changes.filter(change => change.key === "defenses.?" || change.key === "speed");
+        charData.defenseAbilities = {}        
+        defenseChanges.forEach(change => {
+            // TODO: do i really need speed as separate modiefier?
+            const defense = change.key === "speed" || !change.keyValue ? "evasion" : change.keyValue;
+            if (!charData.defenseAbilities[defense]) charData.defenseAbilities[defense] = {};
+            charData.defenseAbilities[defense][change.source.data._id] = change.source.data;
+        });
     }
 
     _prepareItemData() {

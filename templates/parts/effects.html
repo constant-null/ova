@@ -50,6 +50,11 @@
                         {{/select}}
                     </select>
                 </div>
+                {{#if (maskedKey effect.key)}}
+                <div class="effect-key-value">
+                    <input name="data.effects[{{@index}}].keyValue" type="text" value="{{effect.keyValue}}" />
+                </div>
+                {{/if}}
                 <div class="effect-mode flex0">
                     <select name="data.effects[{{@index}}].mode" data-dtype="Number">
                         {{#select effect.mode}}
@@ -67,7 +72,7 @@
                 </div>
             </div>
             {{#if (eq effect.type "apply-active-effect")}}
-            <hr/>
+            <hr />
             <div class="flexrow">
                 <label>Over Time Effect:</label>
                 <div class="over-time-when flex0">
@@ -109,7 +114,7 @@
                 </div>
             </div>
             {{/if}}
-            <hr/>
+            <hr />
             <div class="form-group">
                 <label>Priority:</label>
                 <div class="effect-priority">

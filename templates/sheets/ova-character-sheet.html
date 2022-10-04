@@ -129,7 +129,7 @@
                 <div class="combat-cell">
                     <div class="combat-cell-name">{{ localize 'OVA.Defense.Name' }}</div>
                     <div class="combat-cell-value">
-                        {{#each actor.data.defenses as |defense type|}}<span class="defense-value clickable"
+                        {{#each actor.data.defenses as |defense type|}}<span title="{{type}}" class="defense-value clickable"
                             data-deftype="{{type}}">{{defense}}</span>{{#if (not @last)}}/{{/if}}{{/each}}
                     </div>
                 </div>
