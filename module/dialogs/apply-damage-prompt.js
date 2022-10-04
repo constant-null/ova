@@ -1,3 +1,5 @@
+import OVAEffect from "../effects/ova-effect.js";
+
 export default class ApplyDamagePrompt extends Dialog {
     constructor({ effects, rollData, target, attacker }) {
         const dialogData = {
@@ -9,7 +11,7 @@ export default class ApplyDamagePrompt extends Dialog {
         super(dialogData, {});
 
         this.rollData = rollData;
-        this.effects = effects;
+        this.rawEffects = effects;
         this.target = target;
         this.attacker = attacker;
 
@@ -60,6 +62,7 @@ export default class ApplyDamagePrompt extends Dialog {
         const effectIndex = e.currentTarget.dataset.effectIndex;
 
         this.effects[effectType][effectIndex].active = e.currentTarget.checked;
+        this.rawEffects[effectType][effectIndex].active = e.currentTarget.checked;
     }
 
     _onSelfEffectDurationChange(e) {
@@ -69,16 +72,28 @@ export default class ApplyDamagePrompt extends Dialog {
         const effectIndex = e.currentTarget.dataset.effectIndex;
 
         this.effects[effectType][effectIndex].duration.rounds = Number.parseInt(e.currentTarget.value);
+        this.rawEffects[effectType][effectIndex].duration = Number.parseInt(e.currentTarget.value);
+    }
+
+    _prepareData() {
+        const damage = this._calculateDamage(this.target, this.rollData.attack, this.rollData.defense);
+        this.rollData.attack.damage = damage;
+        this.effects = {
+            self: this.rawEffects.self.map(e => OVAEffect.createActiveEffect(e, this.rollData)),
+            target: this.rawEffects.target.map(e => OVAEffect.createActiveEffect(e, this.rollData)),
+        }
     }
 
     getData() {
+        this._prepareData();
         const context = super.getData();
-        this.damage = this._calculateDamage(this.target, this.rollData.attack, this.rollData.defense);
 
         context.effects = this.effects;
         context.target = this.target;
         context.resistances = this.resistances;
-        context.damage = this.damage;
+
+        context.rollData = this.rollData;
+        context.effects = this.effects;
 
         return context;
     }
@@ -120,7 +135,7 @@ export default class ApplyDamagePrompt extends Dialog {
     async _applyDamage(e) {
         e.preventDefault();
         e.stopPropagation();
-        this.target.changeHP(-this.damage);
+        this.target.changeHP(-this.rollData.attack.damage);
 
         // apply activated effects to self
         const activeSelfEffects = this.effects.self.filter(effect => effect.active);

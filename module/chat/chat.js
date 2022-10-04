@@ -1,5 +1,4 @@
 import ApplyDamagePrompt from "../dialogs/apply-damage-prompt.js";
-import OVAEffect from "../effects/ova-effect.js";
 
 let lastAttack = null;
 
@@ -88,8 +87,8 @@ async function _onAttackButtonClick(e) {
 
     const promptData = {
         effects: {
-            self: attackRoll.effects.filter(e => e.target === "self").map(e => OVAEffect.createActiveEffect(e, rollData)),
-            target: attackRoll.effects.filter(e => e.target === "target").map(e => OVAEffect.createActiveEffect(e, rollData)),
+            self: attackRoll.effects.filter(e => e.target === "self"),
+            target: attackRoll.effects.filter(e => e.target === "target"),
         },
         rollData: rollData,
         target: target,

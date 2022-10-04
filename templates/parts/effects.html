@@ -5,67 +5,68 @@
     </div>
     <div class="effect-list">
         {{#each effects as |effect|}}
-        <div class="effect flexrow" data-index="{{@index}}">
-            <div class="effect-type">
-                <select name="data.effects[{{@index}}].type">
-                    {{#select effect.type}}
-                    {{#each ../config.effectTypes as |name type|}}
-                    <option value="{{type}}">{{localize name}}</option>
-                    {{/each}}
-                    {{/select}}
-                </select>
+        <div class="effect {{#if (eq effect.type 'apply-active-effect')}}active-effect{{else}}apply-changes{{/if}}"
+            data-index="{{@index}}">
+            <div class="form-group">
+                <label>Effect Type:</label>
+                <div class="effect-type">
+                    <select name="data.effects[{{@index}}].type">
+                        {{#select effect.type}}
+                        {{#each ../config.effectTypes as |name type|}}
+                        <option value="{{type}}">{{localize name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <div class="effect-target">
+                    {{#if (eq effect.type "apply-active-effect")}}
+                    <select name="data.effects[{{@index}}].target">
+                        {{#select effect.target}}
+                        {{#each ../config.effectTargets as |name target|}}
+                        <option value="{{target}}">{{localize name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                    {{/if}}
+                </div>
+                <div class="effect-remove flex0">
+                    <i class="fas fa-minus"></i>
+                </div>
             </div>
-            <div class="effect-target">
-                {{#if (eq effect.type "apply-active-effect")}}
-                <select name="data.effects[{{@index}}].target">
-                    {{#select effect.target}}
-                    {{#each ../config.effectTargets as |name target|}}
-                    <option value="{{target}}">{{localize name}}</option>
-                    {{/each}}
-                    {{/select}}
-                </select>
+            <div class="form-group">
+                <label>Change:</label>
+                <div class="effect-key">
+                    <select name="data.effects[{{@index}}].key">
+                        {{#select effect.key}}
+                        {{#if (eq effect.type "apply-active-effect")}}
+                        {{#each ../config.activeEffectKeys as |name key|}}
+                        <option value="{{key}}">{{localize name}}</option>
+                        {{/each}}
+                        {{else}}
+                        {{#each ../config.effectChangeKeys as |name key|}}
+                        <option value="{{key}}">{{localize name}}</option>
+                        {{/each}}
+                        {{/if}}
+                        {{/select}}
+                    </select>
+                </div>
+                {{#if (maskedKey effect.key)}}
+                <div class="effect-key-value">
+                    <input name="data.effects[{{@index}}].keyValue" type="text" value="{{effect.keyValue}}" />
+                </div>
                 {{/if}}
-            </div>
-            <div class="effect-apply">
-                {{#if (eq effect.type "apply-active-effect")}}
-                {{#if (eq effect.target "self")}}
-                <select name="data.effects[{{@index}}].apply">
-                    {{#select effect.apply}}
-                    {{#each ../config.effectApplyTypes as |name value|}}
-                    <option value="{{value}}">{{localize name}}</option>
-                    {{/each}}
-                    {{/select}}
-                </select>
-                {{/if}}
-                {{/if}}
-            </div>
-            <div class="effect-key flex2">
-                <input name="data.effects[{{@index}}].key" type="text" value="{{effect.key}}" />
-            </div>
-            <div class="effect-mode">
-                <select name="data.effects[{{@index}}].mode" data-dtype="Number">
-                    {{#select effect.mode}}
-                    {{#each ../config.activeEffectModes as |name mode|}}
-                    <option value="{{mode}}">{{localize name}}</option>
-                    {{/each}}
-                    {{/select}}
-                </select>
-            </div>
-            <div class="effect-value flex2">
-                <input name="data.effects[{{@index}}].value" type="text" value="{{effect.value}}" />
-            </div>
-            {{#if (eq effect.type "apply-active-effect")}}
-            <div class="effect-value flex2">
-                <input name="data.effects[{{@index}}].duration" type="text" value="{{effect.duration}}" />
-            </div>
-            {{/if}}
-            {{#if (eq effect.type "apply-active-effect")}}
-            <div class="effect-value flex2">
-                <input name="data.effects[{{@index}}].priority" type="text" value="{{effect.priority}}" />
-            </div>
-            {{/if}}
-            <div class="effect-remove flex0">
-                <i class="fas fa-minus"></i>
+                <div class="effect-mode flex0">
+                    <select name="data.effects[{{@index}}].mode">
+                        {{#select effect.mode}}
+                        {{#each ../config.activeEffectModes as |name target|}}
+                        <option value="{{target}}">{{localize name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <div class="effect-value">
+                    <input name="data.effects[{{@index}}].value" type="text" value="{{effect.value}}" />
+                </div>
             </div>
         </div>
         {{/each}}

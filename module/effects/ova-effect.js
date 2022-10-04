@@ -10,7 +10,6 @@ export default class OVAEffect {
          * mode: CONST.ACTIVE_EFFECT_MODES,
          * priority: 0, // only for active effects
          * value: "1",
-         * apply: "once|per-target",
          * duration: "1", // duration in rounds,only for active effects
          * }
          */
@@ -28,13 +27,8 @@ export default class OVAEffect {
         "target": "OVA.Effects.Targets.Target",
     }
 
-    static APPLY_TYPES = {
-        "once": "OVA.Effects.ApplyTypes.Once",
-        "per-target": "OVA.Effects.ApplyTypes.PerTarget",
-    }
-
     apply(data) {
-        const { type, target, key, mode, apply, priority, duration, value } = this.data;
+        const { type, target, key, mode, duration, value } = this.data;
         data.item = this.item.data;
         data.level = this.item.data.level.value;
         if (!data.changes) data.changes = [];
@@ -84,24 +78,35 @@ export default class OVAEffect {
         data.level = effect.source.level;
 
         const evaluatedValue = Number.fromString(OVAEffect._safeEval(data, effect.value));
-        let evaluatedDuration = "";
-        if (effect.duration) {
-            evaluatedDuration = Number.fromString(OVAEffect._safeEval(data, effect.duration));
-        }
-
-        return {
+        // replace ? in key with keyValue
+        const key = effect.key.replace(/\?/g, effect.keyValue);
+        const effectData = {
             label: effect.source.name,
             origin: effect.source.uuid,
+            active: effect.active,
             changes: [{
-                key: effect.key,
+                key: key,
                 mode: effect.mode,
                 value: evaluatedValue,
                 priority: effect.priority
             }],
             duration: {
-                rounds: evaluatedDuration,
+                rounds: effect.duration,
             }
         }
+
+        if (effect.timed && effect.timed.when) {
+            const evaluatedTimedValue = Number.fromString(OVAEffect._safeEval(data, effect.timed.value));
+            const timedKey = effect.timed.key?.replace(/\?/g, effect.timed.keyValue);
+
+            effectData.flags[effect.timed.when] = {
+                key: timedKey,
+                mode: effect.timed.mode,
+                value: evaluatedTimedValue,
+            }
+        }
+
+        return effectData;
     }
 
     /** shamelesly stolen and modified from Roll.safeEval */

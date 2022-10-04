@@ -308,10 +308,6 @@ input[type="text"].combat-cell-value {
     text-align: center;
 }
 
-.effect-list {
-    min-width: 666px;
-}
-
 .chat-attack-info {
     display: flex;
     flex-direction: column;
@@ -333,6 +329,7 @@ input[type="text"].combat-cell-value {
 .combat-side-cell {
     margin-top: .8em;
 }
+
 .combat-side-cell>* {
     text-align: left;
 }
@@ -362,6 +359,20 @@ input[type="text"].combat-cell-value {
 
 .combat-tabs :not(.active) {
     color: darkgray;
+}
+
+.effect-list .effect {
+    border: 1px solid gray;
+    border-radius: .2em;
+    padding: 5px;
+}
+
+.effect.active-effect {
+    background-color: cornsilk;
+}
+
+.effect.apply-changes {
+    background-color: aliceblue;
 }
 
 .center {
