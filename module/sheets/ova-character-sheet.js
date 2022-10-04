@@ -16,31 +16,45 @@ export default class OVACharacterSheet extends ActorSheet {
     activateListeners(html) {
         super.activateListeners(html);
         html.find('.item-edit').click(this._editItem.bind(this));
-        html.find('.item-value').on("keyup paste", this._onItemValueChange.bind(this));
+        html.find('.item-value').on("input", this._onItemValueChange.bind(this));
+        html.find('.item-value').on("focus", () => {console.log("focus");});
+        html.find('.item-value').on("focusout", () => {console.log("focusout");});
         html.find('.item-value').keypress(this._itemValueValidator.bind(this));
         html.find('.ability-description').on("contextmenu", this._editItem.bind(this));
         html.find('.ability-description').click(this._selectAbility.bind(this));
         html.find('.roll-dice').click(this._rollDice.bind(this));
     }
 
-    async _rollDice(event) {
+    _rollDice(event) {
         event.preventDefault();
-        
+
         // get all selected items
         const selectedItems = this.actor.items.filter(i => this.selectedAbilities.includes(i.id));
-        
+
         // sum levels
         let sum = 0;
         for (const item of selectedItems) {
-            sum += item.data.data.level;
+            if (item.data.data.type === "ability") {
+                sum += item.data.data.level;
+            } else if (item.data.data.type === "weakness") {
+                sum -= item.data.data.level;
+            }
         }
-        
-        const formula = "{" +"1d6,".repeat(sum+2) + "}";
+        let negativeDice = false;
+        let diceTotal = sum + 2;
+        if (diceTotal <= 0) {
+            negativeDice = true;
+            diceTotal = 2 - diceTotal;
+        }
+
         // roll dice
-        const roll = new Roll("3d6kh");
-        console.log(roll);
+        let roll;
+        if (negativeDice) {
+            roll = new Roll(`${diceTotal}d6kl`);
+        } else {
+            roll = new Roll(`${diceTotal}d6khs`);
+        }
         roll.evaluate({ async: false })
-        roll._formula = `${sum+2}d6ova`;
         roll.toMessage({
             flavor: "OVA",
             speaker: ChatMessage.getSpeaker({ actor: this.actor }),
