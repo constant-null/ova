@@ -13,14 +13,8 @@
                 "max": 40,
                 "bonus": 0
             },
-            "defense": {
-                "value": 2
-            },
-            "dx": {
-                "value": 1
-            },
-            "attack": {
-                "value": 2
+            "defenses": {
+                "evasion": 0
             },
             "abilities": [],
             "weaknesses": [],

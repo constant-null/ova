@@ -53,7 +53,9 @@
         <div class="stats flexrow">
             <div class="combat-cell">
                 <div class="combat-cell-name">{{ localize 'OVA.Defense.Name' }}</div>
-                <div class="combat-cell-value">4/5</div>
+                <div class="combat-cell-value">
+                    {{#each actor.data.defenses as |defense type|}}<span class="defense-value" data-deftype="{{type}}">{{defense}}</span>{{#if (not @last)}}/{{/if}}{{/each}}
+                </div>
             </div>
             <div class="combat-cell">
                 <div class="combat-cell-name">{{ localize 'OVA.Health.Name' }}</div>

@@ -20,14 +20,20 @@ export default class OVACharacter extends Actor {
 
         this.items.forEach(item => item.prepareItemData());
         const charData = this.data;
-
-        // apply ability effects to data
+        const data = charData.data;
+        // apply active ability effects to data
         this.items.forEach(item => {
             if (item.type !== "ability") return;
+            if (!item.data.data.active) return;
 
-            const data = charData.data;
             item.data.effects.forEach(e => e.apply(data));
-            Object.assign(charData, data);
         });
+
+        // increase all defense valuses by 2 (base modifier)
+        for (const defense in data.defenses) {
+            data.defenses[defense] += 2;
+        }
+
+        Object.assign(charData, data);
     }
 }

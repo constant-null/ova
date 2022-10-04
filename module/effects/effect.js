@@ -30,7 +30,7 @@ export default class Effect {
         const { type, target, key, mode, priority, value } = this.data;
         if (type === 'apply-changes') {
             data.item = this.item.data;
-            const current = foundry.utils.getProperty(data, key);
+            const current = foundry.utils.getProperty(data, key) || 0;
             let updade = Number.fromString(this._safeEval(data, value));
             switch (parseInt(mode)) {
                 case CONST.ACTIVE_EFFECT_MODES.ADD:
