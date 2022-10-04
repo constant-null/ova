@@ -3,6 +3,9 @@
         "StatusImpaired": "Impaired",
         "StatusDisarmed": "Disarmed"
     },
+    "HUD": {
+        "TriggerAE": "Trigger Active Effects"
+    },
     "OVA": {
         "Ability": {
             "Name": "Ability",

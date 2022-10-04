@@ -18,6 +18,7 @@ import * as chat from "./module/chat/chat.js";
 import registerHandlebarsHelpers from "./ova-handlebars-helpers.js";
 import configureStatusEffects from "./configure-status-effects.js";
 import Socket from "./module/sockets/socket.js";
+import OVATokenHUD from "./module/token/ova-token-hud.js";
 
 Hooks.once("init", function () {
     console.log("OVA | Initializing OVA System");
@@ -52,6 +53,10 @@ Hooks.once("init", function () {
     preloadTemplates();
     registerHandlebarsHelpers();
     registerSystemSettings();
+});
+
+Hooks.on("ready", async function () {
+    canvas.hud.token = new OVATokenHUD();
 });
 
 async function preloadTemplates() {
@@ -108,9 +113,6 @@ async function preUpdateCombat(combat, updateData, context) {
             }
         }
 
-
-        // == 0 to end effect on turn end, < 1 to end effect on turn start
-        const expiredEffects = turnActor.effects.filter(e => e.duration.remaining === 0);
-        turnActor.deleteEmbeddedDocuments("ActiveEffect", expiredEffects.map(e => e.id));
+        turnActor.clearExpiredEffects();
     }
 }

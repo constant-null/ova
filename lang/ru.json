@@ -3,6 +3,9 @@
         "StatusImpaired": "Ослаблен",
         "StatusDisarmed": "Обезоружен"
     },
+    "HUD": {
+        "TriggerAE": "Применить Активные Эффекты"
+    },
     "OVA": {
         "Ability": {
             "Name": "Способность",

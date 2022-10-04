@@ -219,13 +219,13 @@ export default class OVACharacter extends Actor {
                     break;
                 }
             }
-            
+
             if (a.data.data.boss) {
                 tv += a.data.data.level.value * 5;
             }
 
             if (a.data.data.magic) {
-                tv += Math.ceil(a.data.data.level.value/2);
+                tv += Math.ceil(a.data.data.level.value / 2);
             }
         });
 
@@ -311,5 +311,28 @@ export default class OVACharacter extends Actor {
         await this.update({ data: this.data.data });
 
         await this.createEmbeddedDocuments("ActiveEffect", persistantEffect);
+    }
+
+    async triggerOverTimeEffects() {
+        const updates = [];
+        for (let effect of this.data.effects) {
+            if (effect.data.flags["each-round"]) {
+                const overTimeEffect = effect.data.flags["each-round"];
+                const newData = { data: foundry.utils.deepClone(this.data.data) };
+                OVAEffect.applyEffectChanges(overTimeEffect, newData)
+
+                await this.update(newData);
+                updates.push({ _id: effect.id, "duration.rounds": effect.data.duration.rounds - 1 });
+            }
+        }
+
+        await this.updateEmbeddedDocuments("ActiveEffect", updates);
+        await this.clearExpiredEffects();
+    }
+
+    async clearExpiredEffects() {
+        // == 0 to end effect on turn end, < 1 to end effect on turn start
+        const expiredEffects = this.effects.filter(e => e.duration.remaining === 0);
+        this.deleteEmbeddedDocuments("ActiveEffect", expiredEffects.map(e => e.id));
     }
 }
