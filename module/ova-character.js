@@ -30,8 +30,25 @@ export default class OVACharacter extends Actor {
 
     async _preUpdate(data, options, user) {
         const charData = this.data;
+
+        const currentHP = data.data?.hp?.value || charData.data.hp.value;
+        const currentEndurance = data.data?.endurance?.value || charData.data.endurance.value;
+
+        if (data.data?.hp?.value < 0) foundry.utils.setProperty(data, "data.endurance.value", currentEndurance + data.data.hp.value);
+        if (data.data?.endurance?.value < 0) foundry.utils.setProperty(data, "data.hp.value", currentHP + data.data.endurance.value);
+
+
+        // show text notifications
         if (data.data?.hp && data.data.hp.value != charData.data.hp.value) {
-            this._showHPChangeText(data.data.hp.value - charData.data.hp.value);
+            this._showValueChangeText(data.data.hp.value - charData.data.hp.value);
+        }
+
+        if (data.data?.endurance && data.data.endurance.value != charData.data.endurance.value) {
+            this._showValueChangeText(data.data.endurance.value - charData.data.endurance.value, '#427ef5');
+        }
+
+        if (data.data?.enduranceReserve && data.data.enduranceReserve.value != charData.data.enduranceReserve.value) {
+            this._showValueChangeText(data.data.enduranceReserve.value - charData.data.enduranceReserve.value, '#427ef5');
         }
     }
 
@@ -149,7 +166,7 @@ export default class OVACharacter extends Actor {
         }
     }
 
-    _showHPChangeText(amount) {
+    _showValueChangeText(amount, stroke = 0x000000) {
         const tokens = this.isToken ? [this.token?.object] : this.getActiveTokens(true);
         for (let t of tokens) {
             t?.hud.createScrollingText(amount.signedString(), {
@@ -157,7 +174,7 @@ export default class OVACharacter extends Actor {
                 anchor: CONST.TEXT_ANCHOR_POINTS.TOP,
                 direction: amount > 0 ? CONST.TEXT_ANCHOR_POINTS.TOP : CONST.TEXT_ANCHOR_POINTS.BOTTOM,
                 fill: amount > 0 ? "green" : "red",
-                stroke: 0x000000,
+                stroke: stroke,
                 strokeThickness: 4,
                 jitter: 0.25
             });
