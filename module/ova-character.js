@@ -112,6 +112,7 @@ export default class OVACharacter extends Actor {
         charData.hp = { ...charData.data.hp };
         charData.endurance = { ...charData.data.endurance };
         charData.enduranceReserve = { ...charData.data.enduranceReserve };
+        charData.attack = { roll: 0, dx: 0}; // for effect compability
         charData.data.attributes = {
             hp: charData.hp,
             endurance: charData.endurance,
