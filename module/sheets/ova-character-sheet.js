@@ -32,6 +32,7 @@ export default class OVACharacterSheet extends ActorSheet {
 
         html.find('.attack-block').on("contextmenu", this._editItem.bind(this));
         html.find('.add-attack').click(this._addAttack.bind(this));
+        html.find('.drama-dice').click(this._makeDramaRoll.bind(this));
 
         html.find('.attack-block').click(this._makeAttackRoll.bind(this));
         html.find('.defense-value').click(this._makeDefenseRoll.bind(this));
@@ -218,6 +219,12 @@ export default class OVACharacterSheet extends ActorSheet {
         let diceTotal = Object.values(rollData).reduce((a, b) => a + b, 0);
 
         this._makeRoll({ roll: diceTotal, changes: [], enduranceCost: enduranceCost });
+    }
+
+    async _makeDramaRoll(event) {
+        event.preventDefault();
+
+        this._makeRoll({ roll: 1, type: "drama", enduranceCost: 5 });
     }
 
     async _makeRoll({ roll = 2, dv = 0, dx = 1, effects = [], enduranceCost = 0, ignoreArmor = 0, type = "manual", changes = [], attack = null, flavor = '' }) {

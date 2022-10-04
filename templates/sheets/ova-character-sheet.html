@@ -11,6 +11,11 @@
     </header>
 
     <div class="ability-block flexrow">
+        <div class="drama-dice-block">
+            <div class="title clickable drama-dice">
+                {{localize "OVA.DramaDice"}}
+            </div>
+        </div>
         <div>
             <h3 class="ability-title">{{ localize 'OVA.Ability.NamePlural' }}</h3>
             {{> "systems/ova/templates/parts/ability-list.html" items=abilities selected=selectedAbilities

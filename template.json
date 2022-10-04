@@ -21,7 +21,11 @@
             },
             "abilities": [],
             "weaknesses": [],
-            "attacks": []
+            "attacks": [],
+            "drama-dice": {
+                "used": 0,
+                "free": 0
+            }
         }
     },
     "Item": {

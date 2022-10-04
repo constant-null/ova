@@ -35,6 +35,7 @@
             "Pool": "Endurance Pool",
             "Reserve": "E. Reserve"
         },
+        "DramaDice": "Drama Dice",
         "Duration": {
             "Rounds": "Duration (Rounds)"
         },
@@ -50,7 +51,9 @@
             "Attack": "Attack",
             "Defense": "Defense",
             "Manual": "Manual",
-            "Spell": "Spell"
+            "Spell": "Spell",
+            "Drama": "Drama Dice",
+            "Miracle": "Miracle"
         },
         "DX": {
             "Name": "Damage Multiplier",

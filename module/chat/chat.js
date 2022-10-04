@@ -1,4 +1,5 @@
 import ApplyDamagePrompt from "../dialogs/apply-damage-prompt.js";
+import OVACombatMessage from "./combat-message.js";
 
 let lastAttack = null;
 let combatInfo = {
@@ -16,10 +17,18 @@ export const listenToCombatRolls = function (message, html, data) {
     if (!rollData) return;
     _updateCombatData();
 
+    if (rollData.type === "drama") _onDramaRoll(message, html, data);
     if (rollData.type === "attack") _onAttackRoll(message, html, data);
     if (rollData.type === "manual" && lastAttack) rollData.type = "defense";
     if (rollData.type === "defense") _onDefenseRoll(message, html, data);
     if (rollData.type === "spell") _onSpellRoll(message, html, data);
+}
+
+async function _onDramaRoll(message, html, data) {
+    const lastNotDramaRoll = game.messages.contents.findLast(m => m.isRoll && m.data.flags["roll-data"].type !== "drama");
+    if (!lastNotDramaRoll) return;
+
+    ui.chat.updateMessage(await OVACombatMessage.addDramaDice(lastNotDramaRoll, message));
 }
 
 function _onAttackRoll(message, html, data) {

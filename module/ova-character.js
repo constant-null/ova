@@ -108,6 +108,7 @@ export default class OVACharacter extends Actor {
             enduranceReserve : charData.enduranceReserve,
         }
 
+        if (!charData.changes) charData.changes = [];
         if (charData.data.hp.value <= 0 || charData.data.endurance.value <= 0) {
             charData.globalMod -= 1;
             charData.changes.push({

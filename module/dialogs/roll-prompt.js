@@ -9,7 +9,7 @@ export default class RollPrompt extends Dialog {
             buttons: {
                 disadvantage: {
                     icon: '<i class="fas fa-minus-circle"></i>',
-                    condition: type !== 'spell',
+                    condition: type !== 'spell' && type !== 'drama',
                     label: game.i18n.localize('OVA.Disadvantage.Name'),
                     callback: html => this._makeRoll(html, -5)
                 },
@@ -20,7 +20,7 @@ export default class RollPrompt extends Dialog {
                 },
                 advantage: {
                     icon: '<i class="fas fa-plus-circle"></i>',
-                    condition: type !== 'spell',
+                    condition: type !== 'spell' && type !== 'drama',
                     label: game.i18n.localize('OVA.Advantage.Name'),
                     callback: html => this._makeRoll(html, 5)
                 }
@@ -31,6 +31,7 @@ export default class RollPrompt extends Dialog {
         super(dialogData, {});
 
         this.actor = actor;
+        this.type = type;
         this.enduranceCost = enduranceCost;
         this.selection = {
             base: true,
@@ -72,6 +73,7 @@ export default class RollPrompt extends Dialog {
         data.actor = this.actor;
         data.enduranceCost = this.enduranceCost;
         data.selection = this.selection;
+        data.type = this.type;
 
         return data;
     }
@@ -81,9 +83,9 @@ export default class RollPrompt extends Dialog {
     }
 
     _makeRoll(html, adv) {
-        const mod = html.find('#roll-modifier').val();
-
-        this.resolve && this.resolve(adv + parseInt(mod));            
+        let mod = parseInt(html.find('#roll-modifier').val());
+        if (isNaN(mod)) mod = 0;
+        this.resolve && this.resolve(adv + mod);            
         this.actor.changeEndurance(-this.enduranceCost, this.selection.reserve);
     }
 
