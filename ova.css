@@ -450,6 +450,10 @@ input.combat-side-value {
     color: white;
 }
 
+.heal-text-color {
+    color: #1d732e !important;
+}
+
 .effect-color {
     background-color: #1d3573 !important;
     color: white;
