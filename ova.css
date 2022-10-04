@@ -197,8 +197,26 @@ input.character-name {
 
 .fixed-panel {
     position: absolute;
-    top: 13em;
-    right: 1px;
+    top: 15em;
+    right: .6em;
+}
+
+.roll-dice {
+    background-image: url('public/images/rolling-dices.svg');
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    transition: transform .1s;
+}
+
+/* scale on hover */
+.roll-dice:hover {
+    transform: scale(1.1);
+}
+
+/* flashy effect on click */
+.roll-dice:active {
+    transform: scale(1.2);
 }
 
 .hidden {

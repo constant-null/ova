@@ -132,7 +132,7 @@ export default class OVACharacterSheet extends ActorSheet {
         // sum roll modifiers
         let diceTotal = Object.values(rollData).reduce((a, b) => a + b, 0);
 
-        makeRoll(diceTotal, []);
+        this._makeRoll(diceTotal, []);
     }
 
     _makeRoll(dice, changes = []) {
