@@ -48,7 +48,7 @@ export default class OVAAttackSheet extends BaseItemSheet {
             map(a => a.data).
             sort((a, b) => {
                 // sort by type and name
-                if (a.type === b.type) {
+                if (a.data.type === b.data.type) {
                     return a.name.localeCompare(b.name);
                 }
                 return a.type.localeCompare(b.type);
