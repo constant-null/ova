@@ -1,0 +1,19 @@
+<form class="actor-sheet {{cssClass}}" autocomplete="off">
+    <header class="char-sheet-header">
+        <img src="systems/ova/public/images/ova-logo.png" class="logo" />
+        <div class="character-name-container">
+            <input name="name" type="text" class="character-name" value="{{actor.name}}"
+                placeholder="{{ localize 'OVA.Name' }}" />
+            <div>{{ localize 'OVA.CharacterName'}}</div>
+        </div>
+        <img src="{{actor.img}}" class="character-portrait" data-edit="img" title="{{actor.name}}" height="128"
+            width="128" />
+    </header>
+
+    <div class="compact-char-info">
+        {{> "systems/ova/templates/parts/ability-list.html" items=abilities selected=selectedAbilities}}
+        <div class="compact-combat">
+            {{> "systems/ova/templates/parts/combat-stats.html" actor=actor attacks=attacks spells=spells}}
+        </div>
+    </div>
+</form>
