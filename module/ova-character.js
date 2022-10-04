@@ -6,8 +6,8 @@ export default class OVACharacter extends Actor {
             actorLink: true,
             disposition: 1,
             vision: true,
-            bar1: { attribute: "hp" },
-            bar2: { attribute: "endurance" },
+            bar1: { attribute: "attributes.hp" },
+            bar2: { attribute: "attributes.endurance" },
         }
         super(data, context);
 
@@ -26,6 +26,13 @@ export default class OVACharacter extends Actor {
             type: "spell",
         };
         return this.createEmbeddedDocuments("Item", [spellData]);
+    }
+
+    async _preUpdate(data, options, user) {
+        const charData = this.data;
+        if (data.data?.hp && data.data.hp.value != charData.data.hp.value) {
+            this._showHPChangeText(data.data.hp.value - charData.data.hp.value);
+        }
     }
 
     prepareData() {
@@ -66,14 +73,15 @@ export default class OVACharacter extends Actor {
         charData.armor = 0;
         charData.resistances = {};
         charData.attacks = [];
-        if (charData.hp && charData.hp.value != charData.data.hp.value) {
-            this._showHPChangeText(charData.data.hp.value - charData.hp.value);
-        }
+        charData.speed = 0;
+
         // copy data from template
         charData.defenses = { ...charData.data.defenses };
-        charData.hp = { ...charData.data.hp };
-        charData.endurance = { ...charData.data.endurance };
-        charData.speed = 0;
+        charData.data.attributes = {
+            hp: { ...charData.data.hp },
+            endurance: { ...charData.data.endurance },
+        };
+        Object.assign(charData, charData.data.attributes);
     }
 
     prepareDerivedData() {
