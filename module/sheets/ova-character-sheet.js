@@ -41,7 +41,7 @@ export default class OVACharacterSheet extends ActorSheet {
         html.find('.endurance-max-value').on("focus", this._onEnduranceMaxFocus.bind(this));
         html.find('.hp-max-value').on("focus", this._onHPMaxFocus.bind(this));
 
-        html.find('input[data-sname]').on("change", this._onSilentInputChange.bind(this));
+        html.find('input[data-sname]').on("blur", this._onSilentInputChange.bind(this));
 
         html.find('input[data-dtype="Number"]').on("keypress", this._onFieldSubmit.bind(this));
         const inputs = html.find("input");
@@ -60,6 +60,7 @@ export default class OVACharacterSheet extends ActorSheet {
         }
 
         await this.actor.update({ [field]: value });
+        this.render(true);
     }
 
     _onEnduranceMaxFocus(event) {

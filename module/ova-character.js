@@ -39,15 +39,15 @@ export default class OVACharacter extends Actor {
 
 
         // show text notifications
-        if (data.data?.hp && data.data.hp.value != charData.data.hp.value) {
+        if (data.data?.hp?.value && data.data.hp.value != charData.data.hp.value) {
             this._showValueChangeText(data.data.hp.value - charData.data.hp.value);
         }
 
-        if (data.data?.endurance && data.data.endurance.value != charData.data.endurance.value) {
+        if (data.data?.endurance?.value && data.data.endurance.value != charData.data.endurance.value) {
             this._showValueChangeText(data.data.endurance.value - charData.data.endurance.value, '#427ef5');
         }
 
-        if (data.data?.enduranceReserve && data.data.enduranceReserve.value != charData.data.enduranceReserve.value) {
+        if (data.data?.enduranceReserve?.value && data.data.enduranceReserve.value != charData.data.enduranceReserve.value) {
             this._showValueChangeText(data.data.enduranceReserve.value - charData.data.enduranceReserve.value, '#427ef5');
         }
     }
