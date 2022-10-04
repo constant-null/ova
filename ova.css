@@ -765,6 +765,7 @@ input.experience {
     background-color: #731d20;
     padding: .5em;
     color: white;
+    align-items: center;
 }
 
 .flavor-header input {
