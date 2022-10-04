@@ -10,8 +10,20 @@
     <section>
         <div>
             <h2>{{ localize 'OVA.Description' }}</h2>
-            <textarea name="data.description" placeholder="{{ localize 'OVA.Description' }}">{{item.data.description}}</textarea>
+            <textarea name="data.description"
+                placeholder="{{ localize 'OVA.Description' }}">{{item.data.description}}</textarea>
         </div>
-        {{> "systems/ova/templates/parts/ability-list.html" items=abilities}}
+        <nav class="tabs sheet-tabs" data-group="primary-tabs">
+            <a class="item" data-tab="abilities" data-group="primary-tabs">{{localize 'OVA.Ability.NamePlural'}}</a>
+            <a class="item" data-tab="spell-effect" data-group="primary-tabs">{{ localize 'OVA.Spell.SpellEffect'}}</a>
+        </nav>
+        <section class="content">
+            <div class="tab selectable" data-tab="abilities" data-group="primary-tabs">
+                {{> "systems/ova/templates/parts/ability-list.html" items=abilities selected=selected}}
+            </div>
+            <div class="tab" data-tab="spell-effect" data-group="primary-tabs">
+                {{> "systems/ova/templates/parts/ability-list.html" items=spellEffects}}
+            </div>
+        </section>
     </section>
 </form>

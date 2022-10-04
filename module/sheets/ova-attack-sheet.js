@@ -11,7 +11,7 @@ export default class OVAAttackSheet extends BaseItemSheet {
     activateListeners(html) {
         super.activateListeners(html);
 
-        html.find('.ability-description').click(this._selectAbility.bind(this));
+        html.find('.selectable .ability-description').click(this._selectAbility.bind(this));
     }
 
     _selectAbility(event) {

@@ -66,10 +66,30 @@ export default class OVAItem extends Item {
         if (this.type === 'spell') this._prepareSpellData();
     }
 
+    static SPELL_COST = [
+// Spell  1   2   3   4   5   // Magic
+        [20, 30, 40, 50, 60], // 1
+        [10, 20, 30, 40, 50], // 2
+        [ 5, 10, 20, 30, 40], // 3
+        [ 2,  5, 10, 20, 30], // 4
+        [ 0,  2,  5, 10, 20], // 5
+    ]
+
     _prepareSpellData() {
         const data = this.data.data;
-        const abilities = this.actor.items.map(i => i.data).filter(i => i.data.rootId === this.id);
-        data.abilities = abilities;
+        const spellEffects = this.actor.items.map(i => i.data).filter(i => i.data.rootId === this.id);
+        data.spellEffects = spellEffects;
+
+        // find magic in selected abilities
+        const selectedAbilities = data.abilities;
+        const magicAbility = this.actor.items.find(i => i.data.data.magic && selectedAbilities.includes(i.id))
+        if (magicAbility) {
+            data.magicLevel = magicAbility.data.data.level.value;
+            // sum effect levels
+            data.effectLevel = spellEffects.reduce((sum, e) => sum + e.data.level.value, 0);
+            data.enduranceCost = OVAItem.SPELL_COST[data.magicLevel - 1][data.effectLevel - 1];
+        }
+
         this.sheet == null || this.sheet.render(false);
     }
 

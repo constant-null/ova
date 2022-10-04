@@ -139,6 +139,7 @@
         "Magic": "Magic",
         "Spell": {
             "Name": "Spell",
+            "SpellEffect": "Spell Effect",
             "DefaultName": "New Spell"
         }
     }

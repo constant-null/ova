@@ -1,4 +1,6 @@
-export default class OVASpellSheet extends ItemSheet {
+import OVAAttackSheet from "./ova-attack-sheet.js";
+
+export default class OVASpellSheet extends OVAAttackSheet {
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
             template: "systems/ova/templates/sheets/ova-spell-sheet.html",
@@ -19,16 +21,8 @@ export default class OVASpellSheet extends ItemSheet {
             html.find('.item-value').on("input", sheet._onItemValueChange.bind(sheet));
             html.find('.item-value').keypress(sheet._itemValueValidator.bind(sheet));
             html.find('.ability-name').on("contextmenu", sheet._editItem.bind(sheet));
-            html.find('.item-delete').click(this._onDeleteSelf.bind(this));
         }
     }
-
-    _onDeleteSelf(event) {
-        event.preventDefault();
-
-        this.actor.deleteEmbeddedDocuments("Item", [this.item.id]);
-    }
-
 
     async _onSubmit(event) {
         if (this.item.isEmbedded) {
@@ -38,6 +32,7 @@ export default class OVASpellSheet extends ItemSheet {
     }
 
     async _onDrop(event) {
+        if (this._tabs[0].active === "abilities") return;
         const data = TextEditor.getDragEventData(event);
         const item = this.item;
         if (!item.isEmbedded) return;
@@ -56,14 +51,9 @@ export default class OVASpellSheet extends ItemSheet {
 
     getData() {
         const data = super.getData();
-        const itemData = data.data;
-
-        data.config = CONFIG.OVA;
-        data.item = itemData;
-        data.data = itemData.data;
 
         if (this.item.isEmbedded) {
-            data.abilities = itemData.data.abilities;
+            data.spellEffects = this.item.data.data.spellEffects;
         }
 
         return data;

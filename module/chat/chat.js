@@ -62,13 +62,13 @@ async function _onApplyEffectClick(e) {
     const messageId = e.currentTarget.closest(".chat-message").dataset.messageId;
     const message = game.messages.get(messageId)
     
-    const attackRoll = message.data.flags["roll-data"];
+    const spellRoll = message.data.flags["roll-data"];
 
     const targets = canvas.tokens.controlled;
     targets.forEach(t => {
         const targetActor = t.actor;
 
-        targetActor.addAttackEffects(attackRoll.effects);
+        targetActor.addAttackEffects(spellRoll.effects);
     })
 }
 
