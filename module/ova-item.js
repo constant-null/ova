@@ -62,15 +62,15 @@ export default class OVAItem extends Item {
     }
 
     _prepareAbilittyData() {
-        const itemData = this.data.data;
-        itemData.level.mod = 0;
-        itemData.isEmbedded = this.isEmbedded;
+        const data = this.data.data;
+        data.level.mod = 0;
+        data.isEmbedded = this.isEmbedded;
 
-        if (itemData.isRoot) {
+        if (data.isRoot) {
             // add chilren abilities
             const abilities = this.actor.items.map(i => i.data).filter(i => i.data.rootId === this.id);
-            itemData.abilities = abilities;
-            itemData.abilities.sort((a, b) => {
+            data.abilities = abilities;
+            data.abilities.sort((a, b) => {
                 // sort by type and name
                 if (a.type === b.type) {
                     return a.name.localeCompare(b.name);
@@ -85,10 +85,17 @@ export default class OVAItem extends Item {
         //     const abilities = this.actor.items.filter(i => i.data.name === this.name && modifierRoots.includes(i.data.data.rootId));
         //     itemData.level.mod = abilities.reduce((sum, a) => sum + a.data.data.level.value, 0);
         // }
-        itemData.level.total = itemData.level.value + itemData.level.mod;
+        data.level.total = data.level.value + data.level.mod;
         this.sheet == null || this.sheet.render(false);
     }
 
+    _onDelete() {
+        super._onDelete();
+        if (this.data.data.isRoot) {
+            const abilities = this.actor.items.filter(i => i.data.data.rootId === this.id).map(i => i.id);
+            this.actor.deleteEmbeddedDocuments("Item", abilities)
+        }
+    }
     _prepareAttackData() {
         const itemData = this.data;
 
