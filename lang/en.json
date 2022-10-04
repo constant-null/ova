@@ -36,7 +36,7 @@
             "Pool": "Endurance Pool",
             "Reserve": "E. Reserve"
         },
-        "DramaDice": "Drama",
+        "DramaDice": "Drama Dice",
         "Duration": {
             "Rounds": "Duration (Rounds)"
         },
@@ -53,7 +53,7 @@
             "Defense": "Defense",
             "Manual": "Manual",
             "Spell": "Spell",
-            "Drama": "Drama Dice",
+            "Drama": "Drama",
             "Miracle": "Miracle"
         },
         "LimitedUse": "Limited Use",

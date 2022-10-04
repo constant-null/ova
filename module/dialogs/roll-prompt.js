@@ -27,9 +27,25 @@ export default class RollPrompt extends Dialog {
             }
         }
 
+        const dramaButtons = {
+            drama: {
+                icon: '<i class="fas fa-dice"></i>',
+                label: game.i18n.localize('OVA.Roll.Drama') + ' (5)',
+                callback: html => this._makeRoll(html, 0)
+            },
+            miracle: {
+                icon: '<i class="fas fa-dice"></i>',
+                label: game.i18n.localize('OVA.Roll.Miracle') + ' (30)',
+                callback: html => this._makeRoll(html, 5)
+            }
+        }
+
         const advRoll = type !== 'spell' && type !== 'drama'
-        const buttons = advRoll ? advRollButtons : stdButtons;
-        const defButton =advRoll ? 'normal' : 'roll';
+        let buttons = advRoll ? advRollButtons : stdButtons;
+        let defButton = advRoll ? 'normal' : 'roll';
+
+        buttons = type === 'drama' ? dramaButtons : buttons;
+        defButton = type === 'drama' ? 'drama' : defButton;
 
         const dialogData = {
             title: title,
@@ -83,6 +99,9 @@ export default class RollPrompt extends Dialog {
         const data = super.getData();
         data.actor = this.actor;
         data.enduranceCost = this.enduranceCost;
+        if (this.type === 'drama' && data.enduranceCost > 0) {
+            data.enduranceCost = `${this.enduranceCost}/${this.enduranceCost * 6}`;
+        }
         data.selection = this.selection;
         data.type = this.type;
         data.advRoll = this.advRoll;
@@ -97,7 +116,11 @@ export default class RollPrompt extends Dialog {
     _makeRoll(html, adv) {
         let mod = parseInt(html.find('#roll-modifier').val());
         if (isNaN(mod)) mod = 0;
-        this.resolve && this.resolve(adv + mod);            
+        this.resolve && this.resolve(adv + mod);
+
+        if (this.type === 'drama') {
+            this.enduranceCost += this.enduranceCost * adv;
+        }
         this.actor.changeEndurance(-this.enduranceCost, this.selection.reserve);
     }
 
