@@ -1,4 +1,4 @@
-<body>
+<form>
     {{#if effects.self.length}}
     <div class="form-group"></div>
     <h2>{{localize 'OVA.ApplyDamageDialog.ApplySelf'}}</h2>
@@ -17,7 +17,7 @@
                     <input type="checkbox" class="effect-active" data-effect-type="self" data-effect-index="{{@index}}"
                         data-dtype="Boolean" {{checked effect.active}} />
                 </td>
-                <td>{{effect.label}} ({{effect.changes.0.key}} {{effect.changes.0.value}})</td>
+                <td>{{>"systems/ova/templates/parts/effect-inline-desc.html" effect=effect}}</td>
                 <td>
                     {{#if (not effect.flags.once)}}
                     <input class="effect-duration flex0" type="text" id="duration" data-effect-type="self"
@@ -47,7 +47,7 @@
                     <input type="checkbox" class="effect-active" data-effect-type="target"
                         data-effect-index="{{@index}}" data-dtype="Boolean" {{checked effect.active}} />
                 </td>
-                <td>{{effect.label}} ({{effect.changes.0.key}} {{effect.changes.0.value}})</td>
+                <td>{{>"systems/ova/templates/parts/effect-inline-desc.html" effect=effect}}</td>
                 <td>
                     <input class="effect-duration flex0" type="text" id="duration" data-effect-type="target"
                         data-effect-index="{{@index}}" data-dtype="Number" value="{{effect.duration.rounds}}" />
@@ -100,4 +100,4 @@
         </button>
         {{/if}}
     </div>
-</body>
+</form>

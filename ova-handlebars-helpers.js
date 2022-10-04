@@ -42,6 +42,29 @@ export default function registerHandlebarsHelpers() {
         return list.includes(el);
     });
 
+    Handlebars.registerHelper("mapEffectKey", (key) => {
+        return CONFIG.OVA.allEffects[key] || key;
+    });
+
+    Handlebars.registerHelper("mapEffectTime", (value) => {
+        return CONFIG.OVA.overTimeModes[value] || value;
+    });
+
+    Handlebars.registerHelper("activeEffectMode", (mode) => {
+        switch (mode) {
+            case 1:
+                return "x";
+            case 3:
+                return "↓";
+            case 4:
+                return "↑";
+            case 5:
+                return "⇒";
+            default:
+                return "";
+        }
+    });
+
     // concatinate perk names with ; separator, combine duplicates (add amount of duplicates)
     Handlebars.registerHelper("inlinePerks", (ability) => {
         let perks = ability.data.perks;

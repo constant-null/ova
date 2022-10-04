@@ -48,6 +48,12 @@ OVA.overTimeEffect = {
     "data.hp.value": "OVA.Effects.List.HP.Value",
     "data.endurance.value": "OVA.Effects.List.Endurance.Value",
     "data.enduranceReserve.value": "OVA.Effects.List.EnduranceReserve.Value",
-}
+};
 
 OVA.overTimeModes = OVAEffect.OVER_TIME_MODES;
+
+OVA.allEffects = {
+    ...OVA.effectChangeKeys,
+    ...OVA.overTimeEffect,
+};
+

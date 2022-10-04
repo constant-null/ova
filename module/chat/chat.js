@@ -26,7 +26,7 @@ export const listenToCombatRolls = function (message, html, data) {
 }
 
 async function _onDramaRoll(message, html, data) {
-    const lastNotDramaRoll = game.messages.contents.findLast(m => m.isRoll && m.isOwner && m.data.flags["roll-data"].type !== "drama");
+    const lastNotDramaRoll = game.messages.contents.findLast(m => m.isRoll && m.isOwner && m.data.flags["roll-data"]?.type !== "drama");
     if (!lastNotDramaRoll) return;
 
     ui.chat.updateMessage(await OVACombatMessage.addDramaDice(lastNotDramaRoll, message));

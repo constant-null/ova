@@ -42,7 +42,8 @@ Hooks.once("init", function () {
 async function preloadTemplates() {
     return loadTemplates([
         "systems/ova/templates/parts/ability-list.html",
-        "systems/ova/templates/parts/effects.html"
+        "systems/ova/templates/parts/effects.html",
+        "systems/ova/templates/parts/effect-inline-desc.html",
     ]);
 }
 
@@ -67,8 +68,8 @@ async function preUpdateCombat(combat, updateData, context) {
         if (!turnActor) continue;
 
         for (let effect of turnActor.data.effects) {
-            if (effect.data.duration.startTurn == updateData.turn && (updateData.turn > combat.turn || updateData.round > combat.round)) {
-                if (effect.data.flags["each-round"]) {
+            if (effect.data.flags["each-round"]) {
+                if (effect.data.duration.startTurn == updateData.turn && (updateData.turn > combat.turn || updateData.round > combat.round)) {
                     const overTimeEffect = effect.data.flags["each-round"];
                     const newData = { data: foundry.utils.deepClone(turnActor.data.data) };
                     OVAEffect.applyEffectChanges(overTimeEffect, newData)

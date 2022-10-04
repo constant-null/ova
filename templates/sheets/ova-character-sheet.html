@@ -52,10 +52,10 @@
             <div class="ability-card">
                 <div class="ability-list">
                     {{#each actor.data.effects as |effect|}}
-                    <div class="ability flexrow item" data-item-id="{{effect.data._id}}">
-                        <div class="ability-description">
-                            {{effect.data.label}} ({{effect.data.changes.0.key}} {{effect.data.changes.0.value}})
-                            {{effect.duration.label}}
+                    <div class="effect flexrow item" data-item-id="{{effect.data._id}}">
+                        <div class="effect-description">
+                            {{> "systems/ova/templates/parts/effect-inline-desc.html" effect=effect.data}}
+                            <span class="active-effect-desc">{{effect.duration.label}}</span>
                         </div>
                         <a class="item-control effect-delete flex0" title="Delete Item"><i class="fas fa-minus"></i></a>
                     </div>
