@@ -78,6 +78,7 @@
             "perks": [],
             "effects": [],
             "temporary": false,
+            "boss": false,
             "page": ""
         },
         "perk": {

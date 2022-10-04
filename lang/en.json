@@ -8,7 +8,8 @@
             "Name": "Ability",
             "NamePlural": "Abilities",
             "Root": "Is root ability",
-            "Magic": "Magical Ability"
+            "Magic": "Magical Ability",
+            "Boss": "Boss Ability"
         },
         "Weakness": {
             "Name": "Weakness",

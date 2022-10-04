@@ -99,6 +99,8 @@ export default class OVACharacter extends Actor {
         if (charData.data.enduranceReserve.value > charData.enduranceReserve.max) {
             charData.data.enduranceReserve.value = charData.enduranceReserve.max;
         }
+
+        charData.tv = charData.data.tv > 0 ? charData.data.tv : this._calculateThreatValue();
     }
 
     prepareBaseData() {
@@ -118,7 +120,7 @@ export default class OVACharacter extends Actor {
         charData.hpReserve = { max: charData.data.hpReserve?.max || 0 };
         charData.endurance = { ...charData.data.endurance };
         charData.enduranceReserve = { ...charData.data.enduranceReserve };
-        charData.attack = { roll: 0, dx: 0}; // for effect compability
+        charData.attack = { roll: 0, dx: 0 }; // for effect compability
         charData.data.attributes = {
             hp: charData.hp,
             endurance: charData.endurance,
@@ -132,7 +134,7 @@ export default class OVACharacter extends Actor {
 
         this.items.filter(i => i.data.type === "ability").forEach(item => item.prepareItemData());
         const charData = this.data;
-        
+
         // apply active ability effects to data
         this.items.forEach(item => {
             if (item.type !== "ability") return;
@@ -174,6 +176,64 @@ export default class OVACharacter extends Actor {
         this.items.filter(i => i.data.type !== "ability").forEach(item => item.prepareItemData());
     }
 
+    /** 
+     *  TV calculated this way: 
+     *  1. Highets defence
+     *  2. Highest Attack Roll and DX with end cost 0
+     *  3. Levels of abilities affecting health and endurance
+     */
+    _calculateThreatValue() {
+        let tv = 0;
+
+        // highest defence
+        const defenses = this.data.defenses;
+        const highestDef = Object.keys(defenses).reduce((a, b) => defenses[a] > defenses[b] ? a : b);
+        tv += defenses[highestDef];
+
+        // highest attack roll and dx with end cost 0
+        const attacks = this.items.filter(i => i.data.type === "attack");
+        const freeAttacks = attacks.filter(a => a.data.enduranceCost == 0 && a.data.attack.dx >= 0);
+        const highestAttack = freeAttacks.reduce((a, b) => a.data.attack.roll > b.data.attack.roll ? a : b, freeAttacks[0]);
+
+        tv += 2 + 1;
+        highestAttack?._getRollAbilities().forEach(a => {
+            const sign = a.data.type === "ability" ? 1 : -1;
+            tv += sign * a.data.data.level.value;
+        });
+
+        let healingThreat = 0;
+        const healingAbility = attacks.find(a => a.data.attack.dx < 0);
+        healingAbility?._getRollAbilities().forEach(a => {
+            const sign = a.data.type === "ability" ? 1 : -1;
+            healingThreat += sign * a.data.data.level.value;
+        });
+        tv += Math.ceil(healingThreat / 2);
+
+        // levels of abilities affecting health and  (effect keys endurance.max and hp.max)
+        const abilities = this.items.filter(i => i.data.type === "ability");
+        abilities.forEach(a => {
+            for (const effect of a.data.data.effects) {
+                if (effect.key === "endurance.max" || effect.key === "hp.max") {
+                    const sign = a.data.data.type === "ability" ? 1 : -1;
+                    tv += sign * a.data.data.level.value;
+                    break;
+                }
+            }
+            
+            if (a.data.data.boss) {
+                tv += a.data.data.level.value * 5;
+            }
+
+            if (a.data.data.magic) {
+                tv += Math.ceil(a.data.data.level.value/2);
+            }
+        });
+
+        tv += this.data.armor;
+
+        return tv;
+    }
+
     giveFreeDramaDice() {
         this.update({ "data.dramaDice.free": this.data.data.dramaDice.free + 1 });
     }
@@ -186,7 +246,7 @@ export default class OVACharacter extends Actor {
         // first use all free dice than add used
         const useFree = Math.min(this.data.dramaDice.free, amount);
         const addUsed = amount - useFree;
-        this.update({ "data.dramaDice.free": this.data.data.dramaDice.free- useFree, "data.dramaDice.used": this.data.data.dramaDice.used + addUsed });
+        this.update({ "data.dramaDice.free": this.data.data.dramaDice.free - useFree, "data.dramaDice.used": this.data.data.dramaDice.used + addUsed });
     }
 
     getRollData() {

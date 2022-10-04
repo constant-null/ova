@@ -86,6 +86,7 @@
                     <th>{{ localize 'OVA.Passive' }}</th>
                     <th>{{ localize 'OVA.Ability.Root' }}</th>
                     <th>{{ localize 'OVA.Ability.Magic' }}</th>
+                    <th>{{ localize 'OVA.Ability.Boss' }}</th>
                 </tr>
                 <tr>
                     <td>
@@ -103,6 +104,10 @@
                     <td>
                         <input name="data.magic" type="checkbox" value="{{data.magic}}" data-dtype="Boolean" {{checked
                             data.magic}} />
+                    </td>
+                    <td>
+                        <input name="data.boss" type="checkbox" value="{{data.boss}}" data-dtype="Boolean" {{checked
+                            data.boss}} />
                     </td>
                 </tr>
             </table>
