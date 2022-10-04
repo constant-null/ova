@@ -122,3 +122,9 @@ input.character-name {
     border-width: 3px;
     border-style: solid;
 }
+
+.fixed-panel {
+    position: absolute;
+    top: 13em;
+    right: 1px;
+}

@@ -20,6 +20,31 @@ export default class OVACharacterSheet extends ActorSheet {
         html.find('.item-value').keypress(this._itemValueValidator.bind(this));
         html.find('.ability-description').on("contextmenu", this._editItem.bind(this));
         html.find('.ability-description').click(this._selectAbility.bind(this));
+        html.find('.roll-dice').click(this._rollDice.bind(this));
+    }
+
+    async _rollDice(event) {
+        event.preventDefault();
+        
+        // get all selected items
+        const selectedItems = this.actor.items.filter(i => this.selectedAbilities.includes(i.id));
+        
+        // sum levels
+        let sum = 0;
+        for (const item of selectedItems) {
+            sum += item.data.data.level;
+        }
+        
+        const formula = "{" +"1d6,".repeat(sum+2) + "}";
+        // roll dice
+        const roll = new Roll("3d6kh");
+        console.log(roll);
+        roll.evaluate({ async: false })
+        roll._formula = `${sum+2}d6ova`;
+        roll.toMessage({
+            flavor: "OVA",
+            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        })
     }
 
     //** allow only numbers */
