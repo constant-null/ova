@@ -138,6 +138,7 @@
             "Name": "Roll Modifier"
         },
         "ApplyDamage": "Apply Damage",
+        "DamageSelf": "Damage",
         "ApplyDamageDialog": {
             "ApplySelf": "Apply Effects to Self",
             "ApplyTarget": "Apply Effects to Target",

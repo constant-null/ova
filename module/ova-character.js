@@ -34,6 +34,12 @@ export default class OVACharacter extends Actor {
         const currentHP = data.data?.hp?.value || charData.data.hp.value;
         const currentEndurance = data.data?.endurance?.value || charData.data.endurance.value;
 
+        if (currentHP <= 0 && currentEndurance <= 0) {
+            foundry.utils.setProperty(data, "data.hp.value", 0)
+            foundry.utils.setProperty(data, "data.endurance.value", 0);
+            // TODO: death hook
+        }
+
         if (data.data?.hp?.value < 0) {
             foundry.utils.setProperty(data, "data.endurance.value", currentEndurance + data.data.hp.value)
             foundry.utils.setProperty(data, "data.hp.value", 0)
