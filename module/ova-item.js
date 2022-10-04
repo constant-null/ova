@@ -103,18 +103,31 @@ export default class OVAItem extends Item {
         // find magic in selected abilities
         // get selected abilities from actor
         const selectedAbilities = this._getRollAbilities();
+        const magicAbility = selectedAbilities.find(i => i.data.data.magic)
+
+        const spellDV = 0;
+        spellData.enduranceCost = 0;
+
+        if (magicAbility) {
+            data.magicName = magicAbility.name;
+            data.magicLevel = magicAbility.data.data.level.value;
+            // sum effect levels
+            data.effectName = spellEffects[0].name;
+            data.effectLevel = spellEffects.reduce((sum, e) => sum + e.data.level.value, 0);
+            spellData.enduranceCost = OVAItem.SPELL_COST[data.magicLevel - 1][data.effectLevel - 1];
+
+            if (data.effectLevel > data.magicLevel) {
+                spellDV = 2 + 2 * data.effectLevel;
+            }
+        }
         spellData.attack = {
             roll: this.actor.data.globalMod,
         }
-        spellData.attack.roll += selectedAbilities.reduce((sum, a) => sum + a.data.data.level.value, 0);
-        const magicAbility = selectedAbilities.find(i => i.data.data.magic)
-        if (magicAbility) {
-            data.magicLevel = magicAbility.data.data.level.value;
-            data.effectName = magicAbility.name;
-            // sum effect levels
-            data.effectLevel = spellEffects.reduce((sum, e) => sum + e.data.level.value, 0);
-            spellData.enduranceCost = OVAItem.SPELL_COST[data.magicLevel - 1][data.effectLevel - 1];
+        spellData.defense = {
+            result: spellDV,
         }
+        spellData.attack.roll += selectedAbilities.reduce((sum, a) => sum + a.data.data.level.value, 0);
+        spellData.enduranceCost += selectedAbilities.reduce((sum, a) => sum + a.data.enduranceCost, 0);
 
         this.sheet == null || this.sheet.render(false);
     }

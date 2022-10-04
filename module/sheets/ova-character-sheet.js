@@ -1,6 +1,5 @@
 import RollPrompt from "../dialogs/roll-prompt.js";
-import RollDialog from "../dialogs/roll-prompt.js";
-
+import CombatMessage from "../chat/combat-message.js";
 export default class OVACharacterSheet extends ActorSheet {
     /** @override */
     constructor(...args) {
@@ -206,29 +205,9 @@ export default class OVACharacterSheet extends ActorSheet {
             ignoreArmor: ignoreArmor,
             effects: effects,
             type: type,
-            changes: changes,
-        };
-        const templateData = {
-            attack: attack,
-            changes: changes,
-            rollResults: await dice.render({ isPrivate: false })
         };
 
-        let html = await renderTemplate("systems/ova/templates/chat/combat-message.html", templateData);
-
-        const msgData = {
-            type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-            user: game.user.data._id,
-            flavor: flavor || type,
-            roll: dice,
-            content: html,
-            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-            flags: { "roll-data": rollData },
-        };
-
-        ChatMessage.applyRollMode(msgData, game.settings.get("core", "rollMode"));
-
-        ChatMessage.create(msgData);
+        CombatMessage.create({ flavor: flavor || type, roll: dice, rollData: rollData, attack: attack});
     }
 
     _packAbility(ability) {
