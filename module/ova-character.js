@@ -30,7 +30,7 @@ export default class OVACharacter extends Actor {
 
     async _preUpdate(data, options, user) {
         const charData = this.data;
-
+        
         const currentHP = data.data?.hp?.value || charData.data.hp.value;
         const currentEndurance = data.data?.endurance?.value || charData.data.endurance.value;
 
@@ -107,9 +107,9 @@ export default class OVACharacter extends Actor {
         charData.endurance = { ...charData.data.endurance };
         charData.enduranceReserve = { ...charData.data.enduranceReserve };
         charData.data.attributes = {
-            hp : charData.hp,
-            endurance : charData.endurance,
-            enduranceReserve : charData.enduranceReserve,
+            hp: charData.hp,
+            endurance: charData.endurance,
+            enduranceReserve: charData.enduranceReserve,
         }
 
         if (!charData.changes) charData.changes = [];
@@ -117,7 +117,7 @@ export default class OVACharacter extends Actor {
             charData.globalMod -= 1;
             charData.changes.push({
                 source: {
-                    name: game.i18n.localize("OVA.Status.No"+ charData.data.hp.value <= 0 ? "HP" : "Endurance"),
+                    name: game.i18n.localize("OVA.Status.No" + charData.data.hp.value <= 0 ? "HP" : "Endurance"),
                     type: "status",
                 }, key: "globalMod", mode: 2, value: -1
             })
@@ -135,7 +135,8 @@ export default class OVACharacter extends Actor {
             if (item.type !== "ability") return;
             if (!item.data.data.active) return;
 
-            item.data.effects.forEach(e => e.apply(charData));
+            // sort by priority and apply effects
+            item.data.ovaEffects.sort((a, b) => a.data.priority - b.data.priority).forEach(e => e.apply(charData));
         });
 
         // get magical abilities
@@ -159,11 +160,11 @@ export default class OVACharacter extends Actor {
         this.update({ "data.hp.value": newHp });
     }
 
-    changeEndurance(amount, reserve=false) {
+    changeEndurance(amount, reserve = false) {
         if (amount === 0) return;
 
         if (reserve) {
-            let newEndurance =this.data.data.enduranceReserve.value + amount;
+            let newEndurance = this.data.data.enduranceReserve.value + amount;
             this.update({ "data.enduranceReserve.value": newEndurance });
         } else {
             let newEndurance = this.data.data.endurance.value + amount;

@@ -70,8 +70,10 @@ async function preUpdateCombat(combat, updateData, context) {
             if (effect.data.duration.startTurn == updateData.turn && (updateData.turn > combat.turn || updateData.round > combat.round)) {
                 if (effect.data.flags["each-round"]) {
                     const overTimeEffect = effect.data.flags["each-round"];
-                    OVAEffect.applyEffectChanges(overTimeEffect, turnActor.data.data)
-                    await turnActor.update({ data: turnActor.data.data });
+                    const newData = foundry.utils.deepClone(turnActor.data.data);
+                    OVAEffect.applyEffectChanges(overTimeEffect, newData)
+
+                    await turnActor.update({ data: newData });
                 }
             }
         }

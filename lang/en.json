@@ -144,6 +144,7 @@
             "TargetRestances": "Target Restances"
         },
         "ApplyEffect": "Apply Effect",
+        "ApplyHeal": "Apply Heal",
         "Armor": {
             "Name": "Armor"
         },

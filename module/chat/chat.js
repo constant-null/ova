@@ -9,6 +9,7 @@ let combatInfo = {
 export const chatListeners = function (message, html, data) {
     html.on("click", "button[data-action='apply-damage']", _onApplyDamageClick);
     html.on("click", "button[data-action='apply-effect']", _onApplyEffectClick);
+    html.on("click", "button[data-action='apply-heal']", _onApplyHealClick);
 }
 
 export const listenToCombatRolls = function (message, html, data) {
@@ -25,7 +26,7 @@ export const listenToCombatRolls = function (message, html, data) {
 }
 
 async function _onDramaRoll(message, html, data) {
-    const lastNotDramaRoll = game.messages.contents.findLast(m => m.isRoll && m.data.flags["roll-data"].type !== "drama");
+    const lastNotDramaRoll = game.messages.contents.findLast(m => m.isRoll && m.isOwner && m.data.flags["roll-data"].type !== "drama");
     if (!lastNotDramaRoll) return;
 
     ui.chat.updateMessage(await OVACombatMessage.addDramaDice(lastNotDramaRoll, message));
@@ -33,7 +34,11 @@ async function _onDramaRoll(message, html, data) {
 
 function _onAttackRoll(message, html, data) {
     html.find(".flavor-text").html(game.i18n.localize("OVA.Roll.Attack"));
-    lastAttack = message;
+    if (message.data.flags["roll-data"].dx >= 0) {
+        lastAttack = message;
+    } else {
+        html.find("button[data-action='apply-heal']").removeClass("hidden");
+    }
 }
 
 function _onDefenseRoll(message, html, data) {
@@ -73,7 +78,7 @@ function _onSpellRoll(message, html, data) {
     if (result > 0) {
         const attackObj = message.data.flags["attack"];
         const attack = _getMessageAuthor(message).items.find(i => i.id === attackObj._id);
-        attack?.update({"data.active": true});
+        attack?.update({ "data.active": true });
         html.find("button[data-action='apply-effect']").removeClass("hidden");
     }
 }
@@ -98,6 +103,20 @@ async function _onApplyEffectClick(e) {
         const targetActor = t.actor;
 
         targetActor.addAttackEffects(spellRoll.effects);
+    })
+}
+
+async function _onApplyHealClick(e) {
+    const messageId = e.currentTarget.closest(".chat-message").dataset.messageId;
+    const message = game.messages.get(messageId)
+
+    const spellRoll = message.data.flags["roll-data"];
+
+    const targets = canvas.tokens.controlled;
+    targets.forEach(t => {
+        const targetActor = t.actor;
+
+        targetActor.changeHp(spellRoll.result * spellRoll.dx);
     })
 }
 

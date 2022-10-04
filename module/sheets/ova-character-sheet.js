@@ -188,7 +188,7 @@ export default class OVACharacterSheet extends ActorSheet {
             }];
         } else {
             type = "attack";
-            effects = attack.data.effects;
+            effects = attack.data.activeEffects;
         }
 
         this._makeRoll({ ...attack.data.attack, effects: effects, type: type, attack: attack, enduranceCost: attack.data.enduranceCost });
@@ -201,6 +201,7 @@ export default class OVACharacterSheet extends ActorSheet {
             globalMod: this.actor.data.globalMod,
         };
         const abilities = this._getSelectedAbilities();
+        const effects = []
         let enduranceCost = 0;
         for (const ability of abilities) {
             const abilityData = ability.data;
@@ -211,14 +212,27 @@ export default class OVACharacterSheet extends ActorSheet {
             } else {
                 rollData[abilityData.name.toLowerCase()] = sign * abilityData.data.level.value;
             }
+            effects.push(...abilityData.ovaEffects);
             enduranceCost += abilityData.data.enduranceCost;
         }
         if (enduranceCost < 0) enduranceCost = 0;
-
+        
         // sum roll modifiers
         let diceTotal = Object.values(rollData).reduce((a, b) => a + b, 0);
 
-        this._makeRoll({ roll: diceTotal, changes: [], enduranceCost: enduranceCost });
+        const attackData = {
+            attack: {
+                roll: this.actor.data.globalMod + this.actor.data.globalRollMod,
+                dx: 1,
+                ignoreArmor: 0
+            },
+            defense: {}
+        };
+
+        // apply effects to attack data
+        effects.sort((a, b) => a.data.priority - b.data.priority).forEach(e => e.apply(attackData));
+
+        this._makeRoll({ roll: diceTotal, effects: effects, changes: [], enduranceCost: enduranceCost });
     }
 
     async _makeDramaRoll(event) {

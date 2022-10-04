@@ -35,7 +35,7 @@ export default class OVAEffect {
 
     apply(data) {
         // do not remove all of them are used in ActiveEffecs!
-        const { type, target, key, mode, keyValue, duration, value } = this.data;
+        const { type, target, key, mode, keyValue, duration, value, priority } = this.data;
         data.item = this.item.data || {};
         data.level = this.item.data.level?.value || 0;
         if (!data.changes) data.changes = [];
@@ -52,8 +52,8 @@ export default class OVAEffect {
             });
             OVAEffect.applyEffectChanges({ key, mode, value: evaluatedValue, keyValue }, data);
         } else if (type === 'apply-active-effect') {
-            if (!data.effects) data.effects = [];
-            data.effects.push({
+            if (!data.activeEffects) data.activeEffects = [];
+            data.activeEffects.push({
                 source: {
                     uuid: this.item.uuid,
                     data: this.item.data,

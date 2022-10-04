@@ -99,10 +99,17 @@
                     </select>
                 </div>
                 <div class="over-time-value">
-                    <input name="data.effects[{{@index}}].overTime.value" type="text" value="{{effect.overTime.value}}" />
+                    <input name="data.effects[{{@index}}].overTime.value" type="text"
+                        value="{{effect.overTime.value}}" />
                 </div>
             </div>
             {{/if}}
+            <div class="form-group">
+                <label>Priority:</label>
+                <div class="effect-priority">
+                    <input name="data.effects[{{@index}}].priority" type="text" value="{{effect.priority}}" />
+                </div>
+            </div>
         </div>
         {{/each}}
     </div>

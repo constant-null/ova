@@ -37,14 +37,14 @@ export default class OVAItem extends Item {
         super.prepareDerivedData();
         const itemData = this.data;
 
-        itemData.effects = [];
+        itemData.ovaEffects = [];
         let enduranceCost = 0;
         // calculalte endurance cost from perks
         if (itemData.type === 'attack' || itemData.type === 'ability') {
             itemData.data.perks.forEach(p => {
                 enduranceCost += p.data.level.value * p.data.enduranceCost;
                 p.data.effects.forEach(e => {
-                    itemData.effects.push(new OVAEffect(p, e));
+                    itemData.ovaEffects.push(new OVAEffect(p, e));
                 });
             });
         }
@@ -53,9 +53,8 @@ export default class OVAItem extends Item {
 
         // prepare effect data 
         if (this.type === 'perk' || this.type === 'ability') {
-            itemData.effects = [];
             itemData.data.effects.forEach(e => {
-                itemData.effects.push(new OVAEffect(itemData, e));
+                itemData.ovaEffects.push(new OVAEffect(itemData, e));
             });
         }
     }
@@ -137,7 +136,7 @@ export default class OVAItem extends Item {
         const selectedAbilities = this._getRollAbilities();
 
         // transfer effects from selected abilities to attack
-        selectedAbilities.forEach(a => a.data.effects.forEach(e => itemData.effects.push(e)));
+        selectedAbilities.forEach(a => a.data.ovaEffects.forEach(e => itemData.ovaEffects.push(e)));
 
         // add cost of selected abilities
         itemData.enduranceCost += selectedAbilities.reduce((sum, a) => sum + a.data.enduranceCost, 0);
@@ -153,7 +152,7 @@ export default class OVAItem extends Item {
         };
 
         // apply effects to attack data
-        itemData.effects.forEach(e => e.apply(attackData));
+        itemData.ovaEffects.sort((a, b) => a.data.priority - b.data.priority).forEach(e => e.apply(attackData));
         Object.assign(itemData, attackData);
     }
 
