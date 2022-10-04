@@ -5,6 +5,9 @@ export default class BaseItemSheet extends ItemSheet {
         return mergeObject(super.defaultOptions, {
             tabs: [{ navSelector: ".tabs", contentSelector: ".content" }],
             dragDrop: [{ dropSelector: ".perks" }, { dropSelector: ".items" }],
+            scrollY: [
+                ".ability-card"
+            ]
         });
     }
 

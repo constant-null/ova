@@ -21,6 +21,40 @@ export default class OVACharacterSheet extends ActorSheet {
         });
     }
 
+    _onDrop(event) {
+        event.preventDefault();
+        const abilityId = event.target.closest(".item")?.dataset.itemId;
+        if (abilityId) {
+            const ability = this.actor.items.find(i => i.id === abilityId);
+            if (!ability) {
+                console.log(`Could not find item with id ${abilityId}`);
+                return;
+            }
+            if (ability.data.data.isRoot) {
+                ability.sheet._onDrop(event);
+            }
+        }
+        super._onDrop(event);
+    }
+
+    _onDragHighlight(event) {
+        event.preventDefault();
+        const abilityBlock = event.target.closest(".item");
+        if (!abilityBlock) return;
+        if (event.type === "dragleave") {
+            abilityBlock.classList.remove("selected");
+            return;
+        }
+        const abilityId = abilityBlock.dataset.itemId;
+        const ability = this.actor.items.find(i => i.id === abilityId);
+        if (!ability) {
+            console.log(`Could not find item with id ${abilityId}`);
+            return;
+        }
+        if (!ability.data.data.isRoot) return;
+        abilityBlock.classList.add("selected");
+    }
+
     /** @override */
     activateListeners(html) {
         super.activateListeners(html);
@@ -54,7 +88,7 @@ export default class OVACharacterSheet extends ActorSheet {
         html.find('.reset-used-dd').click(this._resetUsedDramaDice.bind(this));
 
         html.find('.reset-uses').click(this._resetAbilityUses.bind(this));
-
+        html.find('.items').on("dragenter", this._onDragHighlight.bind(this)).on("dragleave", this._onDragHighlight.bind(this))
         html.find('input[data-dtype="Number"]').on("keypress", this._onFieldSubmit.bind(this));
         const inputs = html.find("input");
         inputs.focus(ev => ev.currentTarget.select());

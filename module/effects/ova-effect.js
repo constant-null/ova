@@ -37,7 +37,8 @@ export default class OVAEffect {
         // do not remove all of them are used in ActiveEffecs!
         const { type, target, key, mode, keyValue, duration, value, priority } = this.data;
         data.item = this.item.data || {};
-        data.level = this.item.data.level?.value || 0;
+        const sign = this.item.data.type == "weakness" || this.item.data.type == "flaw" ? -1 : 1;
+        data.level = sign * this.item.data.level?.value || 0;
         const finalKeyValue = keyValue || this.item.data.flavor || "";
 
         if (!data.changes) data.changes = [];
@@ -85,6 +86,9 @@ export default class OVAEffect {
                 break;
             case CONST.ACTIVE_EFFECT_MODES.UPGRADE:
                 current = Math.max(current, value);
+                break;
+            case CONST.ACTIVE_EFFECT_MODES.OVERRIDE:
+                current = value;
                 break;
         }
         foundry.utils.setProperty(data, fullKey, current);
