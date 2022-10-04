@@ -77,11 +77,10 @@
         </tbody>
     </table>
     {{/if}}
-    <div></div>
     {{#if advRoll}}
     <h2>Size:</h2>
     {{/if}}
-    <div class="dialog-buttons flex0">
+    <div class="dialog-buttons">
         {{#each buttons as |button id|}}
         <button class="dialog-button {{cssClass}}" data-button="{{id}}">
             {{{button.icon}}}
