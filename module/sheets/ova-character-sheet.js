@@ -176,6 +176,7 @@ export default class OVACharacterSheet extends ActorSheet {
             dx: dx,
             result: dice.result,
             ignoreArmor: ignoreArmor,
+            effects: effects.filter(e => e.target === 'target'),
             type: type,
             changes: changes,
         };

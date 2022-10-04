@@ -56,15 +56,17 @@ export default class OVACharacter extends Actor {
         Object.assign(charData, data);
     }
 
-    async applyDamage({ roll, dx, ignoreArmor = 0 }) {
+    async applyDamage({ result, dx, effects = [], ignoreArmor = 0 }) {
         const armor = this.data.armor || 0;
         const piercing = ignoreArmor || 0
         const effectiveArmor = Math.max(armor - piercing, 0);
-        const damage = roll * (Math.max(dx - effectiveArmor, 0.5));
+        const damage = result * (Math.max(dx - effectiveArmor, 0.5));
 
         // negative damage is healing
         let newHp = Math.max(this.data.hp.value - damage, 0);
         this.update({ "data.hp.value": newHp });
+
+        this.addActiveEffects(effects)
 
         // displaying text
         const tokens = this.isToken ? [this.token?.object] : this.getActiveTokens(true);

@@ -58,12 +58,12 @@ function _onAttackButtonClick(e) {
     const attackRoll = message.data.flags["roll-data"];
     const defenseRoll = message.data.flags["def-roll-data"];
 
-    const finalRoll = attackRoll.result - defenseRoll.result;
+    const finalResult = attackRoll.result - defenseRoll.result;
 
     const targets = canvas.tokens.controlled;
     targets.forEach(t => {
         const actor = t.actor;
 
-        actor.applyDamage({ roll: finalRoll, dx: attackRoll.dx, ignoreArmor: attackRoll.ignoreArmor });
+        actor.applyDamage({ result: finalResult, effects: attackRoll.effects, dx: attackRoll.dx, ignoreArmor: attackRoll.ignoreArmor });
     })
 }
