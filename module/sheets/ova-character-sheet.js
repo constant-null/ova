@@ -39,19 +39,41 @@ export default class OVACharacterSheet extends ActorSheet {
         html.find('.effect-delete').click(this._removeEffect.bind(this));
 
         html.find('.endurance-max-value').on("focus", this._onEnduranceMaxFocus.bind(this));
-        html.find('input[data-dtype="Number"]').on("keypress", this._onFieldEnter.bind(this));
+        html.find('.hp-max-value').on("focus", this._onHPMaxFocus.bind(this));
 
+        html.find('input[data-sname]').on("change", this._onSilentInputChange.bind(this));
+
+        html.find('input[data-dtype="Number"]').on("keypress", this._onFieldSubmit.bind(this));
         const inputs = html.find("input");
         inputs.focus(ev => ev.currentTarget.select());
         inputs.addBack().find('[data-dtype="Number"]').change(this._onChangeInputDelta.bind(this));
     }
+
+    async _onSilentInputChange(event) {
+        event.preventDefault();
+        const field = event.currentTarget.dataset.sname;
+        const type = event.currentTarget.dataset.dtype;
+        let value = event.currentTarget.value;
+        if (!value) return;
+        if (type === "Number") {
+            value = Number.parseInt(value);
+        }
+
+        await this.actor.update({ [field]: value });
+    }
+
     _onEnduranceMaxFocus(event) {
         event.preventDefault();
         
         event.currentTarget.value = this.actor.data.data.endurance.max;
     }
 
-    _onFieldEnter(event) {
+    _onHPMaxFocus(event) {
+        event.preventDefault();
+        event.currentTarget.value = this.actor.data.data.hp.max;
+    }
+    
+    _onFieldSubmit(event) {
         if (event.key === "Enter") {
             event.preventDefault();
             event.currentTarget.blur();
@@ -92,6 +114,9 @@ export default class OVACharacterSheet extends ActorSheet {
 
     async _onSubmit(event, options) {
         const formData = this._getSubmitData({});
+
+        // removing max endurance and hp
+
         this._submitItems(formData);
         await super._onSubmit(event, options);
     }
