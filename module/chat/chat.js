@@ -6,6 +6,7 @@ let lastRoll = null;
 
 export const chatListeners = function (message, html, data) {
     html.on("click", "button[data-action='apply-damage']", _onApplyDamageClick);
+    html.on("click", "button[data-action='take-damage']", _onTakeDamageClick);
     html.on("click", "button[data-action='apply-effect']", _onApplyEffectClick);
     html.on("click", "button[data-action='apply-heal']", _onApplyHealClick);
     html.on("click", ".msg-roll-info", _onMessageRollDataClick);
@@ -50,21 +51,18 @@ function _checkClear() {
 }
 
 async function _updateCombatData(message, html, data) {
-    if (!game.combat) {
-        lastAttack = null;
-        return;
-    };
-    if (!message.getFlag("ova", "combat-data")) {
+    if (game.combat && !message.getFlag("ova", "combat-data")) {
         await message.setFlag("ova", "combat-data", {
             turn: game.combat.turn,
             round: game.combat.round,
+            combatId: game.combat.id,
         });
     }
 
     if (!lastRoll) return;
     const c1 = lastRoll.getFlag("ova", "combat-data");
     const c2 = message.getFlag("ova", "combat-data");
-    if (c1.round !== c2.round || c1.turn !== c2.turn) {
+    if (c1.round !== c2.round || c1.turn !== c2.turn || c1.combatId !== c2.combatId) {
         lastAttack = null;
     }
 }
@@ -99,18 +97,41 @@ function _onCounterRoll(message, html, data) {
     const attackRollData = lastAttack.message.data.flags["roll-data"];
     const counterRollData = message.data.flags["roll-data"];
 
-    let result = lastAttack.message.roll.result - message.roll.result;
-    if (attackRollData.miracle) result = Math.max(1, result);
-    if (counterRollData.miracle) result = Math.min(-1, result);
-    if (attackRollData.miracle && counterRollData.miracle) result = 0;
+    let counterResult = lastAttack.message.roll.result - message.roll.result;
+    if (attackRollData.miracle) counterResult = Math.max(1, counterResult);
+    if (counterRollData.miracle) counterResult = Math.min(-1, counterResult);
+    if (attackRollData.miracle && counterRollData.miracle) counterResult = 0;
 
-    if (result > 0) {
+    message.data.flags["attack-roll-data"] = attackRollData;
+    message.data.flags["attack-message-id"] = lastAttack.message.id;
+
+    let resultText = '';
+    let dx = 0;
+    let result = 0;
+    if (counterResult > 0) {
+        resultText = "Failure";
+        html.find("button[data-action='take-damage']").removeClass("hidden");
+        dx = attackRollData.dx;
+        result = attackRollData.result
+        message.data.flags["roll-data"].resultOverride = 0;
+    } else if (counterResult < 0) {
+        resultText = "Success";
         html.find("button[data-action='apply-damage']").removeClass("hidden");
-        message.data.flags["attack-roll-data"] = attackRollData;
-    } else if (result < 0) {
-        lastAttack.html.find("button[data-action='apply-damage']").removeClass("hidden");
-        lastAttack.message.data.flags["attack-roll-data"] = counterRollData;
+        dx = counterRollData.dx;
+        result = counterRollData.result;
+        message.data.flags["attack-roll-data"].resultOverride = 0;
+    } else {
+        resultText = "Tie";
     }
+
+    resultText = game.i18n.localize(`OVA.Attack.${resultText}`);
+    const attackName = game.i18n.localize("OVA.Roll.Attack");
+    const rawDamageText = game.i18n.localize("OVA.Roll.RawDamage");
+    const rawDamage = Math.max(result * dx, 0);
+    html.
+        find(".roll-result-math").
+        append(`<div class="roll-math"> ${lastAttack.message.roll.result} (${attackName}) - ${message.roll.result} = ${counterResult}`).
+        append(`<h3 class="center">${rawDamageText}: ${rawDamage} <span style="color: ${counterResult < 0 ? "green" : "red"}">(${resultText})</span></h3>`);
 }
 
 function _onDefenseRoll(message, html, data) {
@@ -120,7 +141,7 @@ function _onDefenseRoll(message, html, data) {
     const defenseRollData = message.data.flags["roll-data"];
 
     let result = lastAttack.message.roll.result - message.roll.result;
-    message.data.flags["attack-roll-data"] = attackRollData;
+
     // miracle calculation first for attacker the defender 
     if (attackRollData.miracle) result = Math.max(1, result);
     if (defenseRollData.miracle) result = Math.min(-1, result);
@@ -134,6 +155,8 @@ function _onDefenseRoll(message, html, data) {
     } else {
         resultText = "Tie";
     }
+    message.data.flags["attack-roll-data"] = attackRollData;
+
     resultText = game.i18n.localize(`OVA.Attack.${resultText}`);
     const attackName = game.i18n.localize("OVA.Roll.Attack");
     const rawDamageText = game.i18n.localize("OVA.Roll.RawDamage");
@@ -144,7 +167,7 @@ function _onDefenseRoll(message, html, data) {
         append(`<h3 class="center">${rawDamageText}: ${rawDamage} <span style="color: ${result > 0 ? "green" : "red"}">(${resultText})</span></h3>`);
     // enable apply damage button
     if (result > 0) {
-        html.find("button[data-action='apply-damage']").removeClass("hidden");
+        html.find("button[data-action='take-damage']").removeClass("hidden");
     }
 }
 
@@ -215,7 +238,7 @@ async function _onApplyHealClick(e) {
     prompt.render(true);
 }
 
-async function _onApplyDamageClick(e) {
+async function _onTakeDamageClick(e) {
     e.preventDefault();
 
     // find message id
@@ -238,7 +261,7 @@ async function _onApplyDamageClick(e) {
         },
         defense: {
             roll: defenseRoll.roll,
-            result: defenseRoll.result,
+            result: defenseRoll.resultOverride !== null ? defenseRoll.resultOverride : defenseRoll.result,
         }
     }
 
@@ -248,6 +271,52 @@ async function _onApplyDamageClick(e) {
         effects: {
             self: attackRoll.effects.filter(e => e.target === "self"),
             target: attackRoll.effects.filter(e => e.target === "target"),
+        },
+        rollData: rollData,
+        targets: [target],
+        attacker: attacker,
+    };
+
+    const prompt = new ApplyDamagePrompt({ ...promptData, data: {} });
+    prompt.render(true);
+}
+
+async function _onApplyDamageClick(e) {
+    e.preventDefault();
+
+    // find message id
+    const currentMessage = e.currentTarget.closest(".chat-message").dataset.messageId;
+    const message = game.messages.get(currentMessage);
+    const attackMessageId = message.data.flags["attack-message-id"];
+    const attackMessage = game.messages.get(attackMessageId);
+
+    const target = _getMessageAuthor(attackMessage);
+
+    // only used for counter rolls so we can hardcode it.
+    const attackRoll = message.data.flags["attack-roll-data"];
+    const counterRoll = message.data.flags["roll-data"];
+
+    const rollData = {
+        attack: {
+            roll: counterRoll.roll,
+            dx: counterRoll.dx,
+            result: counterRoll.result,
+            ignoreArmor: counterRoll.ignoreArmor,
+            fatiguing: counterRoll.fatiguing,
+            affinity: counterRoll.affinity,
+        },
+        defense: {
+            roll: attackRoll.roll,
+            result: attackRoll.resultOverride !== null ? attackRoll.resultOverride : attackRoll.result, // counter always against zero
+        }
+    }
+
+    const attacker = _getMessageAuthor(message);
+
+    const promptData = {
+        effects: {
+            self: counterRoll.effects.filter(e => e.target === "self"),
+            target: counterRoll.effects.filter(e => e.target === "target"),
         },
         rollData: rollData,
         targets: [target],

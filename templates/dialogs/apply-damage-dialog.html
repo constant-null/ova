@@ -2,7 +2,7 @@
     {{#if effects.self.length}}
     <div class="form-group">
         {{#if affinity}}
-        <h2>Affinity: {{#each affinity as |_ aff|}}{{aff}} {{/each}}</h2>
+        <h2>{{localize 'OVA.Effects.List.Affinity'}}: {{#each affinity as |_ aff|}}{{aff}} {{/each}}</h2>
         {{/if}}
     </div>
     <h2>{{localize 'OVA.ApplyDamageDialog.ApplySelf'}}</h2>
@@ -95,11 +95,11 @@
     {{/if}}
     <div class="dialog-buttons">
         {{#if (lte rollData.attack.damage 0)}}
-        <button class="apply-damage damage-color" data-button="apply">
+        <button class="take-damage damage-color" data-button="apply">
             {{localize 'OVA.ApplyDamage'}} <b>({{abs rollData.attack.damage}})</b>
         </button>
         {{else}}
-        <button class="apply-damage heal-color" data-button="apply">
+        <button class="take-damage heal-color" data-button="apply">
             {{localize 'OVA.ApplyHeal'}} <b>({{abs rollData.attack.damage}})</b>
         </button>
         {{/if}}

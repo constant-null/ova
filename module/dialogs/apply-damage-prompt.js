@@ -41,7 +41,7 @@ export default class ApplyDamagePrompt extends Dialog {
         html.find('.effect-duration').on('change', this._onSelfEffectDurationChange.bind(this));
         html.find('.affected').on('change', this._onAffectedChange.bind(this));
         html.find('.can-heal').on('change', this._onCanHealChange.bind(this));
-        html.find('.apply-damage').on('click', this._applyDamage.bind(this));
+        html.find('.take-damage').on('click', this._takeDamage.bind(this));
     }
 
     _onAffectedChange(e) {
@@ -145,7 +145,7 @@ export default class ApplyDamagePrompt extends Dialog {
         return -(damage + bonusDamage);
     }
 
-    async _applyDamage(e) {
+    async _takeDamage(e) {
         e.preventDefault();
         e.stopPropagation();
         // apply activated effects to self

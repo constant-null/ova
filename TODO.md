@@ -1,3 +1,4 @@
+# Instant perks/flaws on attack 
 # Complications
 # drama/miracle dice for older messages
 # Character description fields
