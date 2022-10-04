@@ -72,10 +72,10 @@ export default class OVACharacterSheet extends ActorSheet {
 
         // get all selected items
         const selectedItems = this.actor.items.filter(i => this.selectedAbilities.includes(i.id));
-        this.makeRoll(selectedItems);
+        this.makeManualRoll(selectedItems);
     }
 
-    makeRoll(abilities) {
+    makeManualRoll(abilities) {
         const rollData = {
             mod: 2
         };
@@ -84,11 +84,16 @@ export default class OVACharacterSheet extends ActorSheet {
             const abilityData = ability.data;
             let sign = 1;
             if (abilityData.data.type === "weakness") sign = -1;
-            rollData[abilityData.name.toLowerCase()] = sign * abilityData.data.level.value;
+            if (abilityData.name.toLowerCase() in rollData) {
+                rollData[abilityData.name.toLowerCase()] += sign * abilityData.data.level.value;
+            } else {
+                rollData[abilityData.name.toLowerCase()] = sign * abilityData.data.level.value;
+            }
             if (abilityData.data.perks) {
                 perks.push(...abilityData.data.perks);
             }
         }
+        let enduranceCost = perks.reduce((cost, perk) => cost + perk.data.level.value * perk.data.enduranceCost, 0);
 
         // TODO: apply perk modifiers here
 
@@ -176,9 +181,13 @@ export default class OVACharacterSheet extends ActorSheet {
         context.abilities = [];
         context.weaknesses = [];
         for (const item of this.actor.items) {
-            if (item.data.data.rootId != '') continue;
             const itemData = item.data;
             itemData.selected = this.selectedAbilities.includes(itemData._id);
+            if (itemData.data.abilities) {
+                itemData.data.abilities.forEach(a => a.data.selected = this.selectedAbilities.includes(a._id));
+            } 
+            if (itemData.data.rootId != '') continue;
+
             if (itemData.data.type === "ability") {
                 context.abilities.push(itemData);
             } else if (itemData.data.type === "weakness") {
