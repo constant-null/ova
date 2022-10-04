@@ -335,7 +335,6 @@ export default class OVACharacterSheet extends ActorSheet {
         // sum roll modifiers
         let diceTotal = Object.values(rollData).reduce((a, b) => a + b, 0);
 
-        this.selectedAbilities = [];
         this._makeRoll({
             roll: diceTotal,
             effects: [],
@@ -366,6 +365,8 @@ export default class OVACharacterSheet extends ActorSheet {
 
         // TODO: add changes to list of changes
         callback?.bind(this)(result.roll);
+        this.selectedAbilities = [];
+        this.render();
 
         const rollData = {
             roll: result.roll,

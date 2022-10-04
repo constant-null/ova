@@ -225,6 +225,12 @@ input.character-name {
     right: .6em;
 }
 
+.compact-fixed-panel {
+    position: absolute;
+    bottom: 1em;
+    left: -4em;
+}
+
 .roll-dice {
     background-image: url('public/images/rolling-dices.svg');
     width: 100px;
@@ -232,6 +238,13 @@ input.character-name {
     cursor: pointer;
     transition: transform .1s;
 }
+
+.roll-dice.small {
+    background-image: url('public/images/d6-dice.svg');
+    height: 60px;
+    width: 60px;
+}
+
 
 /* scale on hover */
 .roll-dice.dice:hover {
@@ -589,6 +602,7 @@ input.combat-side-value {
 }
 
 .compact-char-info {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -597,10 +611,23 @@ input.combat-side-value {
     border-radius: 1em 0 0 1em;
     margin-right: -8px;
     align-items: center;
+    margin-top: -1em;
+    height: calc(100% - 9em);
+}
+
+.compact-char-info .reserve-block {
+    position: absolute;
+    left: -8.2em;
+    top: 1em;
+}
+
+.compact-char-info .abilities {
+    height: 100%;
 }
 
 .compact-combat {
     flex: 0;
+    position: relative;
     margin-right: 1em;
     margin-left: -2em;
 }
