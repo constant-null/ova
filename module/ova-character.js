@@ -1,7 +1,7 @@
 import OVAEffect from "./effects/ova-effect.js";
 
 export default class OVACharacter extends Actor {
-    constructor(data, context) {
+    static async create(data, options) {
         data.token = {
             actorLink: true,
             disposition: 1,
@@ -9,9 +9,11 @@ export default class OVACharacter extends Actor {
             bar1: { attribute: "attributes.hp" },
             bar2: { attribute: "attributes.endurance" },
         }
-        super(data, context);
+        data.img = "icons/svg/mystery-man-black.svg";
 
+        super.create(data, options);
     }
+
     async createAttack() {
         const attackData = {
             name: game.i18n.localize("OVA.Attack.DefaultName"),

@@ -1,4 +1,8 @@
 {
+    "EFFECT": {
+        "StatusImpaired": "Impaired",
+        "StatusDisarmed": "Disarmed"
+    },
     "OVA": {
         "Ability": {
             "Name": "Ability",

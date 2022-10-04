@@ -16,6 +16,7 @@ import CombatTracker from "./module/combat/tracker.js";
 
 import * as chat from "./module/chat/chat.js";
 import registerHandlebarsHelpers from "./ova-handlebars-helpers.js";
+import configureStatusEffects from "./configure-status-effects.js";
 
 Hooks.once("init", function () {
     console.log("OVA | Initializing OVA System");
@@ -23,6 +24,8 @@ Hooks.once("init", function () {
     game.CombatTracker = CombatTracker;
 
     CONFIG.OVA = OVA;
+    CONFIG.statusEffects = configureStatusEffects();
+
     CONFIG.Item.documentClass = OVAItem;
     CONFIG.Actor.documentClass = OVACharacter;
     CONFIG.Dice.types = [OVADie, FateDie]
