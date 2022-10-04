@@ -18,6 +18,12 @@ export default class OVACombatMessage extends ChatMessage {
             speaker: ChatMessage.getSpeaker({ actor: speaker }),
             flags: { "roll-data": rollData, "attack": attackData },
         };
+
+        // miracle roll
+        if (rollData.type === "drama" && rollData.roll === 6) {
+            msgData.flavor = game.i18n.localize("OVA.Roll.Miracle");
+            msgData.flags["miracle"] = true;
+        }
         super.applyRollMode(msgData, game.settings.get("core", "rollMode"));
         return super.create(msgData);
     }
@@ -38,7 +44,7 @@ export default class OVACombatMessage extends ChatMessage {
             } else {
                 const totalDice = 2 - originalRollDice.results.length - dramaRollDice.results.length;
                 dramaRollDice.results.sort((a, b) => a.result - b.result);
-                dramaRollDice.results.splice(0, dramaRollDice.results.length - totalDice);
+                originalRollDice.results = dramaRollDice.results.splice(0, dramaRollDice.results.length - totalDice);
             }
         }
 
