@@ -125,7 +125,31 @@ export default class OVACharacterSheet extends ActorSheet {
             return;
         }
 
-        this._makeRoll({ ...attack.data.attack, effects: attack.data.effects, type: "attack", attack: attack });
+        // find child ability using rootId
+        const ability = this.actor.items.find(i => i.data.data.rootId === attack.id);
+
+        let effects = [];
+        let type;
+        if (attack.type === "spell") {
+            type = "spell";
+            effects = [{
+                label: attack.name,
+                changes: [
+                    {
+                        key: ability.name,
+                        value: ability.data.data.level.value,
+                    }
+                ],
+                flags: {
+                    "create-item": ability.toObject(),
+                }
+            }];
+        } else {
+            type = "attack";
+            effects = attack.data.effects;
+        }
+
+        this._makeRoll({ ...attack.data.attack, effects: effects, type: type, attack: attack });
     }
 
     _makeManualRoll(event) {

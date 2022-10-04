@@ -9,10 +9,11 @@ import OVADie from "./module/dice/ova-die.js";
 import OVAAttackSheet from "./module/sheets/ova-attack-sheet.js";
 import OVASpellSheet from "./module/sheets/ova-spell-sheet.js";
 import OVACombatant from "./module/combat/ova-combatant.js";
+import OVAEffect from "./module/effects/ova-effect.js";
+import OVAActiveEffect from "./module/effects/ova-active-effect.js";
 
 import * as chat from "./module/chat/chat.js";
 import registerHandlebarsHelpers from "./ova-handlebars-helpers.js";
-import OVAEffect from "./module/effects/ova-effect.js";
 
 Hooks.once("init", function () {
     console.log("OVA | Initializing OVA System");
@@ -23,6 +24,7 @@ Hooks.once("init", function () {
     CONFIG.Dice.types = [OVADie, FateDie]
     CONFIG.Dice.terms['d'] = OVADie;
     CONFIG.Combatant.documentClass = OVACombatant;
+    CONFIG.ActiveEffect.documentClass = OVAActiveEffect;
 
     Items.unregisterSheet("core", ItemSheet);
     Items.registerSheet("ova", OVAAbilitySheet, { types: ["ability"] });

@@ -1,6 +1,17 @@
 import OVAEffect from "./effects/ova-effect.js";
 
 export default class OVACharacter extends Actor {
+    constructor(data, context) {
+        data.token = {
+            actorLink: true,
+            disposition: 1,
+            vision: true,
+            bar1: { attribute: "hp" },
+            bar2: { attribute: "endurance" },
+        }
+        super(data, context);
+
+    }
     async createAttack() {
         const attackData = {
             name: game.i18n.localize("OVA.Attack.DefaultName"),
@@ -21,13 +32,6 @@ export default class OVACharacter extends Actor {
         super.prepareData();
 
         const charData = this.data;
-        if (charData.hp.value > charData.hp.max) {
-            charData.hp.value = charData.hp.max;
-        }
-
-        if (charData.endurance.value > charData.endurance.max) {
-            charData.endurance.value = charData.endurance.max;
-        }
 
         charData.defenses.evasion += charData.speed;
         for (const defense in charData.defenses) {
@@ -40,10 +44,21 @@ export default class OVACharacter extends Actor {
             charData.armor = 0;
         }
         charData.hasResistances = Object.keys(charData.resistances).length > 0;
+
+        if (charData.data.hp.value > charData.hp.max) {
+            charData.data.hp.value = charData.hp.max;
+        }
+
+        if (charData.data.endurance.value > charData.endurance.max) {
+            charData.data.endurance.value = charData.endurance.max;
+        }
     }
 
     prepareBaseData() {
         const charData = this.data;
+
+        if (charData.data.hp.value < 0) charData.data.hp.value = 0;
+        if (charData.data.endurance.value < 0) charData.data.endurance.value = 0;
 
         charData.globalMod = 0;
         charData.globalRollMod = 2;
@@ -51,13 +66,13 @@ export default class OVACharacter extends Actor {
         charData.armor = 0;
         charData.resistances = {};
         charData.attacks = [];
-        if (charData.hp && charData.hp.value != charData.data.hp.value) { 
-            this._showHPChangeText(charData.data.hp.value-charData.hp.value);
+        if (charData.hp && charData.hp.value != charData.data.hp.value) {
+            this._showHPChangeText(charData.data.hp.value - charData.hp.value);
         }
         // copy data from template
-        charData.defenses = {...charData.data.defenses};
-        charData.hp = {...charData.data.hp};
-        charData.endurance = {...charData.data.endurance};
+        charData.defenses = { ...charData.data.defenses };
+        charData.hp = { ...charData.data.hp };
+        charData.endurance = { ...charData.data.endurance };
         charData.speed = 0;
     }
 
@@ -91,7 +106,7 @@ export default class OVACharacter extends Actor {
 
     changeHP(amount) {
         if (amount === 0) return;
-        let newHp = Math.max(this.data.hp.value + amount, 0);
+        let newHp = Math.max(this.data.data.hp.value + amount, 0);
 
         this.update({ "data.hp.value": newHp });
 
@@ -102,7 +117,7 @@ export default class OVACharacter extends Actor {
     _showHPChangeText(amount) {
         const tokens = this.isToken ? [this.token?.object] : this.getActiveTokens(true);
         for (let t of tokens) {
-            t.hud.createScrollingText(amount.signedString(), {
+            t?.hud.createScrollingText(amount.signedString(), {
                 icon: "icons/svg/aura.svg",
                 anchor: CONST.TEXT_ANCHOR_POINTS.TOP,
                 direction: amount > 0 ? CONST.TEXT_ANCHOR_POINTS.TOP : CONST.TEXT_ANCHOR_POINTS.BOTTOM,
@@ -116,7 +131,7 @@ export default class OVACharacter extends Actor {
 
     async addAttackEffects(effects) {
         const oneTimeEffects = effects.filter(e => !!e.flags["once"]);
-        for ( const e of oneTimeEffects) {
+        for (const e of oneTimeEffects) {
             const oneTimeEffect = e.flags["once"];
             OVAEffect.applyEffectChanges(oneTimeEffect, this.data.data)
         };

@@ -106,21 +106,21 @@
 
                 <div class="combat-cell flex0">
                     <div class="combat-cell-name">{{ localize 'OVA.Health.Name' }}</div>
-                    <input type="text" class="combat-cell-value" name="data.hp.value" value="{{actor.data.hp.value}}"
+                    <input type="text" class="combat-cell-value" name="data.hp.value" value="{{data.data.hp.value}}"
                         data-dtype="Number" />
                 </div>
                 <div class="combat-side-cell flex0">
                     <div class="combat-side-value combat-cell-name">Max</div>
-                    <div class="combat-side-value combat-cell-value">{{ actor.data.hp.max }}</div>
+                    <div class="combat-side-value combat-cell-value">{{ data.hp.max }}</div>
                 </div>
                 <div class="combat-cell flex0">
                     <div class="combat-cell-name">{{ localize 'OVA.Endurance.Name' }}</div>
                     <input type="text" class="combat-cell-value" name="data.endurance.value"
-                        value="{{actor.data.endurance.value}}" data-dtype="Number" />
+                        value="{{data.data.endurance.value}}" data-dtype="Number" />
                 </div>
                 <div class="combat-side-cell flex0">
                     <div class="combat-side-value combat-cell-name">Max</div>
-                    <div class="combat-side-value combat-cell-value">{{ actor.data.endurance.max }}</div>
+                    <div class="combat-side-value combat-cell-value">{{ data.endurance.max }}</div>
                 </div>
                 <div class="flex1"></div>
             </div>

@@ -47,7 +47,8 @@
             "Short": "Roll",
             "Attack": "Attack",
             "Defense": "Defense",
-            "Manual": "Manual"
+            "Manual": "Manual",
+            "Spell": "Spell"
         },
         "DX": {
             "Name": "Damage Multiplier",

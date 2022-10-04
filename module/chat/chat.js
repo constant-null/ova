@@ -15,6 +15,13 @@ export const listenToAttackRoll = function (message, html, data) {
         return;
     }
 
+    if (rollData.type === "spell") {
+        html.find(".flavor-text").html(game.i18n.localize("OVA.Roll.Spell"));
+        html.find("button[data-action='apply-effect']").removeClass("hidden");
+
+        return;
+    }
+
     // || lastAttack.user.id === message.user.id
     if (rollData.type !== "attack" && !lastAttack) {
         html.find(".flavor-text").html(game.i18n.localize(`OVA.Roll.${rollData.type.capitalize()}`));
@@ -47,10 +54,25 @@ export const listenToAttackRoll = function (message, html, data) {
 }
 
 export const chatListeners = function (message, html, data) {
-    html.on("click", ".attack-buttons button", _onAttackButtonClick);
+    html.on("click", "button[data-action='apply-damage']", _onApplyDamageClick);
+    html.on("click", "button[data-action='apply-effect']", _onApplyEffectClick);
 }
 
-async function _onAttackButtonClick(e) {
+async function _onApplyEffectClick(e) {
+    const messageId = e.currentTarget.closest(".chat-message").dataset.messageId;
+    const message = game.messages.get(messageId)
+    
+    const attackRoll = message.data.flags["roll-data"];
+
+    const targets = canvas.tokens.controlled;
+    targets.forEach(t => {
+        const targetActor = t.actor;
+
+        targetActor.addAttackEffects(attackRoll.effects);
+    })
+}
+
+async function _onApplyDamageClick(e) {
     e.preventDefault();
 
     // find message id
@@ -77,14 +99,6 @@ async function _onAttackButtonClick(e) {
 
     const attacker = _getMessageAuthor(lastAttack);
 
-    // for (const effect of attackRoll.effects) {
-    //     // dont apply effects on self twice
-    //     if (effect.target === "self" && effect.apply === 'once' && effect.applied == true) return;
-    //     const actor = effect.target === "self" ? attacker : target;
-    //     await actor.addAttackEffects(effect, rollData);
-    //     effect.applied = true;
-    // };
-
     const promptData = {
         effects: {
             self: attackRoll.effects.filter(e => e.target === "self"),
@@ -94,18 +108,9 @@ async function _onAttackButtonClick(e) {
         target: target,
         attacker: attacker,
     };
-    
-    const prompt = new ApplyDamagePrompt({...promptData, data: {}});
-    prompt.render(true);
-    // ApplyDamagePrompt.RenderPrompt("", promptData);
 
-    // const targets = canvas.tokens.controlled;
-    // targets.forEach(t => {
-    //     const targetActor = t.actor;
-    //     const damage = _calculateDamage(targetActor, attackRoll, defenseRoll);
-    //     attackRoll.effects;
-    //     targetActor.changeHP(-damage);
-    // })
+    const prompt = new ApplyDamagePrompt({ ...promptData, data: {} });
+    prompt.render(true);
 }
 
 function _getMessageAuthor(message) {
