@@ -66,6 +66,7 @@ export default class OVAAbilitySheet extends BaseItemSheet {
             case 'ability':
                 const rootId = item.data._id;
                 newItemData.data.rootId = rootId;
+                newItemData.data.active = item.data.data.active;
                 this.actor.createEmbeddedDocuments("Item", [newItemData]);
                 break;
         }
