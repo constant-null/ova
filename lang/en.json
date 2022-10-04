@@ -127,6 +127,7 @@
                     "DX": "Damage Multiplier",
                     "Roll": "Attack Roll"
                 },
+                "IgnoreArmor": "Ignore Armor",
                 "Resistances": "Resistance",
                 "Defenses": "Defenses",
                 "Flags": "Flags",

@@ -114,7 +114,7 @@ export default class ApplyDamagePrompt extends Dialog {
 
         const armor = actor.data.armor || 0;
         const piercing = attackRoll.ignoreArmor || 0
-        const effectiveArmor = Math.max(armor - piercing, 0);
+        const effectiveArmor = Math.min(Math.max(armor - piercing, 0), 5); // armor can be 0-5
         let dx = Math.max(attackRoll.dx - effectiveArmor, 0.5)
 
         let canHeal = false;

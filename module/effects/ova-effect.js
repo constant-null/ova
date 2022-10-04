@@ -62,7 +62,7 @@ export default class OVAEffect {
                     data: this.item.data,
                     name: this.item.name,
                     type: this.item.type,
-                    level: this.item.data.level.value
+                    level: data.level
                 },
                 ...this.data,
             });
