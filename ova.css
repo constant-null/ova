@@ -108,7 +108,7 @@
 .combat-block {
     margin-left: 0;
     position: relative;
-    min-width: 400px;
+    min-width: 410px;
     background-color: #731d20;
     border-radius: 1.5em;
     overflow: hidden;
@@ -329,6 +329,10 @@ input[type="text"].combat-cell-value {
     border: none;
     height: 1em;
     width: 100%
+}
+
+.combat-cell-value.hp-value, .combat-cell-value.end-value {
+    min-width: 1.6em;
 }
 
 .attack-perks {

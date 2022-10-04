@@ -44,6 +44,7 @@ OVA.effectChangeKeys = {
     "attack.ignoreArmor": "OVA.Effects.List.IgnoreArmor",
     "ovaFlags.?": "OVA.Effects.List.Flags",
     "affinity.?": "OVA.Effects.List.Affinity",
+    "hpReserve.max": "OVA.Effects.List.HPReserve",
     ...OVA.activeEffectKeys,
 };
 

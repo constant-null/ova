@@ -8,6 +8,9 @@
                 "value": 40,
                 "max": 40
             },
+            "hpReserve": {
+                "max": 0
+            },
             "endurance": {
                 "value": 40,
                 "penalty": 0,

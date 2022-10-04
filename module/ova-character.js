@@ -112,6 +112,7 @@ export default class OVACharacter extends Actor {
         // copy data from template
         charData.defenses = { ...charData.data.defenses };
         charData.hp = { ...charData.data.hp };
+        charData.hpReserve = { max: charData.data.hpReserve?.max || 0 };
         charData.endurance = { ...charData.data.endurance };
         charData.enduranceReserve = { ...charData.data.enduranceReserve };
         charData.attack = { roll: 0, dx: 0}; // for effect compability
@@ -137,6 +138,8 @@ export default class OVACharacter extends Actor {
             // sort by priority and apply effects
             item.data.ovaEffects.sort((a, b) => a.data.priority - b.data.priority).forEach(e => e.apply(charData));
         });
+
+        charData.hp.max += charData.hpReserve.max;
 
         // get magical abilities
         const magicAbilities = this.items.filter(item => item.data.type === 'ability' && item.data.data.magic);

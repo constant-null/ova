@@ -129,6 +129,7 @@
                 "GlobalDefMod": "All Defense Rolls",
                 "Armor": "Armor",
                 "Speed": "Speed",
+                "HPReserve": "HP Reserve",
                 "HP": {
                     "Max": "Maximum HP",
                     "Value": "Current HP"
