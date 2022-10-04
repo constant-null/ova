@@ -450,6 +450,11 @@ input.combat-side-value {
     color: white;
 }
 
+.effect-color {
+    background-color: #1d3573 !important;
+    color: white;
+}
+
 .temporary:not(.selected) {
     background-color: #1d5c7354;
 }
