@@ -23,12 +23,47 @@
     <section class="ova content">
         <div class="tab" data-tab="description" data-group="primary-tabs">
             <div class="description-tab">
-                <div class="rule-pg">
-                    <span>Pg.</span>
-                    <input name="data.page" value="{{item.data.page}}" type="text" />
+                <div class="description-params">
+                    <div class="item-type">
+                        <select name="data.type">
+                            {{#select data.type}}
+                            {{#each config.abilityTypes as |name type|}}
+                            <option value="{{type}}">{{localize name}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
+                    <div class="endurance-cost">
+                        <span>{{localize 'OVA.EnduranceCost'}}</span>
+                        <input type="text" value="{{data.enduranceCost}}" name="data.enduranceCost"
+                            data-dtype="Number" />
+                    </div>
+                    <div class="limited-use">
+                        <span>{{localize 'OVA.LimitedUse.Name'}}</span>
+                        <div class="limited-use-values">
+                            <input type="text" value="{{data.limitedUse.value}}" name="data.limitedUse.value"
+                                data-dtype="Number" />/
+                            <input type="text" value="{{data.limitedUse.max}}" name="data.limitedUse.max"
+                                data-dtype="Number" />
+                        </div>
+                    </div>
+                    <div class="rule-pg">
+                        <span>{{localize 'OVA.Page.Short'}}</span>
+                        <input name="data.page" value="{{item.data.page}}" type="text" />
+                    </div>
                 </div>
-                <div class="description">
-                    {{editor content=item.data.description target="data.description" button=true editable=true}}
+                <div class="flexrow">
+                    <div>
+                        <h2>{{ localize 'OVA.Description' }}</h2>
+                        <div class="description">
+                            {{editor content=item.data.description target="data.description" button=true editable=true}}
+                        </div>
+                    </div>
+                    {{#if isEmbedded}}
+                    <div class="sheet-perks">
+                        {{> "systems/ova/templates/parts/perk-list.html" perks=perks}}
+                    </div>
+                    {{/if}}
                 </div>
             </div>
         </div>
@@ -43,15 +78,6 @@
                     <th>{{ localize 'OVA.Ability.Magic' }}</th>
                 </tr>
                 <tr>
-                    <td>
-                        <select name="data.type">
-                            {{#select data.type}}
-                            {{#each config.abilityTypes as |name type|}}
-                            <option value="{{type}}">{{localize name}}</option>
-                            {{/each}}
-                            {{/select}}
-                        </select>
-                    </td>
                     <td>
                         <input name="data.active" type="checkbox" value="{{data.active}}" data-dtype="Boolean" {{checked
                             data.active}} />
@@ -81,33 +107,10 @@
                     </td>
                 </tr>
             </table>
-            <table>
-                <tr>
-                    <td>{{localize 'OVA.EnduranceCost'}}</td>
-                    <td>
-                        <input type="text" value="{{data.enduranceCost}}" name="data.enduranceCost"
-                            data-dtype="Number" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h3>{{localize 'OVA.LimitedUse.Name'}}</h3>
-                    </td>
-                    <td>
-                        <div class="flexrow">
-                            <input type="text" value="{{data.limitedUse.value}}" name="data.limitedUse.value"
-                                data-dtype="Number" />/
-                            <input type="text" value="{{data.limitedUse.max}}" name="data.limitedUse.max"
-                                data-dtype="Number" />
-                        </div>
-                    </td>
-                </tr>
-            </table>
             {{#if data.isEmbedded}}
             {{#if data.isRoot}}
             {{> "systems/ova/templates/parts/ability-list.html" items=abilities }}
             {{/if}}
-            {{> "systems/ova/templates/parts/perk-list.html" perks=perks}}
             {{/if}}
         </div>
         <div class="tab" data-tab="effects" data-group="primary-tabs">

@@ -9,17 +9,25 @@
         </div>
         {{/if}}
     </header>
+    <nav class="tabs" data-group="primary-tabs">
+        <a class="item" data-tab="description" data-group="primary-tabs">{{localize 'OVA.Description'}}</a>
+        <a class="item" data-tab="abilities" data-group="primary-tabs">{{localize 'OVA.Ability.NamePlural'}}</a>
+        <a class="item" data-tab="spell-effect" data-group="primary-tabs">{{ localize 'OVA.Spell.SpellEffect'}}</a>
+    </nav>
     <section class="ova content">
-        <div>
-            <h2>{{ localize 'OVA.Description' }}</h2>
-            <textarea name="data.description"
-                placeholder="{{ localize 'OVA.Description' }}">{{item.data.description}}</textarea>
-        </div>
-        <nav class="tabs sheet-tabs" data-group="primary-tabs">
-            <a class="item" data-tab="abilities" data-group="primary-tabs">{{localize 'OVA.Ability.NamePlural'}}</a>
-            <a class="item" data-tab="spell-effect" data-group="primary-tabs">{{ localize 'OVA.Spell.SpellEffect'}}</a>
-        </nav>
         <section class="content">
+            <div class="tab" data-tab="description" data-group="primary-tabs">
+                <div class="description-tab">
+                    <div class="flexrow">
+                        <div>
+                            <h2>{{ localize 'OVA.Description' }}</h2>
+                            <div class="description">
+                                {{editor content=item.data.description target="data.description" button=true editable=true}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="tab selectable" data-tab="abilities" data-group="primary-tabs">
                 {{> "systems/ova/templates/parts/ability-list.html" items=abilities selected=selected}}
             </div>

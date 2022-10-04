@@ -8,7 +8,8 @@ export default class BaseItemSheet extends ItemSheet {
             scrollY: [
                 ".ability-card"
             ],
-            height: 390,
+            height: 460,
+            width: 630,
             classes: super.defaultOptions.classes.concat(['ova']),
         });
     }

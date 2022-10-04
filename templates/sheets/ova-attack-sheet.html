@@ -9,25 +9,45 @@
         </div>
         {{/if}}
     </header>
+    <nav class="tabs" data-group="primary-tabs">
+        <a class="item" data-tab="description" data-group="primary-tabs">{{localize 'OVA.Description'}}</a>
+        <a class="item" data-tab="abilities" data-group="primary-tabs">{{localize 'OVA.Ability.NamePlural'}}</a>
+    </nav>
     {{!-- Ability Fields --}}
     <section class="ova content">
-        <div>
-            <h2>{{ localize 'OVA.Description' }}</h2>
-            <textarea name="data.description"
-                placeholder="{{ localize 'OVA.Description' }}">{{item.data.description}}</textarea>
-        </div>
-        <div>
-            <h2>{{localize 'OVA.LimitedUse.Name'}}</h2>
-            <div class="flexrow">
-                <input type="text" value="{{data.limitedUse.value}}" name="data.limitedUse.value"
-                    data-dtype="Number" />/
-                <input type="text" value="{{data.limitedUse.max}}" name="data.limitedUse.max" data-dtype="Number" />
+        <div class="tab" data-tab="description" data-group="primary-tabs">
+            <div class="description-tab">
+                <div class="description-params">
+                    <div class="limited-use">
+                        <span>{{localize 'OVA.LimitedUse.Name'}}</span>
+                        <div class="limited-use-values">
+                            <input type="text" value="{{data.limitedUse.value}}" name="data.limitedUse.value"
+                                data-dtype="Number" />/
+                            <input type="text" value="{{data.limitedUse.max}}" name="data.limitedUse.max"
+                                data-dtype="Number" />
+                        </div>
+                    </div>
+                </div>
+                <div class="flexrow">
+                    <div>
+                        <h2>{{ localize 'OVA.Description' }}</h2>
+                        <div class="description">
+                            {{editor content=item.data.description target="data.description" button=true editable=true}}
+                        </div>
+                    </div>
+                    {{#if isEmbedded}}
+                    <div class="sheet-perks">
+                        {{> "systems/ova/templates/parts/perk-list.html" perks=perks}}
+                    </div>
+                    {{/if}}
+                </div>
             </div>
         </div>
-        <div class="selectable">
-            <h2>{{ localize 'OVA.Ability.NamePlural' }}</h2>
-            {{> "systems/ova/templates/parts/ability-list.html" items=abilities selected=selected }}
+        <div class="tab" data-tab="abilities" data-group="primary-tabs">
+            <div class="selectable">
+                <h2>{{ localize 'OVA.Ability.NamePlural' }}</h2>
+                {{> "systems/ova/templates/parts/ability-list.html" items=abilities selected=selected }}
+            </div>
         </div>
-        {{> "systems/ova/templates/parts/perk-list.html" perks=perks}}
     </section>
 </form>
