@@ -557,4 +557,11 @@ export default class OVACharacterSheet extends ActorSheet {
         context.weaknesses.sort((a, b) => a.name.localeCompare(b.name));
         return context;
     }
+
+    async refreshActiveEffects(effect) {
+        const html = await renderTemplate('systems/ova/templates/parts/effect-inline-desc.html', {effect});
+        const effectHtml = $(this.element?.[0]).find(`.effect[data-item-id="${effect.id}"]`);
+
+        effectHtml.replaceWith(html);
+    }
 }

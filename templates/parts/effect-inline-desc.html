@@ -1,10 +1,17 @@
-{{effect.label}} <span class="active-effect-desc">
-{{#if effect.changes.0.value}}
-({{mapEffectKey effect.changes.0.key}} {{activeEffectMode effect.changes.0.mode}}{{signedValue effect.changes.0.value}})
-{{/if}}
-{{#each effect.flags as |when name|}}
-{{#if (mapEffectTime name)}}
-({{localize (mapEffectTime name)}}: {{mapEffectKey when.key}} {{activeEffectMode effect.when.key}}{{signedValue when.value}})
-{{/if}}
-{{/each}}
-</span>
+<div class="effect flexrow item" data-item-id="{{effect.id}}">
+    <div class="effect-description">
+        {{effect.label}} <span class="active-effect-desc">
+        {{#if effect.data.changes.0.value}}
+        ({{mapEffectKey effect.data.changes.0.key}} {{activeEffectMode effect.data.changes.0.mode}}{{signedValue effect.data.changes.0.value}})
+        {{/if}}
+        {{#each effect.data.flags as |when name|}}
+        {{#if (mapEffectTime name)}}
+        ({{localize (mapEffectTime name)}}: {{mapEffectKey when.key}} {{activeEffectMode effect.when.key}}{{signedValue when.value}})
+        {{/if}}
+        {{/each}}
+        </span>
+        <span class="active-effect-desc">{{effect.duration.label}}</span>
+    </div>
+    <a class="item-control effect-delete flex0" title="Delete Item"><i class="fas fa-minus"></i></a>
+</div>
+

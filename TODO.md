@@ -5,4 +5,3 @@
 # Ability to link Ability in the chat
 # Clear last roll/attack on chat clear
 # Create NPC Character
-# Update combat effect duration in realtime
