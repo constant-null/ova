@@ -363,3 +363,7 @@ input[type="text"].combat-cell-value {
 .combat-tabs :not(.active) {
     color: darkgray;
 }
+
+.center {
+    text-align: center;
+}

@@ -1,3 +1,6 @@
+import ApplyDamagePrompt from "../dialogs/apply-damage-prompt.js";
+import OVAEffect from "../effects/ova-effect.js";
+
 let lastAttack = null;
 
 export const listenToAttackRoll = function (message, html, data) {
@@ -59,8 +62,6 @@ async function _onAttackButtonClick(e) {
 
     const attackRoll = message.data.flags["attack-roll-data"];
     const defenseRoll = message.data.flags["roll-data"];
-    const damage = _calculateDamage(target, attackRoll, defenseRoll);
-    target.changeHP(-damage);
 
     const rollData = {
         attack: {
@@ -72,22 +73,32 @@ async function _onAttackButtonClick(e) {
         defense: {
             roll: defenseRoll.roll,
             result: defenseRoll.result,
-        },
-        result: {
-            damage: _calculateDamage(target, attackRoll, defenseRoll),
         }
     }
 
     const attacker = _getMessageAuthor(lastAttack);
 
-    for (const effect of attackRoll.effects) {
-        // dont apply effects on self twice
-        if (effect.target === "self" && effect.apply === 'once' && effect.applied == true) return;
-        const actor = effect.target === "self" ? attacker : target;
-        await actor.addAttackEffects(effect, rollData);
-        effect.applied = true;
-    };
+    // for (const effect of attackRoll.effects) {
+    //     // dont apply effects on self twice
+    //     if (effect.target === "self" && effect.apply === 'once' && effect.applied == true) return;
+    //     const actor = effect.target === "self" ? attacker : target;
+    //     await actor.addAttackEffects(effect, rollData);
+    //     effect.applied = true;
+    // };
 
+    const promptData = {
+        effects: {
+            self: attackRoll.effects.filter(e => e.target === "self").map(e => OVAEffect.createActiveEffect(e, rollData)),
+            target: attackRoll.effects.filter(e => e.target === "target").map(e => OVAEffect.createActiveEffect(e, rollData)),
+        },
+        rollData: rollData,
+        target: target,
+        attacker: attacker,
+    };
+    
+    const prompt = new ApplyDamagePrompt({...promptData, data: {}});
+    prompt.render(true);
+    // ApplyDamagePrompt.RenderPrompt("", promptData);
 
     // const targets = canvas.tokens.controlled;
     // targets.forEach(t => {
@@ -112,13 +123,3 @@ function _getMessageAuthor(message) {
     return author;
 }
 
-function _calculateDamage(actor, attackRoll, defenseRoll) {
-    const finalResult = attackRoll.result - defenseRoll.result;
-
-    const armor = actor.data.armor || 0;
-    const piercing = attackRoll.ignoreArmor || 0
-    const effectiveArmor = Math.max(armor - piercing, 0);
-    const damage = Math.ceil(finalResult * (Math.max(attackRoll.dx - effectiveArmor, 0.5)));
-
-    return damage;
-}

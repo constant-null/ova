@@ -95,11 +95,11 @@
                     <div class="combat-side-value combat-cell-name">{{ localize 'OVA.Armor.Name'}}</div>
                     <div class="combat-side-value combat-cell-value">{{ actor.data.armor }}</div>
                     {{/if}}
-                    {{#if actor.data.resistances.length}}
+                    {{#if actor.data.hasResistances}}
                     <div class="combat-side-value combat-cell-name">{{ localize 'OVA.Resistance.NamePlural'}}
                     </div>
-                    {{#each actor.data.resistances as |name resistance|}}
-                    <div class="combat-side-value combat-cell-value">{{name}}: {{resistance}}</div>
+                    {{#each actor.data.resistances as |resistance name|}}
+                    <div class="combat-side-value combat-cell-value">{{name}} {{signedValue resistance}}</div>
                     {{/each}}
                     {{/if}}
                 </div>

@@ -33,6 +33,9 @@
             "Name": "Endurance",
             "Short": "END"
         },
+        "Duration": {
+            "Rounds": "Duration (Rounds)"
+        },
         "Health": {
             "Name": "Health",
             "Short": "HP"
@@ -90,14 +93,22 @@
             "Name": "Modifier"
         },
         "ApplyDamage": "Apply Damage",
+        "ApplyDamageDialog": {
+            "ApplySelf": "Apply Effects to Self",
+            "ApplyTarget": "Apply Effects to Target",
+            "TargetRestances": "Target Restances"
+        },
         "ApplyEffect": "Apply Effect",
         "Armor": {
             "Name": "Armor"
         },
         "Resistance": {
+            "Affected": "Affected",
+            "CanHeal": "Can Heal",
             "Name": "Resistance",
             "NamePlural": "Resistances"
         },
+        "Effect": "Effect",
         "CombatEffects": "Combat Effects",
         "Magic": "Magic",
         "Spell": {

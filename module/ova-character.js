@@ -39,7 +39,7 @@ export default class OVACharacter extends Actor {
         if (charData.armor < 0) {
             charData.armor = 0;
         }
-
+        charData.hasResistances = Object.keys(charData.resistances).length > 0;
     }
 
     prepareBaseData() {

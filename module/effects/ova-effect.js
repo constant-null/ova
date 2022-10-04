@@ -84,6 +84,11 @@ export default class OVAEffect {
         data.level = effect.source.level;
 
         const evaluatedValue = Number.fromString(OVAEffect._safeEval(data, effect.value));
+        let evaluatedDuration = "";
+        if (effect.duration) {
+            evaluatedDuration = Number.fromString(OVAEffect._safeEval(data, effect.duration));
+        }
+
         return {
             label: effect.source.name,
             origin: effect.source.uuid,
@@ -94,7 +99,7 @@ export default class OVAEffect {
                 priority: effect.priority
             }],
             duration: {
-                rounds: +effect.duration,
+                rounds: evaluatedDuration,
             }
         }
     }

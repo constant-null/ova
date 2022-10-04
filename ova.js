@@ -40,6 +40,14 @@ function registerHelper() {
         return ability.data.type === "ability" ? "+" : "-";
     })
 
+    Handlebars.registerHelper("signedValue", (value) => {
+        return value > 0 ? "+" + value : value;
+    })
+
+    Handlebars.registerHelper("get", (object, field) => {
+        return object[field];
+    });
+
     Handlebars.registerHelper("gt", (v1, v2) => {
         return v1 > v2;
     });
