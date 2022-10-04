@@ -2,7 +2,13 @@
     "OVA": {
         "Ability": {
             "Name": "Ability",
-            "NamePlural": "Abilities"
+            "NamePlural": "Abilities",
+            "Root": "Is root ability",
+            "RootTypeName": "Root Type",
+            "Type": {
+                "Modifier": "Modifier",
+                "Entity": "Entity"
+            }
         },
         "Weakness": {
             "Name": "Weakness",

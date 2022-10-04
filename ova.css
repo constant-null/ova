@@ -12,8 +12,10 @@
     background-color: transparent;
 }
 
-.ability-level[contenteditable] {
-    outline: 0px solid transparent;
+.ability-level.item-value {
+    padding: 0px;
+    margin-right: .45em;
+    max-width: .6em;
 }
 
 .ability-description {
@@ -132,4 +134,8 @@ input.character-name {
     position: absolute;
     top: 13em;
     right: 1px;
+}
+
+.hidden {
+    display: none;
 }

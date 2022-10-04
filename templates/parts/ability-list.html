@@ -3,7 +3,10 @@
         <div class="ability-list items">
             {{#each items as |item|}}
             <div class="item ability flexrow {{#if item.selected}}selected{{/if}}" data-item-id="{{item._id}}">
-                {{abilitySign item}}<input class="ability-level item-value" name="item-{{item._id}}" value="{{item.data.level}}" data-dtype="Number"/>
+                {{abilitySign item}}<div class="ability-level item-view" data-item-id="{{item._id}}">{{item.data.level}}
+                </div>
+                <input class="ability-level item-value hidden" name="item-{{item._id}}" data-item-id="{{item._id}}"
+                    value="{{item.data.level}}" data-dtype="Number" />
                 <div class="ability-description">{{item.name}} {{printPerks item}}</div>
                 {{!-- <div class="item-controls">
                     <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>

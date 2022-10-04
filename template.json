@@ -36,6 +36,9 @@
             "type": "ability",
             "level": 1,
             "active": true,
+            "isRoot": false,
+            "rootType": "modifier",
+            "rootId": "",
             "perks": []
         },
         "perk": {

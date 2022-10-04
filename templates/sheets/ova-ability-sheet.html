@@ -9,6 +9,8 @@
             <tr>
                 <th>{{ localize 'OVA.Type' }}</th>
                 <th>{{ localize 'OVA.Active' }}</th>
+                <th>{{ localize 'OVA.Ability.Root' }}</th>
+                {{#if data.isRoot}}<th>{{ localize 'OVA.Ability.RootTypeName' }}</th>{{/if}}
             </tr>
             <tr>
                 <td>
@@ -24,9 +26,26 @@
                     <input name="data.active" type="checkbox" value="{{data.active}}" data-dtype="Boolean" {{checked
                         data.active}} />
                 </td>
+                <td>
+                    <input name="data.isRoot" type="checkbox" value="{{data.isRoot}}" data-dtype="Boolean" {{checked
+                        data.isRoot}} />
+                </td>
+                {{#if data.isRoot}}
+                <td>
+                    <select name="data.rootType">
+                        {{#select data.type}}
+                        {{#each config.rootAbilityTypes as |name type|}}
+                        <option value="{{type}}">{{localize name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </td>
+                {{/if}}
             </tr>
         </table>
-
+        {{#if data.isRoot}}
+        {{> "systems/ova/templates/parts/ability-list.html" items=abilities }}
+        {{/if}}
         <h1>{{localize "OVA.Perk.NamePlural"}}</h1>
         <div class="perks content flexcol" style=" min-height: 20px;">
             {{#each data.perks as |perk|}}

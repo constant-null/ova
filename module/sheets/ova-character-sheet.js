@@ -15,12 +15,35 @@ export default class OVACharacterSheet extends ActorSheet {
     /** @override */
     activateListeners(html) {
         super.activateListeners(html);
+
+        html.find('.item-view').click(this._startEditingItem.bind(this));
+        html.find('.item-edit').on("blur", this._endEditingItem.bind(this));
         html.find('.item-edit').click(this._editItem.bind(this));
         html.find('.item-value').on("input", this._onItemValueChange.bind(this));
         html.find('.item-value').keypress(this._itemValueValidator.bind(this));
         html.find('.ability-description').on("contextmenu", this._editItem.bind(this));
         html.find('.ability-description').click(this._selectAbility.bind(this));
         html.find('.roll-dice').click(this._rollDice.bind(this));
+    }
+
+    _endEditingItem(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var view = e.target.parentNode.querySelector(".item-view");
+        view.classList.toggle("hidden");
+        e.target.classList.toggle("hidden");
+    }
+    
+    _startEditingItem(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var input = e.target.parentNode.querySelector(".item-value");
+        input.classList.toggle("hidden");
+        e.target.classList.toggle("hidden");
+        input.focus();
+        input.select();
     }
 
     async _onSubmit(event, options) {
