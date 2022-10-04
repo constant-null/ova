@@ -108,6 +108,12 @@ export default class OVAItem extends Item {
             map(a => this.actor.getEmbeddedDocument("Item", a)?.data).
             filter(a => a != undefined && a.data.active);
 
+        // add selected on sheet abilities
+        if (this.actor.sheet) {
+            const additionalAbilities = this.actor.sheet._getSelectedAbilities();
+            selectedAbilities.push(...additionalAbilities.filter(a => !itemData.data.abilities.includes(a.id)));
+        }
+
         selectedAbilities.forEach(a => a.effects.forEach(e => itemData.effects.push(e)));
 
         // base roll values

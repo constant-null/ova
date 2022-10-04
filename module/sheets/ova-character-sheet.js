@@ -12,6 +12,7 @@ export default class OVACharacterSheet extends ActorSheet {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             template: 'systems/ova/templates/sheets/ova-character-sheet.html',
+            tabs: [{ navSelector: ".combat-tabs", contentSelector: ".combat-content" }],
         });
     }
 
@@ -97,6 +98,10 @@ export default class OVACharacterSheet extends ActorSheet {
         this.actor.updateEmbeddedDocuments("Item", changedItems);
     }
 
+    _getSelectedAbilities() {
+        return this.actor.items.filter(i => this.selectedAbilities.includes(i.id));
+    }
+
     _makeDefenseRoll(event) {
         event.preventDefault();
         const defense = event.currentTarget.dataset.deftype;
@@ -120,13 +125,12 @@ export default class OVACharacterSheet extends ActorSheet {
 
     _makeManualRoll(event) {
         event.preventDefault();
-        const abilities = this.actor.items.filter(i => this.selectedAbilities.includes(i.id));
 
         const rollData = {
-            mod: 2
+            mod: 2,
+            globalMod: this.actor.data.globalMod,
         };
-
-        const perks = [];
+        const abilities = this._getSelectedAbilities();
         for (const ability of abilities) {
             const abilityData = ability.data;
             let sign = 1;
@@ -136,17 +140,14 @@ export default class OVACharacterSheet extends ActorSheet {
             } else {
                 rollData[abilityData.name.toLowerCase()] = sign * abilityData.data.level.value;
             }
-            if (abilityData.data.perks) {
-                perks.push(...abilityData.data.perks);
-            }
+            enduranceCost += abilityData.data.enduranceCost;
         }
-        let enduranceCost = perks.reduce((cost, perk) => cost + perk.data.level.value * perk.data.enduranceCost, 0);
         if (enduranceCost < 0) enduranceCost = 0;
 
         // sum roll modifiers
         let diceTotal = Object.values(rollData).reduce((a, b) => a + b, 0);
 
-        this._makeRoll({ roll: diceTotal, changes: perks, enduranceCost: enduranceCost});
+        this._makeRoll({ roll: diceTotal, changes: [], enduranceCost: enduranceCost });
     }
 
     async _makeRoll({ roll = 2, dx = 1, effects = [], enduranceCost = 0, ignoreArmor = 0, type = "manual", changes = [], attack = null }) {
@@ -179,10 +180,10 @@ export default class OVACharacterSheet extends ActorSheet {
             type: type,
             changes: changes,
         };
-        const templateData = { 
-            attack: attack, 
+        const templateData = {
+            attack: attack,
             changes: changes,
-            rollResults: await dice.render({isPrivate: false})
+            rollResults: await dice.render({ isPrivate: false })
         };
 
         let html = await renderTemplate("systems/ova/templates/chat/attack-message.html", templateData);
@@ -254,7 +255,7 @@ export default class OVACharacterSheet extends ActorSheet {
     }
 
 
-    _selectAbility(event) {
+    async _selectAbility(event) {
         event.preventDefault();
 
         const abilityId = this._getItemId(event);
@@ -266,7 +267,8 @@ export default class OVACharacterSheet extends ActorSheet {
             this.selectedAbilities.push(abilityId);
         }
 
-        this.render(true);
+        await this.actor.update({});
+        this.render(false);
     }
 
     _onItemValueChange(event) {

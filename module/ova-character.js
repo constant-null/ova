@@ -18,7 +18,10 @@ export default class OVACharacter extends Actor {
         if (charData.endurance.value > charData.endurance.max) {
             charData.endurance.value = charData.endurance.max;
         }
+
         for (const defense in charData.defenses) {
+            charData.defenses[defense] += (charData.globalDefMod + charData.globalMod);
+
             if (charData.defenses[defense] < 0) {
                 charData.defenses[defense] = 0;
             }
@@ -26,6 +29,7 @@ export default class OVACharacter extends Actor {
         if (charData.armor < 0) {
             charData.armor = 0;
         }
+
     }
 
     prepareBaseData() {
@@ -45,7 +49,7 @@ export default class OVACharacter extends Actor {
     prepareDerivedData() {
         super.prepareDerivedData();
 
-        this.items.forEach(item => item.prepareItemData());
+        this._prepareItemData();
         const charData = this.data;
 
         // apply active ability effects to data
@@ -55,11 +59,10 @@ export default class OVACharacter extends Actor {
 
             item.data.effects.forEach(e => e.apply(charData));
         });
+    }
 
-        // increase all defense valuses by 2 (base modifier)
-        for (const defense in charData.defenses) {
-            charData.defenses[defense] += (charData.globalDefMod + charData.globalMod);
-        }
+    _prepareItemData() {
+        this.items.forEach(item => item.prepareItemData());
     }
 
     async applyDamage({ result, dx, effects = [], ignoreArmor = 0 }) {

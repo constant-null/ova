@@ -92,19 +92,19 @@
     border: 3px solid #731d20;
 }
 
-.combat-block>.title {
+.combat-block .title {
     color: white;
     font-size: 2em;
     font-weight: bold;
     margin: .2em;
 }
 
-.combat-block>.list {
+.combat-block .list {
     background-color: white;
     min-height: 4em;
 }
 
-.combat-block>.stats {
+.combat-block .stats {
     border-radius: 0 0 1.3em 1.3em;
     border-top: 1px solid #731d20;
     background-color: white;
@@ -112,7 +112,7 @@
     padding: .2em .5em;
 }
 
-.combat-block>.title>.add-attack {
+.combat-block .title .add-attack {
     position: absolute;
     right: .5em;
     cursor: pointer;
