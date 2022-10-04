@@ -6,4 +6,14 @@ export default class OVAAttack extends OVAItem {
     updateDXAbilities(abilities) {
         this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, "data.abilities": abilities }]);
     }
+
+    prepareDerivedData() {
+        console.log("OVAItem prepareItemData");
+        super.prepareDerivedData();
+
+        const data = this.data;
+        data.roll = 0;
+        data.dx = 0;
+        data.endurance = 0;
+    }
 }

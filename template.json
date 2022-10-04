@@ -34,8 +34,7 @@
             "attack"
         ],
         "attack": {
-            "rollAbilities": [],
-            "dxAbilities": [],
+            "abilities": [],
             "perks": []
         },
         "ability": {
@@ -47,10 +46,12 @@
             "isRoot": false,
             "rootType": "modifier",
             "rootId": "",
-            "perks": []
+            "perks": [],
+            "effects": []
         },
         "perk": {
             "type": "perk",
+            "effects": [],
             "level": {
                 "value": 1
             },

@@ -22,25 +22,16 @@ export default class OVAAttackSheet extends ItemSheet {
 
         var dataset = event.currentTarget.closest(".item").dataset;
         const selectionId = dataset.itemId;
-        const selctionType = dataset.itemType;
 
-        let selected = [];
-        let selectedKey ="";
-        if (selctionType === 'roll') {
-            selectedKey = "data.rollAbilities";
-            selected = this.item.data.data.rollAbilities;
-        } else {
-            selectedKey = "data.dxAbilities";
-            selected = this.item.data.data.dxAbilities;
-        }
-        
+        let selected = this.item.data.data.abilities;
+
         if (selected.includes(selectionId)) {
             selected = selected.filter(id => id !== selectionId);
         } else {
             selected.push(selectionId);
         }
 
-        this.actor.updateEmbeddedDocuments("Item", [{ _id: this.item.id, [selectedKey]: selected }]);
+        this.actor.updateEmbeddedDocuments("Item", [{ _id: this.item.id, "data.abilities": selected }]);
     }
 
     _onDelete(event) {
@@ -49,7 +40,7 @@ export default class OVAAttackSheet extends ItemSheet {
 
         this.item.removePerk(itemId);
     }
-    
+
     _onDeleteSelf(event) {
         event.preventDefault();
 
@@ -69,12 +60,11 @@ export default class OVAAttackSheet extends ItemSheet {
 
         data.item = itemData;
         data.data = itemData.data;
-        data.rollAbilities = itemData.data.rollAbilities;
-        data.dxAbilities = itemData.data.dxAbilities;
+        data.selected = itemData.data.abilities;
         data.abilities = this.actor.items.
             filter(i => i.type === 'ability' && i.data.data.rootId === '').
             map(a => a.data).
-            sort((a, b) => { 
+            sort((a, b) => {
                 // sort by type and name
                 if (a.type === b.type) {
                     return a.name.localeCompare(b.name);

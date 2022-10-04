@@ -44,6 +44,8 @@
         "Attack": {
             "DefaultName": "New Attack"
         },
-        "CombatStats": "Combat Stats"
+        "CombatStats": "Combat Stats",
+        "Effects": "Effects",
+        "Properties": "Properties"
     }
 }

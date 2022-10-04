@@ -65,8 +65,12 @@ function registerHelper() {
         for (let i = 0; i < perks.length; i++) {
             enduranceCost += perks[i].data.enduranceCost * perks[i].data.level.value;
             perkString += perks[i].name.toUpperCase();
-            perkString  += " X" + perks[i].data.level.value;
+            if (perks[i].data.level.value > 1) {
+                perkString += " X" + perks[i].data.level.value;
+            }
+            perkString += ", ";
         }
+        perkString = perkString.substring(0, perkString.length - 2);
 
         if (enduranceCost > 0) {
             perkString += "; " + enduranceCost + " " + game.i18n.format("OVA.Endurance.Short");

@@ -1,5 +1,4 @@
 export default class OVAItem extends Item {
-
     /** @Param []Item */
     addPerks(perks) {
         const currentPerks = this.data.data.perks || [];
@@ -31,11 +30,24 @@ export default class OVAItem extends Item {
         this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, "data.perks": currentPerks }]);
     }
 
+    prepareDerivedData() {
+        super.prepareDerivedData();
+        if (this.type === 'attack') return;
+
+        this.data.effects = [];
+        this.data.data.effects.forEach(e => {
+            this.data.effects.push(new OVAEffect(e));
+        });
+    }
+
     /** @override */
     prepareItemData() {
         if (!this.isEmbedded) return;
-        if (this.type !== 'ability') return;
+        if (this.type === 'ability') this._prepareAbilittyData();
+        if (this.type === 'attack') this._prepareAttackData();
+    }
 
+    _prepareAbilittyData() {
         const itemData = this.data.data;
         itemData.level.mod = 0;
         itemData.isEmbedded = this.isEmbedded;
@@ -61,5 +73,27 @@ export default class OVAItem extends Item {
         // }
         itemData.level.total = itemData.level.value + itemData.level.mod;
         this.sheet == null || this.sheet.render(false);
+    }
+
+    _prepareAttackData() {
+        const itemData = this.data;
+
+        // fill selected abilities from actor
+        const selectedAbilities = itemData.data.abilities.
+            map(a => this.actor.getEmbeddedDocument("Item", a._id)?.data).
+            filter(a => a != undefined);
+
+        // apply effects to attack data
+
+        // base roll values
+        const attackData = {
+            roll: 2,
+            dx: 1,
+            endurance: 0,
+        };
+
+        selectedAbilities.forEach(a => a.effects.forEach(e => e.apply(attackData)));
+
+        Object.assign(itemData.data, attackData);
     }
 }

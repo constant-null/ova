@@ -10,12 +10,8 @@
     <div>
         <div class="ability-block flexrow">
             <div>
-                <h3 class="ability-title">{{ localize 'OVA.Roll.Short' }}</h3>
-                {{> "systems/ova/templates/parts/ability-list.html" items=abilities selected=rollAbilities type="roll" }}
-            </div>
-            <div>
-                <h3 class="ability-title">{{ localize 'OVA.DX.Short' }}</h3>
-                {{> "systems/ova/templates/parts/ability-list.html" items=abilities selected=dxAbilities type="dx" }}
+                <h3 class="ability-title">{{ localize 'OVA.Ability.NamePlural' }}</h3>
+                {{> "systems/ova/templates/parts/ability-list.html" items=abilities selected=selected }}
             </div>
         </div>
         <h1>{{localize "OVA.Perk.NamePlural"}}</h1>

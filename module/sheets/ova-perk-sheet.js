@@ -1,7 +1,9 @@
 export  default class OVAPerkSheet extends ItemSheet {
-    /** @override */
-    get template() {
-        return 'systems/ova/templates/sheets/ova-perk-sheet.html';
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, {
+            tabs: [{navSelector: ".tabs", contentSelector: ".content"}],
+            template: "systems/ova/templates/sheets/ova-perk-sheet.html"
+        });
     }
 
     /** @override */

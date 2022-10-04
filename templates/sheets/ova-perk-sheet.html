@@ -3,27 +3,37 @@
         <img src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64" />
         <h1><input name="name" type="text" value="{{item.name}}" placeholder="{{ localize 'OVA.Name' }}" /></h1>
     </header>
+    <nav class="tabs" data-group="primary-tabs">
+        <a class="item" data-tab="properties" data-group="primary-tabs">{{localize 'OVA.Properties'}}</a>
+        <a class="item" data-tab="effects" data-group="primary-tabs">{{ localize 'OVA.Effects' }}</a>
+    </nav>
     {{!-- Perk Fields --}}
-    <div>
-        <table>
-            <tr>
-                <th>{{ localize 'OVA.Type' }}</th>
-                <th>{{ localize 'OVA.EnduranceCost' }}</th>
-            </tr>
-            <tr>
-                <td>
-                    <select name="data.type">
-                        {{#select data.type}}
-                        {{#each config.perkTypes as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
-                        {{/each}}
-                        {{/select}}
-                    </select>
-                </td>
-                <td>
-                    <input name="data.enduranceCost" type="text" value="{{data.enduranceCost}}" data-dtype="Number"/>
-                </td>
-            </tr>
-        </table>
-    </div>
+    <section class="content">
+        <div class="tab" data-tab="properties" data-group="primary-tabs">
+            <table>
+                <tr>
+                    <th>{{ localize 'OVA.Type' }}</th>
+                    <th>{{ localize 'OVA.EnduranceCost' }}</th>
+                </tr>
+                <tr>
+                    <td>
+                        <select name="data.type">
+                            {{#select data.type}}
+                            {{#each config.perkTypes as |name type|}}
+                            <option value="{{type}}">{{localize name}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </td>
+                    <td>
+                        <input name="data.enduranceCost" type="text" value="{{data.enduranceCost}}"
+                            data-dtype="Number" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="tab" data-tab="effects" data-group="primary-tabs">
+            {{> 'systems/ova/templates/parts/effects.html' }}
+        </div>
+    </section>
 </form>

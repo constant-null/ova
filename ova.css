@@ -90,6 +90,7 @@
     background-color: white;
     min-height: 4em;
 }
+
 .combat-block>.stats {
     border-top: 1px solid #731d20;
     background-color: white;
@@ -184,4 +185,34 @@ input.character-name {
 
 .hidden {
     display: none;
+}
+
+.attack-block>* {
+    padding-left: .2em;
+    padding-top: .3em;
+    border-right: 1px solid #731d20;
+    border-bottom: 1px solid #731d20;
+}
+
+.attack-name {
+    font-weight: bold;
+    color: #731d20;
+}
+
+.attack-description {
+    font-style: bold;
+}
+
+.attack-cell-name {
+    color: #731d20;
+    text-transform: uppercase;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.attack-cell-value {
+    font-family: 'FoundryVTT';
+    font-size: 3em;
+    text-align: center;
+    line-height: .8em;
 }
