@@ -50,6 +50,10 @@ function _checkClear() {
 }
 
 async function _updateCombatData(message, html, data) {
+    if (!game.combat) {
+        lastAttack = null;
+        return;
+    };
     if (!message.getFlag("ova", "combat-data")) {
         await message.setFlag("ova", "combat-data", {
             turn: game.combat.turn,
@@ -73,16 +77,18 @@ async function _onDramaRoll(message, html, data) {
 }
 
 function _onAttackRoll(message, html, data) {
-    if (lastAttack && _getMessageAuthor(lastAttack.message).id !== _getMessageAuthor(message).id) {
-        return _onCounterRoll(message, html, data);
-    }
-    html.find(".flavor-text").html(game.i18n.localize("OVA.Roll.Attack"));
     if (message.data.flags["roll-data"].dx >= 0) {
+        if (lastAttack && _getMessageAuthor(lastAttack.message).id !== _getMessageAuthor(message).id) {
+            return _onCounterRoll(message, html, data);
+        }
+
+        html.find(".flavor-text").html(game.i18n.localize("OVA.Roll.Attack"));
         lastAttack = {
             message: message,
             html: html,
         }
     } else {
+        html.find(".flavor-text").html(game.i18n.localize("OVA.Roll.Heal"));
         html.find("button[data-action='apply-heal']").removeClass("hidden");
     }
 }

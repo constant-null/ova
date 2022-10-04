@@ -25,6 +25,7 @@ export default class OVAItem extends Item {
 
         this.data.data.perks.push(...newPerks.map(p => p.id));
         await this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, "data.perks": this.data.data.perks }]);
+        this.sheet?.render();
     }
 
     // removing single perk with specified id
@@ -38,12 +39,12 @@ export default class OVAItem extends Item {
                 _id: currentPerks[index]._id,
                 "data.level.value": currentPerks[index].data.level.value - 1
             }]);
-            await this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, "data.perks": this.data.data.perks }]);
         } else {
             // remove perk at index
             await this.actor.deleteEmbeddedDocuments("Item", [perkId]);
             await this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, "data.perks": this.data.data.perks.filter(p => p !== perkId) }]);
         }
+        this.sheet?.render();
     }
 
     prepareDerivedData() {

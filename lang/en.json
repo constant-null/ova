@@ -49,6 +49,7 @@
             "Name": "Arrack Roll",
             "Short": "Roll",
             "Attack": "Attack",
+            "Heal": "Heal",
             "Defense": "Defense",
             "Manual": "Manual",
             "Spell": "Spell",
