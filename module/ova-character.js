@@ -29,9 +29,9 @@ export default class OVACharacter extends Actor {
             charData.endurance.value = charData.endurance.max;
         }
 
+        charData.defenses.evasion += charData.speed;
         for (const defense in charData.defenses) {
             charData.defenses[defense] += (charData.globalDefMod + charData.globalMod);
-
             if (charData.defenses[defense] < 0) {
                 charData.defenses[defense] = 0;
             }
@@ -54,6 +54,7 @@ export default class OVACharacter extends Actor {
         charData.defenses = charData.data.defenses;
         charData.hp = charData.data.hp;
         charData.endurance = charData.data.endurance;
+        charData.speed = 0;
     }
 
     prepareDerivedData() {
@@ -78,6 +79,10 @@ export default class OVACharacter extends Actor {
 
     _prepareItemData() {
         this.items.forEach(item => item.prepareItemData());
+    }
+
+    getRollData() {
+        return this.data;
     }
 
     changeHP(amount) {

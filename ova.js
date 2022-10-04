@@ -8,6 +8,7 @@ import OVAItem from "./module/ova-item.js";
 import OVADie from "./module/dice/ova-die.js";
 import OVAAttackSheet from "./module/sheets/ova-attack-sheet.js";
 import OVASpellSheet from "./module/sheets/ova-spell-sheet.js";
+import OVACombatant from "./module/combat/ova-combatant.js";
 
 import * as chat from "./module/chat/chat.js";
 
@@ -19,6 +20,7 @@ Hooks.once("init", function () {
     CONFIG.Actor.documentClass = OVACharacter;
     CONFIG.Dice.types = [OVADie, FateDie]
     CONFIG.Dice.terms['d'] = OVADie;
+    CONFIG.Combatant.documentClass = OVACombatant;
 
     Items.unregisterSheet("core", ItemSheet);
     Items.registerSheet("ova", OVAAbilitySheet, { types: ["ability"] });
@@ -128,3 +130,24 @@ Hooks.on("renderChatMessage", (message, html, data) => {
 });
 
 Hooks.on("renderChatLog", chat.chatListeners);
+
+Hooks.on('preUpdateCombat', function preUpdateCombat(combat, updateData, context) {
+	const roundDelta = updateData.round !== undefined ? updateData.round - combat.round : 0,
+		turnCount = combat.turns.length,
+		roundAdjust = roundDelta * turnCount,
+		forward = roundDelta >= 0,
+		turnDelta = updateData.turn !== undefined ? updateData.turn - combat.turn : 0;
+		// Messy calculation for round changesk
+
+	// TODO: This does not behave nicely if larger time changes happen
+
+	context._turnAnnouncer = {
+		roundShift: roundDelta,
+		combat: combat.id,
+	};
+});
+
+Hooks.on('updateCombat', function updateCombat(combat, updateData, context, userId) {
+    
+});
+

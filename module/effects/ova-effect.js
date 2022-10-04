@@ -37,8 +37,9 @@ export default class OVAEffect {
         data.item = this.item.data;
         data.level = this.item.data.level.value;
         if (!data.changes) data.changes = [];
-        let evaluatedValue = Number.fromString(OVAEffect._safeEval(data, value));
         if (type === 'apply-changes') {
+            let evaluatedValue = Number.fromString(OVAEffect._safeEval(data, value));
+
             const current = foundry.utils.getProperty(data, key) || 0;
             data.changes.push({
                 source: {

@@ -80,12 +80,12 @@ function _onAttackButtonClick(e) {
 
     const attacker = _getMessageAuthor(lastAttack);
     attackRoll.effects.forEach(effect => {
-        if (effect.apply === 'once' && effect.applied == true) return;
+        // dont apply effects on self twice
+        if (effect.target === "self" && effect.apply === 'once' && effect.applied == true) return;
         const actor = effect.target === "self" ? attacker : target;
         actor.addAttackEffects(effect, rollData);
         effect.applied = true;
     });
-
 
 
     // const targets = canvas.tokens.controlled;
@@ -117,7 +117,7 @@ function _calculateDamage(actor, attackRoll, defenseRoll) {
     const armor = actor.data.armor || 0;
     const piercing = attackRoll.ignoreArmor || 0
     const effectiveArmor = Math.max(armor - piercing, 0);
-    const damage = finalResult * (Math.max(attackRoll.dx - effectiveArmor, 0.5));
+    const damage = Math.ceil(finalResult * (Math.max(attackRoll.dx - effectiveArmor, 0.5)));
 
     return damage;
 }

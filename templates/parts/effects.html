@@ -28,6 +28,7 @@
             </div>
             <div class="effect-apply">
                 {{#if (eq effect.type "apply-active-effect")}}
+                {{#if (eq effect.target "self")}}
                 <select name="data.effects[{{@index}}].apply">
                     {{#select effect.apply}}
                     {{#each ../config.effectApplyTypes as |name value|}}
@@ -35,6 +36,7 @@
                     {{/each}}
                     {{/select}}
                 </select>
+                {{/if}}
                 {{/if}}
             </div>
             <div class="effect-key flex2">
