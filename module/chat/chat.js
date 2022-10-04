@@ -19,7 +19,6 @@ export const listenToCombatRolls = function (message, html, data) {
     if (!rollData) return;
     _updateCombatData();
 
-    console.log(rollData.type);
     if (rollData.type === "drama") _onDramaRoll(message, html, data);
     if (rollData.type !== "drama") lastRoll = message;
     if (rollData.type === "attack") _onAttackRoll(message, html, data);
