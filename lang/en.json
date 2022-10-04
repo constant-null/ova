@@ -57,8 +57,10 @@
             "Miracle": "Miracle",
             "DontHurtMe": "Don't Hurt Me!"
         },
-        "Redirect": "Redirect",
-        "LimitedUse": "Limited Use",
+        "LimitedUse": {
+            "Name":"Limited Use",
+            "Short":"Uses"
+        },
         "MakeRoll": "Make Roll",
         "DX": {
             "Name": "Damage Multiplier",

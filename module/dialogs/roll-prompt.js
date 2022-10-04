@@ -64,7 +64,6 @@ export default class RollPrompt extends Dialog {
         this.enduranseSelection = "base";
         this.sizeSelection = "normal";
         this.attack = attack;
-        this.redirect = false;
     }
 
     get template() {
@@ -74,14 +73,14 @@ export default class RollPrompt extends Dialog {
     activateListeners(html) {
         super.activateListeners(html);
 
-        html.find('#roll-redirect').on('change', this._rollRedirectChange.bind(this));
+        html.find('#endurance-cost').on('input', this._changeEnduranceCost.bind(this));
         html.find('.size[data-selection]').click(this._selectSize.bind(this));
         html.find('.enduranse-pool[data-selection]').click(this._selectEnduransePool.bind(this));
     }
-    _rollRedirectChange(e) {
+
+    _changeEnduranceCost(e) {
         e.preventDefault();
-        this.redirect = e.target.checked;
-        this.render(true);
+        this.enduranceCost = parseInt(e.currentTarget.innerHTML);
     }
 
     _selectSize(e) {
@@ -100,17 +99,15 @@ export default class RollPrompt extends Dialog {
     getData() {
         const data = super.getData();
         data.actor = this.actor;
-        if (!this.redirect) {
-            data.enduranceCost = this.enduranceCost;
-        }
+        data.enduranceCost = this.enduranceCost;
+
         if (this.type === 'drama' && data.enduranceCost > 0) {
             data.enduranceCost = `${this.enduranceCost}/${this.enduranceCost * 6}`;
         }
         data.enduranseSelection = this.enduranseSelection;
         data.type = this.type;
         data.sizeSelection = this.sizeSelection;
-        data.redirectable = this.attack?.data.ovaFlags.redirectable;
-        data.redirect = this.redirect;
+
 
         return data;
     }
@@ -142,7 +139,7 @@ export default class RollPrompt extends Dialog {
         if (this.type === 'drama') {
             this.enduranceCost = this.enduranceCost * mul;
         }
-        this.redirect || this.actor.changeEndurance(-this.enduranceCost, this.enduranseSelection === "reserve");
+        this.actor.changeEndurance(-this.enduranceCost, this.enduranseSelection === "reserve");
     }
 
     _makeRoll(roll, negative = false) {

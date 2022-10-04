@@ -376,6 +376,18 @@ input.combat-side-value {
     width: 2em;
 }
 
+.combat-cell-value.small {
+    font-size: 2em;    
+}
+
+.combat-cell .reset-uses {
+    font-size: small;
+    text-align: center;
+}
+.reset-uses:hover {
+    text-shadow: 0 0 8px var(--color-shadow-primary);
+}
+
 .combat-effects {
     position: relative;
     background-color: #ebe1e1;

@@ -16,7 +16,6 @@ export default class ConfirmDialog {
                         callback: () => reject()
                     }
                 },
-                close: () => reject(),
                 default: "no"
             }).render(true);
         });

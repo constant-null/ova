@@ -11,7 +11,16 @@
     <section>
         <div>
             <h2>{{ localize 'OVA.Description' }}</h2>
-            <textarea name="data.description" placeholder="{{ localize 'OVA.Description' }}">{{item.data.description}}</textarea>
+            <textarea name="data.description"
+                placeholder="{{ localize 'OVA.Description' }}">{{item.data.description}}</textarea>
+        </div>
+        <div>
+            <h2>{{localize 'OVA.LimitedUse.Name'}}</h2>
+            <div class="flexrow">
+                <input type="text" value="{{data.limitedUse.value}}" name="data.limitedUse.value"
+                    data-dtype="Number" />/
+                <input type="text" value="{{data.limitedUse.max}}" name="data.limitedUse.max" data-dtype="Number" />
+            </div>
         </div>
         <div class="selectable">
             <h2>{{ localize 'OVA.Ability.NamePlural' }}</h2>

@@ -39,7 +39,11 @@
         "attack": {
             "description": "",
             "abilities": [],
-            "perks": []
+            "perks": [],
+            "limitedUse": {
+                "value": 0,
+                "max": 0
+            }
         },
         "spell": {
             "description": "",

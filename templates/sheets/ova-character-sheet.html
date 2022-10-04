@@ -17,8 +17,10 @@
                     {{localize "OVA.Roll.Drama"}}<div class="drama-dice"></div>
                 </div>
             </div>
-            <div class="drama-dice-name free-drama-dice give-free-dd clickable">Free: {{actor.data.dramaDice.free}}</div>
-            <div class="drama-dice-name free-drama-dice reset-used-dd clickable">Used: {{actor.data.dramaDice.used}}</div>
+            <div class="drama-dice-name free-drama-dice give-free-dd clickable">Free: {{actor.data.dramaDice.free}}
+            </div>
+            <div class="drama-dice-name free-drama-dice reset-used-dd clickable">Used: {{actor.data.dramaDice.used}}
+            </div>
         </div>
         <div>
             <h3 class="ability-title">{{ localize 'OVA.Ability.NamePlural' }}</h3>
@@ -84,6 +86,14 @@
                             <div class="attack-perks">{{printPerks attack}}</div>
                             <div class="attack-description">{{attack.data.description}}</div>
                         </div>
+                        {{#if attack.limitedUse}}
+                        <div class="combat-cell attack-roll small">
+                            <div class="combat-cell-name">{{ localize 'OVA.LimitedUse.Short' }}</div>
+                            <div class="combat-cell-value small">{{ attack.limitedUse.value }}/{{attack.limitedUse.max}}
+                            </div>
+                            <div class="reset-uses clickable"><i hint="reset" class="fas fa-redo"></i></div>
+                        </div>
+                        {{/if}}
                         <div class="combat-cell attack-roll small">
                             <div class="combat-cell-name">{{ localize 'OVA.Roll.Short' }}</div>
                             <div class="combat-cell-value">{{ attack.attack.roll }}</div>
@@ -129,8 +139,9 @@
                 <div class="combat-cell">
                     <div class="combat-cell-name">{{ localize 'OVA.Defense.Name' }}</div>
                     <div class="combat-cell-value">
-                        {{#each actor.data.defenses as |defense type|}}<span title="{{type}}" class="defense-value clickable"
-                            data-deftype="{{type}}">{{defense}}</span>{{#if (not @last)}}/{{/if}}{{/each}}
+                        {{#each actor.data.defenses as |defense type|}}<span title="{{type}}"
+                            class="defense-value clickable" data-deftype="{{type}}">{{defense}}</span>{{#if (not
+                        @last)}}/{{/if}}{{/each}}
                     </div>
                 </div>
                 <div class="combat-side-cell">

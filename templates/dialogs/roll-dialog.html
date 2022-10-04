@@ -37,20 +37,12 @@
     </table>
     {{/if}}
     {{/if}}
-    {{#if redirectable}}
-    <div class="flexrow">
-        <label for="roll-redirect">
-            <h3>{{localize 'OVA.Redirect'}}:</h3>
-        </label>
-        <input id="roll-redirect" type="checkbox" class="dialog-input" data-dtype="boolean" {{checked redirect}} />
-    </div>
-    {{/if}}
     {{#if enduranceCost}}
     <table class="ova">
         <thead>
             <tr>
                 <th>{{localize 'OVA.Endurance.Pool'}}</th>
-                <th>Cost ({{enduranceCost}})</th>
+                <th>Cost (<span id="endurance-cost" contenteditable>{{enduranceCost}}</span>)</th>
             </tr>
         </thead>
         <tbody>
