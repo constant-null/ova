@@ -106,7 +106,7 @@
 
 .ability-block {
     background-color: #ebe1e1;
-    margin: 0px 5em 0px -8px;
+    margin: 0px 5em 0px 0px;
     padding-top: .5em;
     border-radius: 0 1.5em 1.5em 0;
     overflow: hidden;
@@ -193,7 +193,7 @@
     flex-wrap: nowrap;
     align-items: center;
     justify-content: flex-start;
-    margin-right: -8px;
+    margin-right: 0px;
     margin-left: 3em;
     margin-bottom: 1em;
 }
@@ -235,6 +235,7 @@ input.character-name {
     border-color: #731d20;
     border-width: 3px;
     border-style: solid;
+    object-fit: contain;
 }
 
 .fixed-panel {
@@ -459,7 +460,7 @@ input.combat-side-value {
 
 .reserve-block {
     position: absolute;
-    right: -8px;
+    right: 0px;
     top: 28em;
     background-color: #1d3573;
     width: auto;
@@ -655,7 +656,7 @@ input.combat-side-value {
     margin-bottom: .5em;
     background-color: #ebe1e1;
     border-radius: 1em 0 0 1em;
-    margin-right: -8px;
+    margin-right: 0px;
     align-items: center;
     margin-top: -1em;
     height: calc(100% - 9em);
