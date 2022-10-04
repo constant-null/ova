@@ -126,7 +126,7 @@ export default class OVAItem extends Item {
             roll: this.actor.data.globalMod,
             dn: spellDN,
         }
-        spellData.attack.roll += selectedAbilities.reduce((sum, a) => sum + a.data.data.level.value, 0);
+        spellData.attack.roll += selectedAbilities.reduce((sum, a) => sum + (a.data.data.type == "ability" ? a.data.data.level.value : -a.data.data.level.value), 0);
         spellData.enduranceCost += selectedAbilities.reduce((sum, a) => sum + a.data.enduranceCost, 0);
 
         this.sheet == null || this.sheet.render(false);
