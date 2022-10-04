@@ -1,9 +1,9 @@
 {
     "name": "ova",
-    "title": "OVA - Open Versitale Anime",
-    "description": "System for playing Anime styled games.",
-    "author": "Mark Belotskiy",
-    "version": "0.0.1",
+    "title": "OVA",
+    "description": "System for playing Open Versitale Anime Role-Playing Game (OVA)",
+    "author": "Lucius The Mage",
+    "version": "0.1.0",
     "minimumCoreVersion": "9",
     "compatibleCoreVersion": "9.269",
     "esmodules": [
@@ -56,5 +56,9 @@
             "name": "English",
             "path": "lang/en.json"
         }
-    ]
+    ],
+    "url": "https://gitlab.com/lucius-the-mage/ova",
+    "manifest": "https://gitlab.com/lucius-the-mage/ova/-/blob/master/system.json",
+    "download": "https://gitlab.com/lucius-the-mage/ova/-/archive/master/ova-master.zip",
+    "license": "LICENSE.txt"
 }
