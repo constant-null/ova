@@ -121,7 +121,7 @@ export default class OVACharacter extends Actor {
             OVAEffect.applyEffectChanges(oneTimeEffect, this.data.data)
         };
 
-        const persistantEffect = effects.find(e => !e.flags["once"]);
+        const persistantEffect = effects.filter(e => !e.flags["once"]);
 
         await this.update({ data: this.data.data });
 
