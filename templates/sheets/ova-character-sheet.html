@@ -13,11 +13,11 @@
     <div class="ability-block flexrow">
         <div>
             <h3 class="ability-title">{{ localize 'OVA.Ability.NamePlural' }}</h3>
-            {{> "systems/ova/templates/parts/ability-list.html" items=abilities type="ability" }}
+            {{> "systems/ova/templates/parts/ability-list.html" items=abilities selected=selectedAbilities type="ability"}}
         </div>
         <div>
             <h3 class="ability-title">{{ localize 'OVA.Weakness.NamePlural' }}</h3>
-            {{> "systems/ova/templates/parts/ability-list.html" items=weaknesses type="weakness" }}
+            {{> "systems/ova/templates/parts/ability-list.html" items=weaknesses selected=selectedAbilities type="weakness"}}
         </div>
     </div>
     <div class="combat-block">

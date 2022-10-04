@@ -189,16 +189,13 @@ export default class OVACharacterSheet extends ActorSheet {
         context.abilities = [];
         context.weaknesses = [];
         context.attacks = [];
+        context.selectedAbilities = this.selectedAbilities;
         for (const item of this.actor.items) {
             const itemData = item.data;
             if (itemData.type === "attack") {
                 context.attacks.push(itemData);
                 continue;
             }
-            itemData.selected = this.selectedAbilities.includes(itemData._id);
-            if (itemData.data.abilities) {
-                itemData.data.abilities.forEach(a => a.data.selected = this.selectedAbilities.includes(a._id));
-            } 
             if (itemData.data.rootId != '') continue;
 
             if (itemData.data.type === "ability") {

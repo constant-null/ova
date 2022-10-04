@@ -44,7 +44,13 @@ export default class OVAItem extends Item {
             // add chilren abilities
             const abilities = this.actor.items.map(i => i.data).filter(i => i.data.rootId === this.id);
             itemData.abilities = abilities;
-            itemData.abilities.sort((a, b) => a.data.name.localeCompare(b.data.name));
+            itemData.abilities.sort((a, b) => {
+                // sort by type and name
+                if (a.type === b.type) {
+                    return a.name.localeCompare(b.name);
+                }
+                return a.type.localeCompare(b.type);
+            });
         }
         //  else if (itemData.rootId == '') {
         //     // add abilities with the same name

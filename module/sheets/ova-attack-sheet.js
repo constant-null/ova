@@ -24,20 +24,23 @@ export default class OVAAttackSheet extends ItemSheet {
         const selectionId = dataset.itemId;
         const selctionType = dataset.itemType;
 
-        let selected = []
+        let selected = [];
+        let selectedKey ="";
         if (selctionType === 'roll') {
+            selectedKey = "data.rollAbilities";
             selected = this.item.data.data.rollAbilities;
         } else {
+            selectedKey = "data.dxAbilities";
             selected = this.item.data.data.dxAbilities;
         }
         
-        if (this.selected.includes(selectionId)) {
-            this.selected = this.selected.filter(id => id !== selectionId);
+        if (selected.includes(selectionId)) {
+            selected = selected.filter(id => id !== selectionId);
         } else {
-            this.selected.push(selectionId);
+            selected.push(selectionId);
         }
 
-        this.render(true);
+        this.actor.updateEmbeddedDocuments("Item", [{ _id: this.item.id, [selectedKey]: selected }]);
     }
 
     _onDelete(event) {
@@ -66,6 +69,18 @@ export default class OVAAttackSheet extends ItemSheet {
 
         data.item = itemData;
         data.data = itemData.data;
+        data.rollAbilities = itemData.data.rollAbilities;
+        data.dxAbilities = itemData.data.dxAbilities;
+        data.abilities = this.actor.items.
+            filter(i => i.type === 'ability' && i.data.data.rootId === '').
+            map(a => a.data).
+            sort((a, b) => { 
+                // sort by type and name
+                if (a.type === b.type) {
+                    return a.name.localeCompare(b.name);
+                }
+                return a.type.localeCompare(b.type);
+            });
 
         return data;
     }

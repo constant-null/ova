@@ -50,6 +50,11 @@ function registerHelper() {
         return v1 * v2;
     });
 
+    Handlebars.registerHelper("contains", (list, el) => {
+        if (!list) return false;
+        return list.includes(el);
+    });
+
     // concatinate perk names with ; separator, combine duplicates (add amount of duplicates)
     Handlebars.registerHelper("printPerks", (ability) => {
         let perks = ability.data.perks;
