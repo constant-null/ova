@@ -19,7 +19,7 @@ export default class OVAAbilitySheet extends BaseItemSheet {
             html.find('.item-edit').click(this.actor.sheet._editItem.bind(this));
             html.find('.item-value').on("input", this.actor.sheet._onItemValueChange.bind(this));
             html.find('.item-value').keypress(this.actor.sheet._itemValueValidator.bind(this));
-            html.find('.ability-description').on("contextmenu", this.actor.sheet._editItem.bind(this));
+            html.find('.ability-name').on("contextmenu", this.actor.sheet._editItem.bind(this));
         }
     }
 

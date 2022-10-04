@@ -69,6 +69,13 @@
     overflow: hidden;
 }
 
+.ability-active {
+    margin-right: 2px;
+    font-size: smaller;
+    color: #731d20;
+    cursor: pointer;
+}
+
 .combat-block {
     position: relative;
     max-width: 400px;

@@ -38,7 +38,6 @@ export default class OVAItem extends Item {
 
         itemData.effects = [];
         if (itemData.type !== 'perk') {
-            console.log(`preparing effects ${itemData.type}, ${itemData.name}`);
             itemData.data.perks.forEach(p => {
                 p.data.effects.forEach(e => {
                     itemData.effects.push(new OVAEffect(p, e));
@@ -102,7 +101,7 @@ export default class OVAItem extends Item {
         // fill selected abilities from actor
         const selectedAbilities = itemData.data.abilities.
             map(a => this.actor.getEmbeddedDocument("Item", a)?.data).
-            filter(a => a != undefined);
+            filter(a => a != undefined && a.data.active);
 
         selectedAbilities.forEach(a => a.effects.forEach(e => itemData.effects.push(e)));
 

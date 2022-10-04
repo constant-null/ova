@@ -22,7 +22,9 @@ export default class OVACharacterSheet extends ActorSheet {
         html.find('.item-value').on("input", this._onItemValueChange.bind(this));
         html.find('.item-value').keypress(this._itemValueValidator.bind(this));
         html.find('.ability-description').on("contextmenu", this._editItem.bind(this));
-        html.find('.ability-description').click(this._selectAbility.bind(this));
+        html.find('.ability-name').click(this._selectAbility.bind(this));
+        html.find('.ability-active').click(this._toggleAbility.bind(this));
+
         html.find('.roll-dice').click(this._rollDice.bind(this));
 
         html.find('.attack-block').on("contextmenu", this._editItem.bind(this));
@@ -149,6 +151,28 @@ export default class OVACharacterSheet extends ActorSheet {
         item.sheet.render(true, { editable: true });
     }
 
+    _toggleAbility(event) {
+        event.preventDefault();
+
+        const abilityId = this._getItemId(event);
+        const ability = this.actor.items.find(i => i.id === abilityId);
+        if (!ability) {
+            console.log(`Could not find item with id ${abilityId}`);
+            return;
+        }
+
+        const newValue =  !ability.data.data.active;
+        const values = [{_id: ability.id, "data.active": newValue}];
+
+        // find children of ability
+        const children = this.actor.items.filter(i => i.data.data.rootId === abilityId);
+        for (const child of children) {
+            values.push({_id: child.id, "data.active": newValue});
+        }
+
+        this.actor.updateEmbeddedDocuments("Item", values);
+    }
+    
     _selectAbility(event) {
         event.preventDefault();
 
