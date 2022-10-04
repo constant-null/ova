@@ -50,6 +50,12 @@
             "Short": "HP"
         },
         "CharacterName": "Character Name",
+        "Character": {
+            "Name": "Character"
+        },
+        "NPC": {
+            "Name": "NPC"
+        },
         "Portrait": "Portrait",
         "Roll": {
             "Name": "Arrack Roll",

@@ -50,6 +50,12 @@
             "Short": "HP"
         },
         "CharacterName": "Имя Персонажа",
+        "Character": {
+            "Name": "Персонаж"
+        },
+        "NPC": {
+            "Name": "НПС"
+        },
         "Portrait": "Портрет",
         "Roll": {
             "Name": "Бросок Атаки",

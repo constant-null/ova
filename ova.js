@@ -36,6 +36,8 @@ Hooks.once("init", function () {
     CONFIG.ActiveEffect.documentClass = OVAActiveEffect;
     CONFIG.Item.typeLabels["ability"] = "OVA.Ability.Name";
     CONFIG.Item.typeLabels["perk"] = "OVA.Perk.Name";
+    CONFIG.Actor.typeLabels["character"] = "OVA.Character.Name";
+    CONFIG.Actor.typeLabels["npc"] = "OVA.NPC.Name";
     // CONFIG.debug.hooks = true;
 
     Items.unregisterSheet("core", ItemSheet);
