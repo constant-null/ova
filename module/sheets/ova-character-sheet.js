@@ -25,10 +25,13 @@ export default class OVACharacterSheet extends ActorSheet {
         html.find('.ability-name').click(this._selectAbility.bind(this));
         html.find('.ability-active').click(this._toggleAbility.bind(this));
 
-        html.find('.roll-dice').click(this._rollDice.bind(this));
+        html.find('.roll-dice').click(this._makeManualRoll.bind(this));
 
         html.find('.attack-block').on("contextmenu", this._editItem.bind(this));
         html.find('.add-attack').click(this._addAttack.bind(this));
+
+        html.find('.attack-block').click(this._makeAttackRoll.bind(this));
+        html.find('.defense-value').click(this._makeDefenseRoll.bind(this));
     }
 
     async _addAttack(e) {
@@ -78,15 +81,32 @@ export default class OVACharacterSheet extends ActorSheet {
         this.actor.updateEmbeddedDocuments("Item", changedItems);
     }
 
-    _rollDice(event) {
+    _makeDefenseRoll(event) {
         event.preventDefault();
+        const defense = event.currentTarget.dataset.deftype;
 
-        // get all selected items
-        const selectedItems = this.actor.items.filter(i => this.selectedAbilities.includes(i.id));
-        this.makeManualRoll(selectedItems);
+        const dice = this.actor.data.defenses[defense];
+        this._makeRoll(dice, []);
     }
 
-    makeManualRoll(abilities) {
+    _makeAttackRoll(event) {
+        event.preventDefault();
+        const attackId = this._getItemId(event);
+
+        const attack = this.actor.items.find(i => i.id === attackId);
+        if (!attack) {
+            console.log(`Could not find attack with id ${attackId}`);
+            return;
+        }
+
+        const roll = attack.data.roll;
+        this._makeRoll(roll, []);
+    }
+
+    _makeManualRoll(event) {
+        event.preventDefault();
+        const abilities = this.actor.items.filter(i => this.selectedAbilities.includes(i.id));
+
         const rollData = {
             mod: 2
         };
@@ -111,18 +131,23 @@ export default class OVACharacterSheet extends ActorSheet {
 
         // sum roll modifiers
         let diceTotal = Object.values(rollData).reduce((a, b) => a + b, 0);
+
+        makeRoll(diceTotal, []);
+    }
+
+    _makeRoll(dice, changes = []) {
         let negativeDice = false;
-        if (diceTotal <= 0) {
+        if (dice <= 0) {
             negativeDice = true;
-            diceTotal = 2 - diceTotal;
+            dice = 2 - dice;
         }
 
         // roll dice
         let roll;
         if (negativeDice) {
-            roll = new Roll(`${diceTotal}d6kl`);
+            roll = new Roll(`${dice}d6kl`);
         } else {
-            roll = new Roll(`${diceTotal}d6khs`);
+            roll = new Roll(`${dice}d6khs`);
         }
         roll.evaluate({ async: false })
 
@@ -130,6 +155,7 @@ export default class OVACharacterSheet extends ActorSheet {
 
         roll.toMessage({
             flavor: "OVA",
+            changes: changes,
             speaker: ChatMessage.getSpeaker({ actor: this.actor }),
         })
     }
@@ -162,18 +188,18 @@ export default class OVACharacterSheet extends ActorSheet {
             return;
         }
 
-        const newValue =  !ability.data.data.active;
-        const values = [{_id: ability.id, "data.active": newValue}];
+        const newValue = !ability.data.data.active;
+        const values = [{ _id: ability.id, "data.active": newValue }];
 
         // find children of ability
         const children = this.actor.items.filter(i => i.data.data.rootId === abilityId);
         for (const child of children) {
-            values.push({_id: child.id, "data.active": newValue});
+            values.push({ _id: child.id, "data.active": newValue });
         }
 
         this.actor.updateEmbeddedDocuments("Item", values);
     }
-    
+
     _selectAbility(event) {
         event.preventDefault();
 

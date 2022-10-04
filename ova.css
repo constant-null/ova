@@ -83,7 +83,7 @@
 
 .combat-block {
     margin-left: auto;
-    position: relative;   
+    position: relative;
     max-width: 400px;
     background-color: #731d20;
     margin-top: 1em;
@@ -205,6 +205,14 @@ input.character-name {
     display: none;
 }
 
+.attack-block {
+    cursor: pointer;
+}
+
+.defense-value {
+    cursor: pointer;
+}
+
 .attack-block>* {
     /* padding-left: .2em; */
     padding-top: .3em;
@@ -254,7 +262,7 @@ input.character-name {
 }
 
 .effects {
-    position: relative;   
+    position: relative;
 }
 
 .effects>.title {
@@ -263,6 +271,7 @@ input.character-name {
     margin: .2em;
     border-bottom: 1px solid #731d20;
 }
+
 .effects>.title>.add-effect {
     position: absolute;
     right: .5em;

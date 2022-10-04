@@ -37,13 +37,16 @@ export default class OVAItem extends Item {
         const itemData = this.data;
 
         itemData.effects = [];
+        let enduranceCost = 0;
         if (itemData.type !== 'perk') {
             itemData.data.perks.forEach(p => {
+                enduranceCost += p.data.level.value * p.data.enduranceCost;
                 p.data.effects.forEach(e => {
                     itemData.effects.push(new OVAEffect(p, e));
                 });
             });
         }
+        itemData.enduranceCost = enduranceCost;
 
         if (this.type !== 'attack') {
             itemData.effects = [];
@@ -95,6 +98,7 @@ export default class OVAItem extends Item {
             this.actor.deleteEmbeddedDocuments("Item", abilities)
         }
     }
+
     _prepareAttackData() {
         const itemData = this.data;
 
@@ -109,14 +113,11 @@ export default class OVAItem extends Item {
 
         // base roll values
         const attackData = {
-            attack: {
-                roll: 2,
-                dx: 1,
-                endurance: 0,
-            }
+            roll: 2,
+            dx: 1
         };
 
         itemData.effects.forEach(e => e.apply(attackData));
-        Object.assign(itemData.data, attackData.attack);
+        Object.assign(itemData, attackData);
     }
 }

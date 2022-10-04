@@ -32,6 +32,8 @@ export default class Effect {
             data.item = this.item.data;
             const current = foundry.utils.getProperty(data, key) || 0;
             let updade = Number.fromString(this._safeEval(data, value));
+            if (!data.changes) data.changes = [];
+            data.changes.push({ source: this.item, key: key, mode: mode, value: updade });
             switch (parseInt(mode)) {
                 case CONST.ACTIVE_EFFECT_MODES.ADD:
                     updade = current + updade;
