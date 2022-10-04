@@ -5,6 +5,7 @@ export default function registerHandlebarsHelpers() {
     });
 
     Handlebars.registerHelper("maskedKey", (key) => {
+        if (!key) return false;
         // check if key has a mask (?)
         return key.indexOf("?") !== -1;
     });
@@ -43,7 +44,16 @@ export default function registerHandlebarsHelpers() {
     });
 
     Handlebars.registerHelper("mapEffectKey", (key) => {
-        return CONFIG.OVA.allEffects[key] || key;
+        if (!key) return "";
+
+        let suffix = "";
+        // if key starts with defenses or resistances, replace suffix with ?
+        if (key.startsWith("defenses.") || key.startsWith("resistances.")) {
+            const [type, name] = key.split(".")
+            key = type + ".?";
+            suffix = ": " + name;
+        }
+        return game.i18n.localize(CONFIG.OVA.allEffects[key]) + suffix || key;
     });
 
     Handlebars.registerHelper("mapEffectTime", (value) => {

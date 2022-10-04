@@ -48,7 +48,10 @@
     {{/if}}
     <div class="combat flexrow">
         <div class="combat-effects">
-            <h3 class="ability-title">{{localize 'OVA.CombatEffects'}}</h3>
+            <div class="flexrow">
+                <h3 class="ability-title">{{localize 'OVA.CombatEffects'}}</h3>
+                <span class="add-active-effect clickable">+</span>
+            </div>
             <div class="ability-card">
                 <div class="ability-list">
                     {{#each actor.data.effects as |effect|}}

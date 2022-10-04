@@ -1,5 +1,7 @@
 import RollPrompt from "../dialogs/roll-prompt.js";
 import CombatMessage from "../chat/combat-message.js";
+import AddActiveEffectPrompt from "../dialogs/add-active-effect-dialog.js";
+
 export default class OVACharacterSheet extends ActorSheet {
     /** @override */
     constructor(...args) {
@@ -38,6 +40,7 @@ export default class OVACharacterSheet extends ActorSheet {
         html.find('.defense-value').click(this._makeDefenseRoll.bind(this));
 
         html.find('.effect-delete').click(this._removeEffect.bind(this));
+        html.find('.add-active-effect').click(this._addActiveEffect.bind(this));
 
         html.find('.endurance-max-value').on("focus", this._onEnduranceMaxFocus.bind(this));
         html.find('.hp-max-value').on("focus", this._onHPMaxFocus.bind(this));
@@ -50,6 +53,13 @@ export default class OVACharacterSheet extends ActorSheet {
         const inputs = html.find("input");
         inputs.focus(ev => ev.currentTarget.select());
         inputs.addBack().find('[data-dtype="Number"]').change(this._onChangeInputDelta.bind(this));
+    }
+
+    _addActiveEffect(event) {
+        event.preventDefault();
+
+        const createDialog = new AddActiveEffectPrompt(this.actor);
+        createDialog.render(true);
     }
 
     _giveFreeDramaDice(event) {
@@ -294,7 +304,6 @@ export default class OVACharacterSheet extends ActorSheet {
     }
 
     async _makeRoll({ roll = 2, dv = 0, dx = 1, effects = [], enduranceCost = 0, ignoreArmor = 0, type = "manual", changes = [], attack = null, flavor = '', callback = null }) {
-        // const result = await RollPrompt.RenderPrompt("", this.actor);
         const result = await new RollPrompt(flavor, type, this.actor, enduranceCost).show();
         if (result === false) return;
         callback?.bind(this)();

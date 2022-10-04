@@ -1,0 +1,89 @@
+<div class="dialog-content">
+    <form class="sheet">
+        <header class="sheet-header">
+            <h1><input name="name" type="text" value="{{effect.label}}" placeholder="{{ localize 'OVA.Name' }}" /></h1>
+        </header>
+        <div class="effect">
+            <div class="flexrow flex-bottom">
+                <div class="effect-key flex0">
+                    <label for="effect-key">Change:</label>
+                    <select  id="effect-key" class="effect-key-select" name="effect.key">
+                        {{#select effect.key}}
+                        {{#each config.activeEffectKeys as |name key|}}
+                        <option value="{{key}}">{{localize name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <div class="effect-key-value hidden">
+                    <label for="effect-key-value">{{localize 'OVA.Name'}}:</label>
+                    <input id="key-value" name="effect.keyValue" type="text" value="{{effect.keyValue}}" />
+                </div>
+                <div class="effect-mode">
+                    <select name="effect.mode" data-dtype="Number">
+                        {{#select effect.mode}}
+                        {{#each config.activeEffectModes as |name target|}}
+                        <option value="{{target}}">{{localize name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+            </div>
+            <div class="flexrow">
+                <label class="flex0">Value:</label>
+                <div class="effect-value">
+                    <input name="effect.value" type="text" value="{{effect.value}}" />
+                </div>
+            </div>
+            <hr />
+            <label>{{localize 'OVA.Effects.OverTimeModes.EachRound'}}:</label>
+            <div class="flexrow">
+                <div class="over-time-key flex0">
+                    <select name="effect.overTime.key">
+                        {{#select effect.overTime.key}}
+                        {{#each config.overTimeEffect as |name key|}}
+                        <option value="{{key}}">{{localize name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <div class="over-time-mode">
+                    <select name="effect.overTime.mode" data-dtype="Number">
+                        {{#select effect.overTime.mode}}
+                        {{#each config.activeEffectModes as |name value|}}
+                        <option value="{{value}}">{{localize name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+            </div>
+            <div class="flexrow">
+                <label class="flex0">Value: </label>
+                <div class="over-time-value">
+                    <input name="effect.overTime.value" type="text" value="{{effect.overTime.value}}" />
+                </div>
+            </div>
+            <hr />
+            <div class="flexrow">
+                <label>{{localize 'OVA.Duration.Rounds'}}:</label>
+                <div class="effect-duration">
+                    <input name="effect.duration" type="text" data-dtype="Number" value="{{effect.duration}}" />
+                </div>
+            </div>
+            <div class="flexrow">
+                <label>Priority:</label>
+                <div class="effect-priority">
+                    <input name="effect.priority" data-dtype="Number" type="text" value="{{effect.priority}}" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="clickable dialog-buttons">
+    {{#each buttons as |button id|}}
+    <button class="dialog-button {{cssClass}}" data-button="{{id}}">
+        {{{button.icon}}}
+        {{{button.label}}}
+    </button>
+    {{/each}}
+</div>

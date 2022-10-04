@@ -1,8 +1,8 @@
 {{effect.label}} <span class="active-effect-desc">
 {{#if effect.changes.0.value}}
-({{localize (mapEffectKey effect.changes.0.key)}} {{activeEffectMode effect.changes.0.mode}}{{signedValue effect.changes.0.value}})
+({{mapEffectKey effect.changes.0.key}} {{activeEffectMode effect.changes.0.mode}}{{signedValue effect.changes.0.value}})
 {{/if}}
 {{#each effect.flags as |when name|}}
-({{localize (mapEffectTime name)}}: {{localize (mapEffectKey when.key)}} {{activeEffectMode effect.when.key}}{{signedValue when.value}})
+({{localize (mapEffectTime name)}}: {{mapEffectKey when.key}} {{activeEffectMode effect.when.key}}{{signedValue when.value}})
 {{/each}}
 </span>

@@ -116,7 +116,7 @@
                     "DX": "Damage Multiplier",
                     "Roll": "Attack Roll"
                 },
-                "Resistances": "Resistances",
+                "Resistances": "Resistance",
                 "Defenses": "Defenses",
                 "DramaDice": {
                     "Free": "Free Drama Dice"
@@ -178,6 +178,8 @@
         "GiveDramaDice": {
             "Title": "Give Drama Dice",
             "Description": "Do you want to give character free Drama Dice?"
-        }
+        },
+        "Create": "Create",
+        "AddActiveEffect": "Add Active Effect"
     }
 }
