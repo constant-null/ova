@@ -359,3 +359,7 @@ input[type="text"].combat-cell-value {
 .item-control {
     margin-right: .5em;
 }
+
+.combat-tabs :not(.active) {
+    color: darkgray;
+}

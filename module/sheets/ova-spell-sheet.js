@@ -5,6 +5,7 @@ export default class OVASpellSheet extends ItemSheet {
             dragDrop: [{ dropSelector: ".items" }],
         });
     }
+
     activateListeners(html) {
         super.activateListeners(html);
 
@@ -18,8 +19,16 @@ export default class OVASpellSheet extends ItemSheet {
             html.find('.item-value').on("input", sheet._onItemValueChange.bind(sheet));
             html.find('.item-value').keypress(sheet._itemValueValidator.bind(sheet));
             html.find('.ability-name').on("contextmenu", sheet._editItem.bind(sheet));
+            html.find('.item-delete').click(this._onDeleteSelf.bind(this));
         }
     }
+
+    _onDeleteSelf(event) {
+        event.preventDefault();
+
+        this.actor.deleteEmbeddedDocuments("Item", [this.item.id]);
+    }
+
 
     async _onSubmit(event) {
         if (this.item.isEmbedded) {

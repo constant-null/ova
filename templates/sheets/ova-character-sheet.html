@@ -32,7 +32,7 @@
                         <div class="ability-description">
                             {{effect.data.label}} ({{effect.data.changes.0.key}} {{effect.data.changes.0.value}})
                         </div>
-                        <a class="item-control effect-delete flex0" title="Delete Item"><i class="fas fa-minus"></i></a>
+                        <a class="item-control item-delete flex0" title="Delete Item"><i class="fas fa-minus"></i></a>
                     </div>
                     {{/each}}
                 </div>
@@ -42,7 +42,7 @@
             <div class="title flexrow">
                 <nav class="combat-tabs" data-group="combat-tabs">
                     <a data-tab="combat-stats" data-group="combat-tabs">{{localize 'OVA.CombatStats'}}</a>
-                  | <a data-tab="magic" data-group="combat-tabs">{{localize 'OVA.Magic'}}</a>
+                  {{#if data.haveMagic}}| <a data-tab="magic" data-group="combat-tabs">{{localize 'OVA.Magic'}}</a>{{/if}}
                 </nav>
                 <span class="add-attack">+</span>
             </div>
@@ -75,6 +75,7 @@
                     <div class="attack-block flexrow item" data-item-id="{{spell._id}}">
                         <div class="attack-info">
                             <div class="attack-name">{{spell.name}}</div>
+                            <div class="attack-perks">{{spell.data.abilities.0.name}} {{abilitySign spell.data.abilities.[0]}}{{spell.data.abilities.0.data.level.value}}</div>
                             <div class="attack-description">{{spell.data.description}}</div>
                         </div>
                     </div>

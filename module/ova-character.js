@@ -67,6 +67,11 @@ export default class OVACharacter extends Actor {
 
             item.data.effects.forEach(e => e.apply(charData));
         });
+
+        // get magical abilities
+        const magicAbilities = this.items.filter(item => item.data.type === 'ability' && item.data.data.magic);
+        charData.magic = magicAbilities;
+        charData.haveMagic = magicAbilities.length > 0;
     }
 
     _prepareItemData() {

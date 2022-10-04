@@ -21,6 +21,7 @@
                     <th>{{ localize 'OVA.Passive' }}</th>
                     <th>{{ localize 'OVA.Ability.Root' }}</th>
                     {{#if data.isRoot}}<th>{{ localize 'OVA.Ability.RootTypeName' }}</th>{{/if}}
+                    <th>{{ localize 'OVA.Ability.Magic' }}</th>
                 </tr>
                 <tr>
                     <td>
@@ -55,6 +56,10 @@
                         </select>
                     </td>
                     {{/if}}
+                    <td>
+                        <input name="data.magic" type="checkbox" value="{{data.magic}}" data-dtype="Boolean" {{checked
+                            data.magic}} />
+                    </td>
                 </tr>
             </table>
             {{#if data.isEmbedded}}

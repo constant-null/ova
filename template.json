@@ -49,6 +49,7 @@
             "isRoot": false,
             "rootType": "modifier",
             "rootId": "",
+            "magic": false,
             "perks": [],
             "effects": []
         },
