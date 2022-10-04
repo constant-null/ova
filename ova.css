@@ -337,6 +337,8 @@ input[type="text"].combat-cell-value {
 
 .combat-side-cell {
     margin-top: .6em;
+    display: flex;
+    flex-direction: column;
 }
 
 .combat-side-cell>* {
