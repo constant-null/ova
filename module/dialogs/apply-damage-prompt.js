@@ -14,6 +14,7 @@ export default class ApplyDamagePrompt extends Dialog {
         this.rawEffects = effects;
         this.targets = targets;
         this.attacker = attacker;
+        this.fatiguing = this.rollData.attack.fatiguing;
 
         // fill resistances from target
         this.resistances = {};
@@ -151,7 +152,11 @@ export default class ApplyDamagePrompt extends Dialog {
 
         await this.attacker.addAttackEffects(activeSelfEffects);
         this.targets.forEach(target => {
-            target.changeHP(this.rollData.attack.damage);
+            if (this.fatiguing) {
+                target.changeEndurance(this.rollData.attack.damage);
+            } else {
+                target.changeHP(this.rollData.attack.damage);
+            }
             target.addAttackEffects(activeTargetEffects);
         });
 

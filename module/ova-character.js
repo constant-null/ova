@@ -144,7 +144,8 @@ export default class OVACharacter extends Actor {
         // save abilities that have affected defenses for future use
         if (!charData.changes) charData.changes = [];
         const defenseChanges = charData.changes.filter(change => change.key === "defenses.?" || change.key === "speed");
-        charData.defenseAbilities = {}        
+        charData.defenseAbilities = {};
+        charData.defenseAbilities["evasion"] = {}; // for default defense     
         defenseChanges.forEach(change => {
             // TODO: do i really need speed as separate modiefier?
             const defense = change.key === "speed" || !change.keyValue ? "evasion" : change.keyValue;

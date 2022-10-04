@@ -125,6 +125,7 @@
                 },
                 "Resistances": "Resistance",
                 "Defenses": "Defenses",
+                "Flags": "Flags",
                 "DramaDice": {
                     "Free": "Free Drama Dice"
                 }

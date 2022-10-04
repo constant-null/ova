@@ -163,6 +163,7 @@ async function _onApplyDamageClick(e) {
             dx: attackRoll.dx,
             result: attackRoll.result,
             ignoreArmor: attackRoll.ignoreArmor,
+            fatiguing: attackRoll.fatiguing,
         },
         defense: {
             roll: defenseRoll.roll,

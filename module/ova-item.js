@@ -36,6 +36,7 @@ export default class OVAItem extends Item {
     prepareDerivedData() {
         super.prepareDerivedData();
         const itemData = this.data;
+        itemData.ovaFlags = {};
 
         itemData.ovaEffects = [];
         let enduranceCost = itemData.data.enduranceCost || 0;
