@@ -125,7 +125,7 @@ export default class OVACharacterSheet extends ActorSheet {
             return;
         }
 
-        this._makeRoll({ ...attack.data.attack, type: "attack", attack: attack });
+        this._makeRoll({ ...attack.data.attack, effects: attack.data.effects, type: "attack", attack: attack });
     }
 
     _makeManualRoll(event) {

@@ -80,9 +80,12 @@ function _onAttackButtonClick(e) {
 
     const attacker = _getMessageAuthor(lastAttack);
     attackRoll.effects.forEach(effect => {
+        if (effect.apply === 'once' && effect.applied == true) return;
         const actor = effect.target === "self" ? attacker : target;
         actor.addAttackEffects(effect, rollData);
+        effect.applied = true;
     });
+
 
 
     // const targets = canvas.tokens.controlled;
@@ -100,12 +103,12 @@ function _getMessageAuthor(message) {
         const authorId = message.data.speaker.token;
         author = game.scenes.active?.tokens.get(authorId)?.actor;
     }
-    if (!target) {
+    if (!author) {
         const authorId = message.data.speaker.actor;
         author = game.actors.get(authorId);
     }
 
-    return target;
+    return author;
 }
 
 function _calculateDamage(actor, attackRoll, defenseRoll) {

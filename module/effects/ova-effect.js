@@ -10,6 +10,7 @@ export default class OVAEffect {
          * mode: CONST.ACTIVE_EFFECT_MODES,
          * priority: 0, // only for active effects
          * value: "1",
+         * apply: "once|per-target",
          * }
          */
         this.data = data;
@@ -26,12 +27,17 @@ export default class OVAEffect {
         "target": "OVA.Effects.Targets.Target",
     }
 
+    static APPLY_TYPES = {
+        "once": "OVA.Effects.ApplyTypes.Once",
+        "per-target": "OVA.Effects.ApplyTypes.PerTarget",
+    }
+
     apply(data) {
-        const { type, target, key, mode, priority, value } = this.data;
+        const { type, target, key, mode, apply, priority, value } = this.data;
         data.item = this.item.data;
         data.level = this.item.data.level.value;
         if (!data.changes) data.changes = [];
-        let evaluatedValue = Number.fromString(this._safeEval(data, value));
+        let evaluatedValue = Number.fromString(OVAEffect._safeEval(data, value));
         if (type === 'apply-changes') {
             const current = foundry.utils.getProperty(data, key) || 0;
             data.changes.push({
@@ -66,11 +72,7 @@ export default class OVAEffect {
                     type: this.item.type,
                     level: this.item.data.level.value
                 },
-                target: target, 
-                key: key, 
-                mode: mode, 
-                value: value, 
-                priority: priority
+                ...this.data,
             });
         }
     }
@@ -78,8 +80,8 @@ export default class OVAEffect {
     static createActiveEffect(effect, data) {
         data.item = effect.source.data;
         data.level = effect.source.level;
-        
-        const evaluatedValue = Number.fromString(this._safeEval(data, effect.value));
+
+        const evaluatedValue = Number.fromString(OVAEffect._safeEval(data, effect.value));
         return {
             label: effect.source.name,
             origin: effect.source.uuid,
@@ -93,7 +95,7 @@ export default class OVAEffect {
     }
 
     /** shamelesly stolen and modified from Roll.safeEval */
-    _safeEval(data, expression) {
+    static _safeEval(data, expression) {
         let result;
         try {
             // replacing all @ symbols with "data"

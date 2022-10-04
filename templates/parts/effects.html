@@ -26,6 +26,17 @@
                 </select>
                 {{/if}}
             </div>
+            <div class="effect-apply">
+                {{#if (eq effect.type "apply-active-effect")}}
+                <select name="data.effects[{{@index}}].apply">
+                    {{#select effect.apply}}
+                    {{#each ../config.effectApplyTypes as |name value|}}
+                    <option value="{{value}}">{{localize name}}</option>
+                    {{/each}}
+                    {{/select}}
+                </select>
+                {{/if}}
+            </div>
             <div class="effect-key flex2">
                 <input name="data.effects[{{@index}}].key" type="text" value="{{effect.key}}" />
             </div>
